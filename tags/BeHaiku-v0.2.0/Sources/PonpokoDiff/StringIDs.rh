@@ -1,0 +1,57 @@
+/*
+ * PonpokoDiff
+ *
+ * Copyright (c) 2008 PonpokoDiff Project Contributors
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ *	@file		StringIDs.rh
+ *	@brief		文字列リソースIDの定義
+ *	@author		ICHIMIYA Hironori (Hiron)
+ *	@date		2008-01-06 Created
+ */
+
+enum
+{
+	// General
+	IDS_APPNAME					= 1000,
+	
+	// Menu
+	IDS_MENU_FILE				= 2000,
+	IDS_MENU_FILE_OPEN			= 2001,
+	IDS_MENU_FILE_CLOSE			= 2002,
+	IDS_MENU_FILE_ABOUT			= 2003,
+	IDS_MENU_FILE_QUIT			= 2004,
+	
+	// Dialog
+	IDS_LABEL_OK				= 3000,
+	IDS_LABEL_CANCEL			= 3001,
+	
+	IDS_TITLE_OPEN_FILES		= 3100,
+	IDS_LABEL_LEFT_FILE			= 3101,
+	IDS_LABEL_RIGHT_FILE		= 3102,
+	IDS_LABEL_BROWSE_LEFT		= 3103,
+	IDS_LABEL_BROWSE_RIGHT		= 3104,
+	IDS_LABEL_DIFF_THEM			= 3105,
+	IDS_TITLE_SELECT_LEFT_FILE	= 3106,
+	IDS_TITLE_SELECT_RIGHT_FILE	= 3107,
+};
