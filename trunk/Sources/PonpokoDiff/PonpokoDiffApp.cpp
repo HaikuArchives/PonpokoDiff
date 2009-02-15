@@ -1,7 +1,7 @@
 /*
  * PonpokoDiff
  *
- * Copyright (c) 2008 PonpokoDiff Project Contributors
+ * Copyright (c) 2008-2009 PonpokoDiff Project Contributors
  * 
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -42,7 +42,7 @@
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
 
-static const char COPYRIGHT_TEXT[] = "Copyright © 2008 Hiron / PonpokoDiff Project Contributors.";
+static const char COPYRIGHT_TEXT[] = "Copyright © 2008-2009 PonpokoDiff Project Contributors.";
 
 static const char OPTION_LABEL[] = "L";		///< オプション「次のパラメータはラベル」
 
