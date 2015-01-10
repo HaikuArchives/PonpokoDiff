@@ -1,59 +1,36 @@
-# PonpokoDiff
-#
-# Copyright (c) 2008-2009 PonpokoDiff Project Contributors
-# 
-# Permission is hereby granted, free of charge, to any person obtaining
-# a copy of this software and associated documentation files (the
-# "Software"), to deal in the Software without restriction, including
-# without limitation the rights to use, copy, modify, merge, publish,
-# distribute, sublicense, and/or sell copies of the Software, and to
-# permit persons to whom the Software is furnished to do so, subject to
-# the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included
-# in all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## BeOS Generic Makefile v2.2 ##
 
-ifeq ($(MAKECMDGOALS), release)
-RELEASE = true
-NODEPENDS = true
-endif
+## Fill in this file to specify the project being created, and the referenced
+## makefile-engine will do all of the hard work for you.  This handles both
+## Intel and PowerPC builds of the BeOS.
 
-ifeq ($(MAKECMDGOALS), clean)
-NODEPENDS = true
-endif
+## Application Specific Settings ---------------------------------------------
 
-# ------
-NAME = PonpokoDiff
+# specify the name of the binary
+NAME= PonpokoDiff
 
-CPPFLAGS = -Wall -Wno-multichar -Wno-ctor-dtor-privacy -Woverloaded-virtual
-LDFLAGS = -Xlinker -soname=_APP_
+# specify the type of binary
+#	APP:	Application
+#	SHARED:	Shared library or add-on
+#	STATIC:	Static library archive
+#	DRIVER: Kernel Driver
+TYPE= APP
 
-ifneq ($(RELEASE), true)
-DEBUG = true
-endif
-
-ifeq ($(DEBUG), true)
-OBJ_DIR = obj.debug
-CPPFLAGS += -O0 -g -DDEBUG
-LDFLAGS += -g
-else
-OBJ_DIR = obj.release
-CPPFLAGS += -O1
-LDFLAGS += -Xlinker -s -Xlinker -x
-endif
+#	add support for new Pe and Eddie features
+#	to fill in generic makefile
 
 #%{
-# @src->@
+# @src->@ 
 
-SRCS = \
+#	specify the source files to use
+#	full paths or paths relative to the makefile can be included
+# 	all files, regardless of directory, will have their object
+#	files created in the common object directory.
+#	Note that this means this makefile will not work correctly
+#	if two source files with the same name (source.c or source.cpp)
+#	are included from different directories.  Also note that spaces
+#	in folder names do not work well with this makefile.
+SRCS= \
 	Exception.cpp \
 	LineSeparatedText.cpp \
 	NPDiff.cpp \
@@ -65,121 +42,108 @@ SRCS = \
 	TextDiffWnd.cpp \
 
 
-RDEFS = \
+#	.rdef resource script files
+RDEFS= \
+	PonpokoDiff.rdef \
 	Strings.rdef \
 
-
-RSRCS = \
-
-
-ifeq ($(TARGETTYPE), be)
-	RDEFS += PonpokoDiffBe.rdef
-else
-	RDEFS += PonpokoDiffHaiku.rdef
-endif
-
-# @<-src@
-#%}
-
-LIBS = stdc++.r4 be root tracker
-
-LIB_PATHS =
-
-SYSTEM_INCLUDE_PATHS = 
-
-LOCAL_INCLUDE_PATHS = 
-
-DEFINES = 
-
-
-
-
-
-# ------
-
-CC = gcc
-LD = gcc
-MIMESET = mimeset
-RC = rc
-XRES = xres
-
-TARGET = $(OBJ_DIR)/$(NAME)
-
-define SRCS_LIST_TO_OBJS
-	$(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(foreach file, $(SRCS), \
-	$(basename $(notdir $(file))))))
-endef
-
-OBJS = $(SRCS_LIST_TO_OBJS)
-DEPENDS = $(patsubst %.o,%.d,$(OBJS))
 
 define RDEF_LIST_TO_RDEFRSRCS
 	$(addprefix $(OBJ_DIR)/, $(addsuffix .rsrc, $(foreach file, $(RDEFS), \
 	$(basename $(notdir $(file))))))
 endef
 
-RSRCS += $(RDEF_LIST_TO_RDEFRSRCS)
+RDEFRSRCS = $(RDEF_LIST_TO_RDEFRSRCS)
 
-SRC_PATHS += $(sort $(foreach file, $(SRCS), $(dir $(file))))
+#	specify the resource files to use
+#	full path or a relative path to the resource file can be used.
+RSRCS= \
+	$(RDEFRSRCS)
+	
 
-VPATH :=
-VPATH += $(addprefix :, $(subst  ,:, $(filter-out $($(subst, :, ,$(VPATH))), $(SRC_PATHS))))
+# @<-src@ 
+#%}
 
-LOC_INCLUDES = $(foreach path, $(SRC_PATHS) $(LOCAL_INCLUDE_PATHS), $(addprefix -I, $(path)))
-SYS_INCLUDES += -I-
-SYS_INCLUDES += $(foreach path, $(SYSTEM_INCLUDE_PATHS), $(addprefix -I, $(path)))
+#	end support for Pe and Eddie
 
-INCLUDES = $(LOC_INCLUDES) $(SYS_INCLUDES)
+#	specify additional libraries to link against
+#	there are two acceptable forms of library specifications
+#	-	if your library follows the naming pattern of:
+#		libXXX.so or libXXX.a you can simply specify XXX
+#		library: libbe.so entry: be
+#		
+#	- 	if your library does not follow the standard library
+#		naming scheme you need to specify the path to the library
+#		and it's name
+#		library: my_lib.a entry: my_lib.a or path/my_lib.a
+LIBS= stdc++.r4 be root tracker
 
-LINK_PATHS = $(foreach path, $(SRC_PATHS) $(LIBPATHS), $(addprefix -L, $(path)))
+#	specify additional paths to directories following the standard
+#	libXXX.so or libXXX.a naming scheme.  You can specify full paths
+#	or paths relative to the makefile.  The paths included may not
+#	be recursive, so include all of the paths where libraries can
+#	be found.  Directories where source files are found are
+#	automatically included.
+LIBPATHS= 
 
-LINK_LIBS += $(foreach lib, $(LIBS), $(addprefix -l, $(lib)))
+#	additional paths to look for system headers
+#	thes use the form: #include <header>
+#	source file directories are NOT auto-included here
+SYSTEM_INCLUDE_PATHS = 
 
-LDFLAGS += $(LINK_PATHS) $(LINK_LIBS)
+#	additional paths to look for local headers
+#	thes use the form: #include "header"
+#	source file directories are automatically included
+LOCAL_INCLUDE_PATHS = 
 
-CPPFLAGS += $(foreach define, $(DEFINES), $(addprefix -D, $(define)))
+#	specify the level of optimization that you desire
+#	NONE, SOME, FULL
+OPTIMIZE= SOME
 
-BUILD_LINE = $(LD) -o $@ $(OBJS) $(LDFLAGS)
+#	specify any preprocessor symbols to be defined.  The symbols will not
+#	have their values set automatically; you must supply the value (if any)
+#	to use.  For example, setting DEFINES to "DEBUG=1" will cause the
+#	compiler option "-DDEBUG=1" to be used.  Setting DEFINES to "DEBUG"
+#	would pass "-DDEBUG" on the compiler's command line.
+DEFINES= 
 
-ifeq ($(RSRCS), )
-	DO_RSRCS :=
-else
-	DO_RSRCS := $(XRES) -o "$(TARGET)" $(RSRCS)
-endif
+#	specify special warning levels
+#	if unspecified default warnings will be used
+#	NONE = supress all warnings
+#	ALL = enable all warnings
+WARNINGS = 
 
-# ------ targets
+#	specify whether image symbols will be created
+#	so that stack crawls in the debugger are meaningful
+#	if TRUE symbols will be created
+SYMBOLS = 
 
-.PHONY: all
-all : $(TARGET)
+#	specify debug settings
+#	if TRUE will allow application to be run from a source-level
+#	debugger.  Note that this will disable all optimzation.
+DEBUGGER = 
 
-$(TARGET) : $(OBJ_DIR) $(OBJS) $(RSRCS)
-	$(BUILD_LINE)
-	$(DO_RSRCS)
-	$(MIMESET) -f $@
+#	specify additional compiler flags for all files
+COMPILER_FLAGS =
 
-$(OBJ_DIR)::
-	@[ -d $(OBJ_DIR) ] || mkdir $(OBJ_DIR) > /dev/null 2>&1
+#	specify additional linker flags
+LINKER_FLAGS = -Xlinker -s -Xlinker -x
 
-$(OBJ_DIR)/%.o : %.cpp
-	$(CC) -c $< $(INCLUDES) $(CPPFLAGS) -o $@
+#	specify the version of this particular item
+#	(for example, -app 3 4 0 d 0 -short 340 -long "340 "`echo -n -e '\302\251'`"1999 GNU GPL") 
+#	This may also be specified in a resource.
+APP_VERSION = 
+
+#	(for TYPE == DRIVER only) Specify desired location of driver in the /dev
+#	hierarchy. Used by the driverinstall rule. E.g., DRIVER_PATH = video/usb will
+#	instruct the driverinstall rule to place a symlink to your driver's binary in
+#	~/add-ons/kernel/drivers/dev/video/usb, so that your driver will appear at
+#	/dev/video/usb when loaded. Default is "misc".
+DRIVER_PATH = 
+
+## include the makefile-engine
+include $(BUILDHOME)/etc/makefile-engine
+
 
 $(OBJ_DIR)/%.rsrc : %.rdef
 	rc -o $@ $<
-
-$(OBJ_DIR)/%.d: %.cpp
-	@echo updating dependencies for $(notdir $<)
-	@$(CC) -MM $< $(INCLUDES) $(CPPFLAGS) \
-	| sed 's/\($*\)\.o[ :]*/$(OBJ_DIR)\/\1.o $(OBJ_DIR)\/\1.d : /g' > $@; \
-	[ -s $@ ] || rm -f $@
-
-ifneq ($(NODEPENDS), true)
--include $(DEPENDS)
-endif
-
-.PHONY: release
-release : clean all
-
-
-.PHONY: clean
-clean :
-	-rm -rf $(OBJ_DIR)/*
