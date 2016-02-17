@@ -38,9 +38,9 @@
 #include <Path.h>
 #include "StringIDs.h"
 #include "CommandIDs.h"
+#include "LocationInput.h"
 #include "PonpokoDiffApp.h"
 #include "TextDiffWnd.h"
-#include "LocationInput.h"
 
 static const char NAME_BASE_VIEW[] = "BaseView";
 static const char NAME_LEFT_TEXT_CONTROL[] = "LeftTextControl";
