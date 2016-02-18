@@ -14,7 +14,7 @@
 #include <Path.h>
 
 
-LocationInput :: LocationInput(BRect frame,
+LocationInput::LocationInput(BRect frame,
 	const char* name,
 	const char* label)
 	:
@@ -22,11 +22,11 @@ LocationInput :: LocationInput(BRect frame,
 {
 }
 
-LocationInput :: ~LocationInput()
+LocationInput::~LocationInput()
 {
 }
 
-void LocationInput :: MessageReceived(BMessage* message)
+void LocationInput::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
 		case B_SIMPLE_DATA:
