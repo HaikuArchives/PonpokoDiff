@@ -37,7 +37,8 @@ SRCS = \
 	ResourceText.cpp \
 	Substring.cpp \
 	TextDiffView.cpp \
-	TextDiffWnd.cpp
+	TextDiffWnd.cpp \
+	LocationInput.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.

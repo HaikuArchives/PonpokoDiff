@@ -38,6 +38,7 @@
 #include <Path.h>
 #include "StringIDs.h"
 #include "CommandIDs.h"
+#include "LocationInput.h"
 #include "PonpokoDiffApp.h"
 #include "TextDiffWnd.h"
 
@@ -95,16 +96,16 @@ void OpenFilesDialog::Initialize()
 	baseView->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	
 	// TODO: ダイアログのレイアウトについてはもう少し検討が必要
-	BTextControl* leftTextControl = new BTextControl(BRect(12, 14, 362, 34), NAME_LEFT_TEXT_CONTROL,
-			RT(IDS_LABEL_LEFT_FILE), "", NULL);
+	LocationInput* leftTextControl = new LocationInput(BRect(12, 14, 362, 34), NAME_LEFT_TEXT_CONTROL,
+			RT(IDS_LABEL_LEFT_FILE));
 	leftTextControl->SetDivider(72);
 	baseView->AddChild(leftTextControl);
 	
 	BButton* leftBrowseButton = new BButton(BRect(368, 12, 448, 36), NAME_LEFT_BROWSE_BUTTON, RT(IDS_LABEL_BROWSE_LEFT), new BMessage(ID_OFD_BROWSE_LEFT));
 	baseView->AddChild(leftBrowseButton);
 	
-	BTextControl* rightTextControl = new BTextControl(BRect(12, 50, 362, 70), NAME_RIGHT_TEXT_CONTROL,
-			RT(IDS_LABEL_RIGHT_FILE), "", NULL);
+	LocationInput* rightTextControl = new LocationInput(BRect(12, 50, 362, 70), NAME_RIGHT_TEXT_CONTROL,
+			RT(IDS_LABEL_RIGHT_FILE));
 	rightTextControl->SetDivider(72);
 	baseView->AddChild(rightTextControl);
 
