@@ -108,8 +108,11 @@ void TextDiffView::Initialize()
 			B_FRAME_EVENTS, true, true, B_NO_BORDER);
 	AddChild(rightView);
 	
-	// 自身の色を設定
-	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+	// Don't let the app server erase the view.
+	// We do all drawing ourselves, so it is not necessary and only causes flickering
+	SetViewColor(B_TRANSPARENT_COLOR);
+	// The splitter in the middle will be drawn with the low color
+	SetLowColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	
 	// 念のためレイアウトを調整
 	recalcLayout();
@@ -160,6 +163,13 @@ void TextDiffView::Draw(BRect updateRect)
 	
 	BRect bounds = Bounds();
 	float leftWidth = floor((bounds.Width() + 1 - B_H_SCROLL_BAR_HEIGHT - PANE_SPLITTER_WIDTH) / 2);
+
+	// Draw the body of the splitter
+	BRect paneRect = bounds;
+	bounds.left = leftWidth + 1;
+	bounds.right = leftWidth + PANE_SPLITTER_WIDTH - 2;
+	FillRect(paneRect, B_SOLID_LOW);
+
 	if (updateRect.left <= leftWidth + 1)
 	{
 		SetPenSize(0);
@@ -436,6 +446,11 @@ TextDiffView::DiffPaneView::DiffPaneView(BRect frame, const char* name, uint32 r
 	scroller = NULL;
 	dataHeight = -1;
 	tabUnit = -1;
+
+	// Don't let the app server erase the view.
+	// We do all drawing ourselves, so it is not necessary and only causes flickering
+	SetViewColor(B_TRANSPARENT_COLOR);
+
 }
 
 /**
@@ -572,6 +587,8 @@ void TextDiffView::DiffPaneView::Draw(BRect updateRect)
 	{
 		return;
 	}
+
+	FillRect(Bounds(), B_SOLID_LOW);
 
 	BFont font;
 	GetFont(&font);
