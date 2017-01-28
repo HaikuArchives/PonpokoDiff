@@ -34,6 +34,7 @@
 #include "LineSeparatedText.h"
 #include <File.h>
 #include <Path.h>
+#include <stdlib.h>
 #include "Exception.h"
 #include "ExceptionCode.h"
 
