@@ -32,6 +32,7 @@
 
 #include "Prefix.h"
 #include "Substring.h"
+#include <string.h>
 
 /**
  *	@brief	開始点と終了点を指定するコンストラクタ
