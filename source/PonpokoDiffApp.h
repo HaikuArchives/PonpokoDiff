@@ -55,6 +55,7 @@ public:
 	virtual	void		ReadyToRun();
 	virtual void		AboutRequested();
 	virtual void		ArgvReceived(int32 argc, char** argv);
+	virtual void		RefsReceived(BMessage* message);
 	virtual	void		MessageReceived(BMessage* message);
 
 private:

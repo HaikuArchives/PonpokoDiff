@@ -30,17 +30,20 @@
  *  @date		2008-01-06 Created
  */
 
-#include "Prefix.h"
 #include "OpenFilesDialog.h"
-#include <TextControl.h>
+
 #include <Button.h>
-#include <String.h>
 #include <Path.h>
-#include "StringIDs.h"
+#include <String.h>
+#include <TextControl.h>
+
 #include "CommandIDs.h"
 #include "LocationInput.h"
 #include "PonpokoDiffApp.h"
+#include "Prefix.h"
+#include "StringIDs.h"
 #include "TextDiffWnd.h"
+
 
 static const char NAME_BASE_VIEW[] = "BaseView";
 static const char NAME_LEFT_TEXT_CONTROL[] = "LeftTextControl";
@@ -141,10 +144,16 @@ void OpenFilesDialog::MessageReceived(BMessage* message)
 		break;
 	
 	case ID_OFD_LEFT_SELECTED:
-		doFileSelected(LeftFile, message);
+		if (Lock()) {
+			doFileSelected(LeftFile, message);
+			Unlock();
+		}
 		break;
 	case ID_OFD_RIGHT_SELECTED:
-		doFileSelected(RightFile, message);
+		if (Lock()) {
+			doFileSelected(RightFile, message);
+			Unlock();
+		}
 		break;
 	
 	case ID_OFD_DIFF_THEM:

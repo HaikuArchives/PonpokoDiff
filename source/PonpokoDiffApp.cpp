@@ -30,17 +30,23 @@
  *	@date		2007-12-16 Created
  */
 
-#include "Prefix.h"
 #include "PonpokoDiffApp.h"
-#include "TextDiffWnd.h"
-#include <Autolock.h>
-#include <Path.h>
-#include <Screen.h>
+
 #include <Alert.h>
+#include <AppFileInfo.h>
+#include <Autolock.h>
+#include <File.h>
+#include <Path.h>
+#include <Roster.h>
+#include <Screen.h>
 #include <String.h>
-#include "StringIDs.h"
+
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
+#include "Prefix.h"
+#include "StringIDs.h"
+#include "TextDiffWnd.h"
+
 
 static const char COPYRIGHT_TEXT[] = "Copyright © 2008-2009 PonpokoDiff Project Contributors.";
 
@@ -66,18 +72,18 @@ PonpokoDiffApp::~PonpokoDiffApp()
 /**
  *	@brief アプリケーションが実行される直前に呼び出されます。
  */
-void PonpokoDiffApp::ReadyToRun()
+void
+PonpokoDiffApp::ReadyToRun()
 {
 	if (0 == textDiffWndCount)
-	{
 		doOpenFileDialog();
-	}
 }
 
 /**
  *	@brief	about ダイアログを表示するよう要求されたときに呼ばれます。
  */
-void PonpokoDiffApp::AboutRequested()
+void
+PonpokoDiffApp::AboutRequested()
 {
 	// TODO: 手抜きな About ダイアログ^^;
 	BString versionString;
@@ -93,10 +99,9 @@ void PonpokoDiffApp::AboutRequested()
 	alert->Go();
 }
 
-#include <File.h>
-#include <AppFileInfo.h>
-#include <Roster.h>
-void PonpokoDiffApp::makeVersionString(BString& versionString)
+
+void
+PonpokoDiffApp::makeVersionString(BString& versionString)
 {
 	versionString = "Version ";
 	
@@ -110,9 +115,7 @@ void PonpokoDiffApp::makeVersionString(BString& versionString)
 	
 	version_info verInfo;
 	if (B_OK == appFileInfo.GetVersionInfo(&verInfo, B_APP_VERSION_KIND))
-	{
 		versionString += verInfo.short_info;
-	}
 }
 
 /**
@@ -120,58 +123,69 @@ void PonpokoDiffApp::makeVersionString(BString& versionString)
  *	@param[in]	argc	引数の個数
  *	@param[in]	argv	引数
  */
-void PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
+void
+PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
 {
-	BPath path[2];
-	const char* label[2] = { NULL, NULL };
+	BMessage refsMsg;
 	bool isLabel = false;
-	
-	int32 ix;
-	int32 pathIdx = 0;
-	int32 labelIdx = 0;
-	for (ix = 1; ix < argc; ix++)
-	{
+	for (int32 ix = 1; ix < argc; ix++) {
 		if ('-' == argv[ix][0])		// オプション
-		{
-			if (0 == strcmp(&argv[ix][1], OPTION_LABEL))		// ラベル指定
-			{
-				isLabel = true;
-			}
-		}
-		else if (isLabel)			// 手前にラベル指定オプションがあった場合
-		{
-			if (labelIdx < 2)
-			{
-				label[labelIdx] = argv[ix];
-				labelIdx++;
-			}
+			isLabel = strcmp(&argv[ix][1], OPTION_LABEL) == 0;	// ラベル指定
+		else if (isLabel == true) {	// 手前にラベル指定オプションがあった場合
+			refsMsg.AddString("labels", argv[ix]);
 			isLabel = false;
-		}
-		else						// ファイル名
-		{
-			if (pathIdx < 2)
-			{
-				path[pathIdx].SetTo(argv[ix]);
-				pathIdx++;
-			}
+		} else {						// ファイル名
+			entry_ref ref;
+			if (BEntry(argv[ix]).GetRef(&ref) == B_OK)
+				refsMsg.AddRef("refs", &ref);
 		}
 	}
-	if (pathIdx > 1)
-	{
-		TextDiffWnd* wnd = NewTextDiffWnd();
-		wnd->ExecuteDiff(path[0], path[1], label[0], label[1]);
+	if (refsMsg.IsEmpty() == false)
+		RefsReceived(&refsMsg);
+}
+
+
+void
+PonpokoDiffApp::RefsReceived(BMessage* message)
+{
+	const char* lastLabel;
+	BPath lastPath;
+	entry_ref ref;
+	for (int i = 0; message->FindRef("refs", i, &ref) == B_OK; i++) {
+		BPath path = BPath(&ref);
+		const char* label = message->GetString("labels", i, NULL);
+
+		if (lastPath.InitCheck() == B_OK && path.InitCheck() == B_OK) {
+			TextDiffWnd* wnd = NewTextDiffWnd();
+			wnd->ExecuteDiff(lastPath, path, lastLabel, label);
+			lastPath.Unset();
+		} else {
+			lastPath = path;
+			lastLabel = label;
+		}
+	}
+
+	// If there's a stray ref (odd amount), then populate an open dialog
+	if (lastPath.InitCheck() == B_OK) {
+		entry_ref lastRef;
+		BEntry(lastPath.Path()).GetRef(&lastRef);
+		BMessage msg(ID_OFD_LEFT_SELECTED);
+		msg.AddRef("refs", &lastRef);
+		doOpenFileDialog();
+		openFilesDialog->MessageReceived(&msg);
 	}
 }
+
 
 /**
  *	@brief	新しく TextDiffWnd を生成して表示します。
  *	@return	生成した TextDiffWnd のポインタ。
  */
-TextDiffWnd* PonpokoDiffApp::NewTextDiffWnd()
+TextDiffWnd*
+PonpokoDiffApp::NewTextDiffWnd()
 {
 	BAutolock locker(this);
-	if (locker.IsLocked())
-	{
+	if (locker.IsLocked()) {
 		BRect frameRect;
 		makeNewTextDiffWndRect(frameRect);
 		TextDiffWnd* newWindow = new TextDiffWnd(frameRect, RT(IDS_APPNAME));
@@ -187,7 +201,8 @@ TextDiffWnd* PonpokoDiffApp::NewTextDiffWnd()
  *	@brief	新しく生成する TextDiffWnd のフレーム矩形を求めます。
  *	@param[out]	frameRect	ここにフレーム矩形が設定されます。
  */
-void PonpokoDiffApp::makeNewTextDiffWndRect(BRect& frameRect)
+void
+PonpokoDiffApp::makeNewTextDiffWndRect(BRect& frameRect)
 {
 	BRect screenFrame;
 	{
@@ -208,32 +223,28 @@ void PonpokoDiffApp::makeNewTextDiffWndRect(BRect& frameRect)
  *	@brief	TextDiffWnd の Quit が呼ばれたときに呼び出されます。
  *	@param[in]	wnd	Quit が呼ばれた TextDiffWnd
  */
-void PonpokoDiffApp::TextDiffWndQuit(TextDiffWnd* /* wnd */)
+void
+PonpokoDiffApp::TextDiffWndQuit(TextDiffWnd* /* wnd */)
 {
 	BAutolock locker(this);
-	if (locker.IsLocked())
-	{
+	if (locker.IsLocked()) {
 		textDiffWndCount--;
 		if (textDiffWndCount <= 0)
-		{
 			PostMessage(B_QUIT_REQUESTED);
-		}
 	}
 }
 
 /**
  *	@brief	ファイルを開くダイアログが閉じたときに呼び出されます。
  */
-void PonpokoDiffApp::OpenFilesDialogClosed()
+void
+PonpokoDiffApp::OpenFilesDialogClosed()
 {
 	BAutolock locker(this);
-	if (locker.IsLocked())
-	{
+	if (locker.IsLocked()) {
 		openFilesDialog = NULL;
 		if (textDiffWndCount <= 0)
-		{
 			PostMessage(B_QUIT_REQUESTED);
-		}
 	}	
 }
 
@@ -241,39 +252,34 @@ void PonpokoDiffApp::OpenFilesDialogClosed()
  *	@brief	メッセージを受信したら呼び出されます。
  *	@param[in]	message	受信したメッセージ
  */
-void PonpokoDiffApp::MessageReceived(BMessage* message)
+void
+PonpokoDiffApp::MessageReceived(BMessage* message)
 {
-	switch (message->what)
-	{
-	case ID_FILE_OPEN:
-		doOpenFileDialog();
-		break;
+	switch (message->what) {
+		case ID_FILE_OPEN:
+			doOpenFileDialog();
+			break;
 	
-	default:
-		BApplication::MessageReceived(message);
-		break;
+		default:
+			BApplication::MessageReceived(message);
+			break;
 	}
 }
 
 /**
  *	@brief	ファイルを開くダイアログを表示します。
  */
-void PonpokoDiffApp::doOpenFileDialog()
+void
+PonpokoDiffApp::doOpenFileDialog()
 {
-	if (NULL != openFilesDialog)
-	{
+	if (NULL != openFilesDialog) {
 		BAutolock locker(openFilesDialog);
-		if (locker.IsLocked())
-		{
+		if (locker.IsLocked()) {
 			// すでに存在するならアクティブにするだけ
 			if (openFilesDialog->IsMinimized())
-			{
 				openFilesDialog->Minimize(false);
-			}
 			if (!openFilesDialog->IsActive())
-			{
 				openFilesDialog->Activate(true);
-			}
 			return;
 		}
 	}
@@ -285,7 +291,8 @@ void PonpokoDiffApp::doOpenFileDialog()
 /**
  *	@brief	プログラムのエントリポイント
  */
-int main(int /*argc*/, char** /*argv*/)
+int
+main(int /*argc*/, char** /*argv*/)
 {
 	PonpokoDiffApp app;
 	app.Run();
