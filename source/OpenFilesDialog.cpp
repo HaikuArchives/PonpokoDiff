@@ -32,8 +32,12 @@
 
 #include "OpenFilesDialog.h"
 
+#include <Alert.h>
 #include <Button.h>
+#include <MenuItem.h>
 #include <Path.h>
+#include <PopUpMenu.h>
+#include <Roster.h>
 #include <String.h>
 #include <TextControl.h>
 
@@ -53,6 +57,12 @@ static const char NAME_RIGHT_BROWSE_BUTTON[] = "RightBrowseButton";
 static const char NAME_DIFF_THEM_BUTTON[] = "DiffThemButton";
 static const char NAME_CANCEL_BUTTON[] = "CancelButton";
 
+static const uint32 kMsgDiffToolSelected = 'dtsl';
+
+static const char* kPeSignature = "application/x-vnd.beunited.pe";
+static const char* kTerminalSignature = "application/x-vnd.Haiku-Terminal";
+
+
 /**
  *	@brief	コンストラクタ
  *	@param[in]	topLeft	ダイアログの左上位置
@@ -62,7 +72,8 @@ OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
 				RT(IDS_TITLE_OPEN_FILES),
 				B_TITLED_WINDOW_LOOK,
 				B_NORMAL_WINDOW_FEEL,
-				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE)
+				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE),
+	fDiffToolMenuField(NULL)
 {
 	int index;
 	for (index = 0; index < FileMAX; index++)
@@ -120,7 +131,14 @@ void OpenFilesDialog::Initialize()
 	
 	BButton* cancelButton = new BButton(BRect(282, 84, 362, 108), NAME_CANCEL_BUTTON, RT(IDS_LABEL_CANCEL), new BMessage(ID_CANCEL));
 	baseView->AddChild(cancelButton);
-	
+
+	BPopUpMenu* menu = new BPopUpMenu("diff tool menu");
+	fDiffToolMenuField = new BMenuField(
+		BRect(12, 84, 212, 108),
+		"diff tool menu field", "Diff Tool:", menu);
+	populateDiffToolMenu();
+	baseView->AddChild(fDiffToolMenuField);
+
 	Show();
 }
 
@@ -286,12 +304,84 @@ void OpenFilesDialog::doDiffThem()
 		return;
 	}
 	BPath rightPath(text);
-	
-	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
-	TextDiffWnd* newDiffWnd = app->NewTextDiffWnd();
-	newDiffWnd->ExecuteDiff(leftPath, rightPath, NULL, NULL);
-	PostMessage(B_QUIT_REQUESTED);
+
+	int diffTool = getSelectedDiffTool();
+	switch (diffTool) {
+		case dtInternal:
+		{
+			PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
+			TextDiffWnd* newDiffWnd = app->NewTextDiffWnd();
+			newDiffWnd->ExecuteDiff(leftPath, rightPath, NULL, NULL);
+			PostMessage(B_QUIT_REQUESTED);
+			break;
+		}
+		case dtPe:
+		{
+			const char* argv[] = {"--diff", leftPath.Path(), rightPath.Path(), NULL};
+			be_roster->Launch(kPeSignature, 3, argv);
+			PostMessage(B_QUIT_REQUESTED);
+			break;
+		}
+		case dtKdiff3:
+		{
+			// ToDo: use be_roster->Launch() with an entry_ref to the kdiff3 binary.
+			BString cmd;
+			cmd.SetToFormat("kdiff3 %s %s", leftPath.Path(), rightPath.Path());
+			system(cmd.String());
+			PostMessage(B_QUIT_REQUESTED);
+			break;
+		}
+		case dtVimDiff:
+		{
+			const char* argv[] = {"-t", "Differences", "vimdiff", leftPath.Path(), rightPath.Path(), NULL};
+			be_roster->Launch(kTerminalSignature, 5, argv);
+			PostMessage(B_QUIT_REQUESTED);
+			break;
+		}
+		default:
+			BAlert* alert = new BAlert("PonpokoDiff", "Unkown diff tool option!", "Ok");
+			alert->Go();
+	}
 }
+
+
+void OpenFilesDialog::populateDiffToolMenu()
+{
+	// ToDo:
+	//  - save/restore the selected menu item to/from a settings file.
+	//  - Either only add external tools if they're installed, or show an error
+	//    when trying to use them if they are not.
+
+	BMenuItem* internalDiffTool = new BMenuItem("Internal", new BMessage(kMsgDiffToolSelected));
+	internalDiffTool->SetMarked(true);
+	fDiffToolMenuField->Menu()->AddItem(internalDiffTool);
+
+	BMenuItem* peDiffTool = new BMenuItem("Pe diff", new BMessage(kMsgDiffToolSelected));
+	peDiffTool->SetMarked(false);
+	fDiffToolMenuField->Menu()->AddItem(peDiffTool);
+
+	BMenuItem* kdiff3DiffTool = new BMenuItem("kdiff3", new BMessage(kMsgDiffToolSelected));
+	kdiff3DiffTool->SetMarked(false);
+	fDiffToolMenuField->Menu()->AddItem(kdiff3DiffTool);
+
+	BMenuItem* vimDiffDiffTool = new BMenuItem("vimdiff", new BMessage(kMsgDiffToolSelected));
+	vimDiffDiffTool->SetMarked(false);
+	fDiffToolMenuField->Menu()->AddItem(vimDiffDiffTool);
+}
+
+
+int OpenFilesDialog::getSelectedDiffTool()
+{
+	BMenuItem* item = NULL;
+	int32 count = fDiffToolMenuField->Menu()->CountItems();
+	for (int i = 0; i < count; i++) {
+		item = (BMenuItem*)fDiffToolMenuField->Menu()->ItemAt(i);
+		if (item->IsMarked())
+			return i;
+	}
+	return dtInternal;
+}
+
 
 /**
  *	@brief	ウィンドウが閉じるときに呼び出されます。

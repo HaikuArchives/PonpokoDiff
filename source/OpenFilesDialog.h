@@ -35,6 +35,7 @@
 
 #include <Window.h>
 #include <FilePanel.h>
+#include <MenuField.h>
 
 /**
  *	@brief	比較するファイルを選択するダイアログ
@@ -59,14 +60,25 @@ private:
 		
 		FileMAX			/// ファイル最大数
 	};
+
+	enum DiffTool
+	{
+		dtInternal = 0,
+		dtPe,
+		dtKdiff3,
+		dtVimDiff
+	};
 	
 private:
 	void				doBrowseFile(OpenFilesDialog::FileIndex fileIndex);
 	void				doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message);
 	void				doDiffThem();
-	
+	void				populateDiffToolMenu();
+	int					getSelectedDiffTool();
+
 private:
 	BFilePanel*			filePanels[FileMAX];	///< ファイルを選択するためのファイルパネル
+	BMenuField*			fDiffToolMenuField;
 };
 
 #endif // OPENFILESDIALOG_H__INCLUDED
