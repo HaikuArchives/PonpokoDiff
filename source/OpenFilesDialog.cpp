@@ -32,8 +32,12 @@
 
 #include "OpenFilesDialog.h"
 
+#include <cstdio>
+
 #include <Alert.h>
 #include <Button.h>
+#include <File.h>
+#include <FindDirectory.h>
 #include <MenuItem.h>
 #include <Path.h>
 #include <PopUpMenu.h>
@@ -61,7 +65,7 @@ static const uint32 kMsgDiffToolSelected = 'dtsl';
 
 static const char* kPeSignature = "application/x-vnd.beunited.pe";
 static const char* kTerminalSignature = "application/x-vnd.Haiku-Terminal";
-
+static const char* const kPonpokoDiffSettings = "PonpokoDiff_settings";
 
 /**
  *	@brief	コンストラクタ
@@ -87,6 +91,8 @@ OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
  */
 OpenFilesDialog::~OpenFilesDialog()
 {
+	writeSettings();
+
 	int index;
 	for (index = 0; index < FileMAX; index++)
 	{
@@ -138,6 +144,8 @@ void OpenFilesDialog::Initialize()
 		"diff tool menu field", "Diff Tool:", menu);
 	populateDiffToolMenu();
 	baseView->AddChild(fDiffToolMenuField);
+
+	readSettings();
 
 	Show();
 }
@@ -322,6 +330,13 @@ void OpenFilesDialog::doDiffThem()
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
+		case dtMcDiff:
+		{
+			const char* argv[] = {"-t", "Differences", "mcdiff", leftPath.Path(), rightPath.Path(), NULL};
+			be_roster->Launch(kTerminalSignature, 5, argv);
+			PostMessage(B_QUIT_REQUESTED);
+			break;
+		}
 		case dtKdiff3:
 		{
 			// ToDo: use be_roster->Launch() with an entry_ref to the kdiff3 binary.
@@ -360,6 +375,10 @@ void OpenFilesDialog::populateDiffToolMenu()
 	peDiffTool->SetMarked(false);
 	fDiffToolMenuField->Menu()->AddItem(peDiffTool);
 
+	BMenuItem* mcDiffTool = new BMenuItem("mcdiff", new BMessage(kMsgDiffToolSelected));
+	mcDiffTool->SetMarked(false);
+	fDiffToolMenuField->Menu()->AddItem(mcDiffTool);
+
 	BMenuItem* kdiff3DiffTool = new BMenuItem("kdiff3", new BMessage(kMsgDiffToolSelected));
 	kdiff3DiffTool->SetMarked(false);
 	fDiffToolMenuField->Menu()->AddItem(kdiff3DiffTool);
@@ -382,6 +401,51 @@ int OpenFilesDialog::getSelectedDiffTool()
 	return dtInternal;
 }
 
+
+void OpenFilesDialog::setSelectedDiffTool(int diffTool)
+{
+	BMenuItem* item = (BMenuItem*) fDiffToolMenuField->Menu()->ItemAt(diffTool);
+	item->SetMarked(true);
+}
+
+
+void OpenFilesDialog::readSettings()
+{
+	int diffTool = 0;
+
+	BPath path;
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) == B_OK) {
+		path.Append(kPonpokoDiffSettings);
+
+		BFile file;
+		if (file.SetTo(path.Path(), B_READ_ONLY) == B_OK) {
+			char buffer[20];
+			file.Read(&buffer, 20);
+			int i;
+			if (sscanf(buffer, "diff_tool = %d\n", &i) == 1)
+				diffTool = i;
+		}
+	}
+	setSelectedDiffTool(diffTool);
+}
+
+status_t OpenFilesDialog::writeSettings()
+{
+	BPath path;
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) != B_OK)
+		return B_ERROR;
+
+	path.Append(kPonpokoDiffSettings);
+
+	BFile file;
+	if (file.SetTo(path.Path(), B_WRITE_ONLY | B_CREATE_FILE | B_ERASE_FILE) != B_OK)
+		return B_ERROR;
+
+	BString string;
+	string.SetToFormat("diff_tool = %d\n", getSelectedDiffTool());
+	file.Write(string.String(), strlen(string));
+	return B_OK;
+}
 
 /**
  *	@brief	ウィンドウが閉じるときに呼び出されます。

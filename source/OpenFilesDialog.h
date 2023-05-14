@@ -65,6 +65,7 @@ private:
 	{
 		dtInternal = 0,
 		dtPe,
+		dtMcDiff,
 		dtKdiff3,
 		dtVimDiff
 	};
@@ -75,6 +76,9 @@ private:
 	void				doDiffThem();
 	void				populateDiffToolMenu();
 	int					getSelectedDiffTool();
+	void				setSelectedDiffTool(int diffTool);
+	void				readSettings();
+	status_t			writeSettings();
 
 private:
 	BFilePanel*			filePanels[FileMAX];	///< ファイルを選択するためのファイルパネル
