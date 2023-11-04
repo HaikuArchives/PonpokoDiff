@@ -30,7 +30,6 @@
  *	@date		2008-01-06 Created
  */
 
-#include "Prefix.h"
 #include "ResourceText.h"
 
 /// 唯一の ResourceText オブジェクト

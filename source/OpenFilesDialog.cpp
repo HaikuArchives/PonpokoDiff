@@ -43,7 +43,6 @@
 #include "CommandIDs.h"
 #include "LocationInput.h"
 #include "PonpokoDiffApp.h"
-#include "Prefix.h"
 #include "StringIDs.h"
 #include "TextDiffWnd.h"
 

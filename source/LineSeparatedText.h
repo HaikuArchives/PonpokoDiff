@@ -35,6 +35,7 @@
 
 #include <vector>
 #include "Substring.h"
+#include <Path.h>
 
 /**
  *	@brief	テキストの内容を行ごとに保持するクラス

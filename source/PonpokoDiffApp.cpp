@@ -45,7 +45,6 @@
 
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
-#include "Prefix.h"
 #include "StringIDs.h"
 #include "TextDiffWnd.h"
 
@@ -192,7 +191,7 @@ PonpokoDiffApp::NewTextDiffWnd()
 	if (locker.IsLocked()) {
 		BRect frameRect;
 		makeNewTextDiffWndRect(frameRect);
-		TextDiffWnd* newWindow = new TextDiffWnd(frameRect, RT(IDS_APPNAME));
+		TextDiffWnd* newWindow = new TextDiffWnd(frameRect, B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
 		textDiffWndCount++;
 		newWindow->Initialize();
 		return newWindow;

@@ -30,7 +30,6 @@
  *	@date		2007-12-25 Created
  */
 
-#include "Prefix.h"
 #include "TextDiffView.h"
 
 #include <math.h>

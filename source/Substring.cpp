@@ -30,7 +30,6 @@
  *	@date		2007-12-17 Created
  */
 
-#include "Prefix.h"
 #include "Substring.h"
 #include <string.h>
 

@@ -30,7 +30,6 @@
  *	@date		2007-12-24 Created
  */
 
-#include "Prefix.h"
 #include "TextDiffWnd.h"
 #include <Application.h>
 #include <Autolock.h>
