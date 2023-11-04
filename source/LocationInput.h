@@ -15,9 +15,7 @@
 
 class LocationInput : public BTextControl {
 public:
-								LocationInput(BRect frame,
-									const char* name,
-									const char* label);
+								LocationInput(const char* name,	const char* label);
 		virtual					~LocationInput();
 
 		virtual void			MessageReceived(BMessage* message);

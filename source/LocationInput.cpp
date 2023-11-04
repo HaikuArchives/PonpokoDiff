@@ -14,11 +14,9 @@
 #include <Path.h>
 
 
-LocationInput::LocationInput(BRect frame,
-	const char* name,
-	const char* label)
+LocationInput::LocationInput(const char* name, const char* label)
 	:
-	BTextControl(frame, name, label, "", NULL)
+	BTextControl(name, label, "", NULL)
 {
 }
 

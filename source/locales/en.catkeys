@@ -1,0 +1,17 @@
+1	English	application/x-vnd.Hironytic-PonpokoDiff	1584786771
+Right file:	OpenFilesDialog		Right file:
+PonpokoDiff	System name		PonpokoDiff
+File	TextDiffWindow		File
+Close	TextDiffWindow		Close
+Select left file	OpenFilesDialog		Select left file
+A graphical file comparison utility.	Application		A graphical file comparison utility.
+Reload	TextDiffWindow		Reload
+Left file:	OpenFilesDialog		Left file:
+Cancel	OpenFilesDialog		Cancel
+Select right file	OpenFilesDialog		Select right file
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Open files
+Open…	TextDiffWindow		Open…
+Diff	OpenFilesDialog		Diff
+Browse…	OpenFilesDialog		Browse…
+About PonpokoDiff	TextDiffWindow		About PonpokoDiff
+Quit	TextDiffWindow		Quit
