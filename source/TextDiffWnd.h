@@ -33,9 +33,9 @@
 #ifndef TEXTDIFFWND_H__INCLUDED
 #define TEXTDIFFWND_H__INCLUDED
 
+#include <Path.h>
 #include <Window.h>
 
-class BPath;
 class BMenuBar;
 
 /**
@@ -59,6 +59,11 @@ private:
 	void				createMainMenu(BMenuBar* menuBar);
 	void				doFileOpen();
 	void				doFileQuit();
+
+	BPath				fPathLeft;
+	BPath				fPathRight;
+	const char*			fLabelLeft;
+	const char*			fLabelRight;
 };
 
 #endif // TEXTDIFFWND_H__INCLUDED

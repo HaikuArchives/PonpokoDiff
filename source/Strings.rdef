@@ -37,21 +37,22 @@ resource(IDS_APPNAME, "IDS_APPNAME")									"PonpokoDiff";
 
 // Menu
 resource(IDS_MENU_FILE, "IDS_MENU_FILE")								"File";
-resource(IDS_MENU_FILE_OPEN, "IDS_MENU_FILE_OPEN")						"Open...";
+resource(IDS_MENU_FILE_OPEN, "IDS_MENU_FILE_OPEN")						"Open…";
+resource(IDS_MENU_FILE_RELOAD, "IDS_MENU_FILE_RELOAD")					"Reload";
 resource(IDS_MENU_FILE_CLOSE, "IDS_MENU_FILE_CLOSE")					"Close";
-resource(IDS_MENU_FILE_ABOUT, "IDS_MENU_FILE_ABOUT")					"About...";
+resource(IDS_MENU_FILE_ABOUT, "IDS_MENU_FILE_ABOUT")					"About PonokoDiff";
 resource(IDS_MENU_FILE_QUIT, "IDS_MENU_FILE_QUIT")						"Quit";
 
 // Dialog
 resource(IDS_LABEL_OK, "IDS_LABEL_OK")									"OK";
 resource(IDS_LABEL_CANCEL, "IDS_LABEL_CANCEL")							"Cancel";
-resource(IDS_LABEL_LEFT_FILE, "IDS_LABEL_LEFT_FILE")					"Left File";
+resource(IDS_LABEL_LEFT_FILE, "IDS_LABEL_LEFT_FILE")					"Left file:";
 
-resource(IDS_TITLE_OPEN_FILES, "IDS_TITLE_OPEN_FILES")					"Open Files";
-resource(IDS_LABEL_RIGHT_FILE, "IDS_LABEL_RIGHT_FILE")					"Right File";
+resource(IDS_TITLE_OPEN_FILES, "IDS_TITLE_OPEN_FILES")					"Open files";
+resource(IDS_LABEL_RIGHT_FILE, "IDS_LABEL_RIGHT_FILE")					"Right file:";
 resource(IDS_LABEL_BROWSE_LEFT, "IDS_LABEL_BROWSE_LEFT")				"Browse";
 resource(IDS_LABEL_BROWSE_RIGHT, "IDS_LABEL_BROWSE_RIGHT")				"Browse";
-resource(IDS_LABEL_DIFF_THEM, "IDS_LABEL_DIFF_THEM")					"Diff Them";
-resource(IDS_TITLE_SELECT_LEFT_FILE, "IDS_TITLE_SELECT_LEFT_FILE")		"Select Left File";
-resource(IDS_TITLE_SELECT_RIGHT_FILE, "IDS_TITLE_SELECT_RIGHT_FILE")	"Select Right File";
+resource(IDS_LABEL_DIFF_THEM, "IDS_LABEL_DIFF_THEM")					"Diff";
+resource(IDS_TITLE_SELECT_LEFT_FILE, "IDS_TITLE_SELECT_LEFT_FILE")		"Select left file";
+resource(IDS_TITLE_SELECT_RIGHT_FILE, "IDS_TITLE_SELECT_RIGHT_FILE")	"Select right file";
 

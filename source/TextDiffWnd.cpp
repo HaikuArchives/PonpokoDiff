@@ -104,6 +104,9 @@ void TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 	menuItem = new BMenuItem(RT(IDS_MENU_FILE_OPEN), new BMessage(ID_FILE_OPEN), 'O');
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
+	menuItem = new BMenuItem(RT(IDS_MENU_FILE_RELOAD), new BMessage(ID_FILE_RELOAD), 'R');
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
 	fileMenu->AddItem(new BMenuItem(RT(IDS_MENU_FILE_CLOSE), new BMessage(ID_FILE_CLOSE), 'W'));
 	fileMenu->AddSeparatorItem();
 	menuItem = new BMenuItem(RT(IDS_MENU_FILE_ABOUT), new BMessage(ID_FILE_ABOUT));
@@ -120,6 +123,11 @@ void TextDiffWnd::createMainMenu(BMenuBar* menuBar)
  */
 void TextDiffWnd::ExecuteDiff(const BPath& pathLeft, const BPath& pathRight, const char* labelLeft, const char* labelRight)
 {
+	fPathLeft = pathLeft;
+	fPathRight = pathRight;
+	fLabelLeft = labelLeft;
+	fLabelRight = labelRight;
+
 	// TODO:
 	// ここは最終的にはスクリプティングによるメッセージ送信にしたい。
 	BAutolock locker(this);
@@ -179,7 +187,11 @@ void TextDiffWnd::MessageReceived(BMessage* message)
 	case ID_FILE_QUIT:
 		doFileQuit();
 		break;
-	
+
+	case ID_FILE_RELOAD:
+		ExecuteDiff(fPathLeft, fPathRight, fLabelLeft, fLabelRight);
+		break;
+
 	default:
 		BWindow::MessageReceived(message);
 		break;
