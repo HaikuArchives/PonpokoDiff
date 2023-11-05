@@ -33,36 +33,36 @@
 #include "OpenFilesDialog.h"
 
 #include <Button.h>
+#include <Catalog.h>
+#include <LayoutBuilder.h>
 #include <Path.h>
+#include <SeparatorView.h>
 #include <String.h>
 #include <TextControl.h>
 
 #include "CommandIDs.h"
 #include "LocationInput.h"
 #include "PonpokoDiffApp.h"
-#include "Prefix.h"
 #include "StringIDs.h"
 #include "TextDiffWnd.h"
 
 
-static const char NAME_BASE_VIEW[] = "BaseView";
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "OpenFilesDialog"
+
 static const char NAME_LEFT_TEXT_CONTROL[] = "LeftTextControl";
-static const char NAME_LEFT_BROWSE_BUTTON[] = "LeftBrowseButton";
 static const char NAME_RIGHT_TEXT_CONTROL[] = "RightTextControl";
-static const char NAME_RIGHT_BROWSE_BUTTON[] = "RightBrowseButton";
-static const char NAME_DIFF_THEM_BUTTON[] = "DiffThemButton";
-static const char NAME_CANCEL_BUTTON[] = "CancelButton";
+
 
 /**
  *	@brief	コンストラクタ
  *	@param[in]	topLeft	ダイアログの左上位置
  */
 OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
-	: BWindow(BRect(topLeft.x, topLeft.y, topLeft.x + 460, topLeft.y + 120),
-				RT(IDS_TITLE_OPEN_FILES),
-				B_TITLED_WINDOW_LOOK,
-				B_NORMAL_WINDOW_FEEL,
-				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE)
+	: BWindow(BRect(topLeft.x, topLeft.y, topLeft.x + 480, topLeft.y + 220),
+				B_TRANSLATE("PonpokoDiff: Open files"),
+				B_TITLED_WINDOW,
+				B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	int index;
 	for (index = 0; index < FileMAX; index++)
@@ -91,36 +91,44 @@ OpenFilesDialog::~OpenFilesDialog()
  */
 void OpenFilesDialog::Initialize()
 {
-	BRect bounds = Bounds();
-	
-	// 下地となるビュー
-	BView* baseView = new BView(bounds, NAME_BASE_VIEW, B_FOLLOW_ALL_SIDES, B_WILL_DRAW);
-	AddChild(baseView);
-	baseView->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-	
 	// TODO: ダイアログのレイアウトについてはもう少し検討が必要
-	LocationInput* leftTextControl = new LocationInput(BRect(12, 14, 362, 34), NAME_LEFT_TEXT_CONTROL,
-			RT(IDS_LABEL_LEFT_FILE));
-	leftTextControl->SetDivider(72);
-	baseView->AddChild(leftTextControl);
+	LocationInput* leftTextControl = new LocationInput(NAME_LEFT_TEXT_CONTROL,
+			B_TRANSLATE("Left file:"));
 	
-	BButton* leftBrowseButton = new BButton(BRect(368, 12, 448, 36), NAME_LEFT_BROWSE_BUTTON, RT(IDS_LABEL_BROWSE_LEFT), new BMessage(ID_OFD_BROWSE_LEFT));
-	baseView->AddChild(leftBrowseButton);
+	BButton* leftBrowseButton = new BButton("LeftBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS),
+		new BMessage(ID_OFD_BROWSE_LEFT));
 	
-	LocationInput* rightTextControl = new LocationInput(BRect(12, 50, 362, 70), NAME_RIGHT_TEXT_CONTROL,
-			RT(IDS_LABEL_RIGHT_FILE));
-	rightTextControl->SetDivider(72);
-	baseView->AddChild(rightTextControl);
+	LocationInput* rightTextControl = new LocationInput(NAME_RIGHT_TEXT_CONTROL,
+			B_TRANSLATE("Right file:"));
 
-	BButton* rightBrowseButton = new BButton(BRect(368, 48, 448, 72), NAME_RIGHT_BROWSE_BUTTON, RT(IDS_LABEL_BROWSE_RIGHT), new BMessage(ID_OFD_BROWSE_RIGHT));
-	baseView->AddChild(rightBrowseButton);
+	BButton* rightBrowseButton = new BButton("RightBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS),
+		new BMessage(ID_OFD_BROWSE_RIGHT));
 	
-	BButton* diffThemButton = new BButton(BRect(368, 84, 448, 108), NAME_DIFF_THEM_BUTTON, RT(IDS_LABEL_DIFF_THEM), new BMessage(ID_OFD_DIFF_THEM));
-	baseView->AddChild(diffThemButton);
+	BButton* diffThemButton = new BButton("DiffButton", B_TRANSLATE("Diff"),
+		new BMessage(ID_OFD_DIFF_THEM));
+	diffThemButton->MakeDefault(true);
 	
-	BButton* cancelButton = new BButton(BRect(282, 84, 362, 108), NAME_CANCEL_BUTTON, RT(IDS_LABEL_CANCEL), new BMessage(ID_CANCEL));
-	baseView->AddChild(cancelButton);
-	
+	BButton* cancelButton = new BButton("CancelButton", B_TRANSLATE("Cancel"),
+		new BMessage(ID_CANCEL));
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(B_USE_WINDOW_INSETS)
+		.AddGrid(B_USE_SMALL_SPACING)
+			.Add(leftTextControl->CreateLabelLayoutItem(), 0, 0)
+			.Add(leftTextControl->CreateTextViewLayoutItem(), 1, 0)
+			.Add(leftBrowseButton, 2, 0)
+			.Add(rightTextControl->CreateLabelLayoutItem(), 0, 1)
+			.Add(rightTextControl->CreateTextViewLayoutItem(), 1, 1)
+			.Add(rightBrowseButton, 2, 1)
+		.End()
+		.Add(new BSeparatorView(B_HORIZONTAL))
+		.AddGroup(B_HORIZONTAL)
+			.AddGlue()
+			.Add(cancelButton)
+			.Add(diffThemButton)
+			.AddGlue()
+		.End();
+
 	Show();
 }
 
@@ -182,17 +190,17 @@ void OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 	{
 		BMessage* message = NULL;
 		BString title;
-		title += RT(IDS_APPNAME);
+		title += B_TRANSLATE_SYSTEM_NAME("PonpokoDiff");
 		title += ": ";
 		switch (fileIndex)
 		{
 		case LeftFile:
 			message = new BMessage(ID_OFD_LEFT_SELECTED);
-			title += RT(IDS_TITLE_SELECT_LEFT_FILE);
+			title += B_TRANSLATE("Select left file");
 			break;
 		case RightFile:
 			message = new BMessage(ID_OFD_RIGHT_SELECTED);
-			title += RT(IDS_TITLE_SELECT_RIGHT_FILE);
+			title += B_TRANSLATE("Select right file");
 			break;
 		default:
 			message = NULL;	// ここには来ない

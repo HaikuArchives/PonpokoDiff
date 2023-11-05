@@ -30,7 +30,6 @@
  *	@date		2008-01-04 Created
  */
 
-#include "Prefix.h"
 #include "Exception.h"
 #include "ExceptionCode.h"
 

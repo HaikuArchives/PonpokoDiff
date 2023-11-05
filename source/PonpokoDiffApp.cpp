@@ -32,9 +32,11 @@
 
 #include "PonpokoDiffApp.h"
 
+#include <AboutWindow.h>
 #include <Alert.h>
 #include <AppFileInfo.h>
 #include <Autolock.h>
+#include <Catalog.h>
 #include <File.h>
 #include <Path.h>
 #include <Roster.h>
@@ -43,13 +45,14 @@
 
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
-#include "Prefix.h"
 #include "StringIDs.h"
 #include "TextDiffWnd.h"
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Application"
 
-static const char COPYRIGHT_TEXT[] = "Copyright © 2008-2009 PonpokoDiff Project Contributors.";
 
+const char* kAppSignature = "application/x-vnd.Hironytic-PonpokoDiff";
 static const char OPTION_LABEL[] = "L";		///< オプション「次のパラメータはラベル」
 
 /**
@@ -85,18 +88,18 @@ PonpokoDiffApp::ReadyToRun()
 void
 PonpokoDiffApp::AboutRequested()
 {
-	// TODO: 手抜きな About ダイアログ^^;
-	BString versionString;
-	makeVersionString(versionString);
-	
-	BString aboutText;
-	aboutText = RT(IDS_APPNAME);
-	aboutText += " ";
-	aboutText += versionString;
-	aboutText += "\n\n";
-	aboutText += COPYRIGHT_TEXT;
-	BAlert* alert = new BAlert("About", aboutText.String(), RT(IDS_LABEL_OK));
-	alert->Go();
+	BAboutWindow* aboutwindow
+		= new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"), kAppSignature);
+
+	const char* authors[] = {
+		"2015-2023 HaikuArchives Team",
+		NULL
+	};
+
+	aboutwindow->AddCopyright(2007, "ICHIMIYA Hironori (Hiron)");
+	aboutwindow->AddAuthors(authors);
+	aboutwindow->AddDescription(B_TRANSLATE("A graphical file comparison utility."));
+	aboutwindow->Show();
 }
 
 
@@ -188,7 +191,7 @@ PonpokoDiffApp::NewTextDiffWnd()
 	if (locker.IsLocked()) {
 		BRect frameRect;
 		makeNewTextDiffWndRect(frameRect);
-		TextDiffWnd* newWindow = new TextDiffWnd(frameRect, RT(IDS_APPNAME));
+		TextDiffWnd* newWindow = new TextDiffWnd(frameRect, B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
 		textDiffWndCount++;
 		newWindow->Initialize();
 		return newWindow;

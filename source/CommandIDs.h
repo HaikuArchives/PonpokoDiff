@@ -40,6 +40,7 @@ enum
 {
 	// メニュー
 	ID_FILE_OPEN			= 'mOpn',
+	ID_FILE_RELOAD			= 'mRld',
 	ID_FILE_CLOSE			= B_QUIT_REQUESTED,
 	ID_FILE_ABOUT			= B_ABOUT_REQUESTED,
 	ID_FILE_QUIT			= 'mQit',

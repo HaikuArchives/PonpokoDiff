@@ -31,7 +31,6 @@
  *	@date		2007-12-19 Created
  */
 
-#include "Prefix.h"
 #include "DirectoryData.h"
 #include <File.h>
 #include <Directory.h>

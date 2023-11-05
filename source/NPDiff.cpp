@@ -30,7 +30,6 @@
  *	@date		2007-12-15 Created
  */
 
-#include "Prefix.h"
 #include "NPDiff.h"
 #include <stdlib.h>
 #include <string.h>

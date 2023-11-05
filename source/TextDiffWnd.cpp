@@ -30,10 +30,10 @@
  *	@date		2007-12-24 Created
  */
 
-#include "Prefix.h"
 #include "TextDiffWnd.h"
 #include <Application.h>
 #include <Autolock.h>
+#include <Catalog.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Message.h>
@@ -44,6 +44,10 @@
 #include "TextDiffView.h"
 #include "StringIDs.h"
 #include "CommandIDs.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TextDiffWindow"
+
 
 static const char NAME_MAIN_MENU[]				= "MainMenu";
 static const char NAME_TEXT_DIFF_VIEW[]			= "TextDiffView";
@@ -99,18 +103,21 @@ void TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 	BMenuItem* menuItem;
 
 	// File
-	BMenu* fileMenu = new BMenu(RT(IDS_MENU_FILE));
+	BMenu* fileMenu = new BMenu(B_TRANSLATE("File"));
 	menuBar->AddItem(fileMenu);
-	menuItem = new BMenuItem(RT(IDS_MENU_FILE_OPEN), new BMessage(ID_FILE_OPEN), 'O');
+	menuItem = new BMenuItem(B_TRANSLATE("Open" B_UTF8_ELLIPSIS), new BMessage(ID_FILE_OPEN), 'O');
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
-	fileMenu->AddItem(new BMenuItem(RT(IDS_MENU_FILE_CLOSE), new BMessage(ID_FILE_CLOSE), 'W'));
+	menuItem = new BMenuItem(B_TRANSLATE("Reload"), new BMessage(ID_FILE_RELOAD), 'R');
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
+	fileMenu->AddItem(new BMenuItem(B_TRANSLATE("Close"), new BMessage(ID_FILE_CLOSE), 'W'));
 	fileMenu->AddSeparatorItem();
-	menuItem = new BMenuItem(RT(IDS_MENU_FILE_ABOUT), new BMessage(ID_FILE_ABOUT));
+	menuItem = new BMenuItem(B_TRANSLATE("About PonpokoDiff"), new BMessage(ID_FILE_ABOUT));
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
 	fileMenu->AddSeparatorItem();
-	fileMenu->AddItem(new BMenuItem(RT(IDS_MENU_FILE_QUIT), new BMessage(ID_FILE_QUIT), 'Q'));
+	fileMenu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(ID_FILE_QUIT), 'Q'));
 }
 
 /**
@@ -120,6 +127,11 @@ void TextDiffWnd::createMainMenu(BMenuBar* menuBar)
  */
 void TextDiffWnd::ExecuteDiff(const BPath& pathLeft, const BPath& pathRight, const char* labelLeft, const char* labelRight)
 {
+	fPathLeft = pathLeft;
+	fPathRight = pathRight;
+	fLabelLeft = labelLeft;
+	fLabelRight = labelRight;
+
 	// TODO:
 	// ここは最終的にはスクリプティングによるメッセージ送信にしたい。
 	BAutolock locker(this);
@@ -133,7 +145,8 @@ void TextDiffWnd::ExecuteDiff(const BPath& pathLeft, const BPath& pathRight, con
 	}
 	
 	// ウィンドウのタイトルにラベルを追加
-	BString title;
+	BString title(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
+	title += " : ";
 	if (NULL == labelLeft)
 	{
 		title += pathLeft.Leaf();
@@ -142,7 +155,7 @@ void TextDiffWnd::ExecuteDiff(const BPath& pathLeft, const BPath& pathRight, con
 	{
 		title += labelLeft;
 	}
-	title += ", ";
+	title += " ◄ | ► ";
 	if (NULL == labelRight)
 	{
 		title += pathRight.Leaf();
@@ -151,8 +164,6 @@ void TextDiffWnd::ExecuteDiff(const BPath& pathLeft, const BPath& pathRight, con
 	{
 		title += labelRight;
 	}
-	title += " - ";
-	title += RT(IDS_APPNAME);
 	SetTitle(title.String());
 }
 
@@ -179,7 +190,11 @@ void TextDiffWnd::MessageReceived(BMessage* message)
 	case ID_FILE_QUIT:
 		doFileQuit();
 		break;
-	
+
+	case ID_FILE_RELOAD:
+		ExecuteDiff(fPathLeft, fPathRight, fLabelLeft, fLabelRight);
+		break;
+
 	default:
 		BWindow::MessageReceived(message);
 		break;

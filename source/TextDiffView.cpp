@@ -30,9 +30,11 @@
  *	@date		2007-12-25 Created
  */
 
-#include "Prefix.h"
 #include "TextDiffView.h"
+
 #include <math.h>
+
+#include <ControlLook.h>
 #include <ScrollView.h>
 #include <ScrollBar.h>
 #include "Exception.h"
@@ -86,10 +88,12 @@ TextDiffView::~TextDiffView()
 void TextDiffView::Initialize()
 {
 	BRect bounds = Bounds();
-	float leftWidth = floor((bounds.Width() + 1 - B_H_SCROLL_BAR_HEIGHT - PANE_SPLITTER_WIDTH) / 2);
+	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
+		- PANE_SPLITTER_WIDTH) / 2);
 
 	// 左ペインを作成
-	BRect leftFrame = BRect(bounds.left, bounds.top, bounds.left + leftWidth - 1, bounds.bottom - B_H_SCROLL_BAR_HEIGHT);
+	BRect leftFrame = BRect(bounds.left, bounds.top, bounds.left + leftWidth - 1,
+		bounds.bottom - be_control_look->GetScrollBarWidth(B_HORIZONTAL));
 	DiffPaneView* leftPaneView = new DiffPaneView(leftFrame, NAME_LEFT_PANE, B_FOLLOW_ALL_SIDES);
 	leftPaneView->SetTextDiffView(this);
 	leftPaneView->SetPaneIndex(LeftPane);
@@ -99,7 +103,9 @@ void TextDiffView::Initialize()
 	AddChild(leftView);
 	
 	// 右ペインを作成
-	BRect rightFrame = BRect(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top, bounds.right - B_V_SCROLL_BAR_WIDTH, bounds.bottom - B_H_SCROLL_BAR_HEIGHT);
+	BRect rightFrame = BRect(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top,
+		bounds.right - be_control_look->GetScrollBarWidth(B_VERTICAL),
+		bounds.bottom - be_control_look->GetScrollBarWidth(B_HORIZONTAL));
 	DiffPaneView* rightPaneView = new DiffPaneView(rightFrame, NAME_RIGHT_PANE, B_FOLLOW_ALL_SIDES);
 	rightPaneView->SetTextDiffView(this);
 	rightPaneView->SetPaneIndex(RightPane);
@@ -136,7 +142,8 @@ void TextDiffView::FrameResized(float width, float height)
 void TextDiffView::recalcLayout()
 {
 	BRect bounds = Bounds();
-	float leftWidth = floor((bounds.Width() + 1 - B_H_SCROLL_BAR_HEIGHT - PANE_SPLITTER_WIDTH) / 2);
+	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
+		- PANE_SPLITTER_WIDTH) / 2);
 	float rightWidth = (bounds.Width() + 1 - PANE_SPLITTER_WIDTH) - leftWidth;
 
 	// 左ペイン
@@ -162,7 +169,8 @@ void TextDiffView::Draw(BRect updateRect)
 	float oldPenSize = PenSize();
 	
 	BRect bounds = Bounds();
-	float leftWidth = floor((bounds.Width() + 1 - B_H_SCROLL_BAR_HEIGHT - PANE_SPLITTER_WIDTH) / 2);
+	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
+		- PANE_SPLITTER_WIDTH) / 2);
 
 	// Draw the body of the splitter
 	BRect paneRect = bounds;
@@ -182,9 +190,11 @@ void TextDiffView::Draw(BRect updateRect)
 	{
 		SetPenSize(0);
 		SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_DARKEN_1_TINT));
-		StrokeLine(BPoint(leftWidth + PANE_SPLITTER_WIDTH - 2, updateRect.top), BPoint(leftWidth + PANE_SPLITTER_WIDTH - 2, updateRect.bottom), B_SOLID_HIGH);
+		StrokeLine(BPoint(leftWidth + PANE_SPLITTER_WIDTH - 2, updateRect.top),
+			BPoint(leftWidth + PANE_SPLITTER_WIDTH - 2, updateRect.bottom), B_SOLID_HIGH);
 		SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_DARKEN_2_TINT));
-		StrokeLine(BPoint(leftWidth + PANE_SPLITTER_WIDTH - 1, updateRect.top), BPoint(leftWidth + PANE_SPLITTER_WIDTH - 1, updateRect.bottom), B_SOLID_HIGH);
+		StrokeLine(BPoint(leftWidth + PANE_SPLITTER_WIDTH - 1, updateRect.top),
+			BPoint(leftWidth + PANE_SPLITTER_WIDTH - 1, updateRect.bottom), B_SOLID_HIGH);
 	}
 	
 	SetPenSize(oldPenSize);
