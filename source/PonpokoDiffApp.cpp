@@ -52,7 +52,6 @@
 
 
 const char* kAppSignature = "application/x-vnd.Hironytic-PonpokoDiff";
-static const char OPTION_LABEL[] = "L"; ///< オプション「次のパラメータはラベル」
 
 /**
  *	@brief	コンストラクタ
@@ -100,24 +99,6 @@ PonpokoDiffApp::AboutRequested()
 }
 
 
-void
-PonpokoDiffApp::makeVersionString(BString& versionString)
-{
-	versionString = "Version ";
-
-	app_info appInfo;
-	BFile file;
-	BAppFileInfo appFileInfo;
-
-	be_app->GetAppInfo(&appInfo);
-	file.SetTo(&appInfo.ref, B_READ_ONLY);
-	appFileInfo.SetTo(&file);
-
-	version_info verInfo;
-	if (B_OK == appFileInfo.GetVersionInfo(&verInfo, B_APP_VERSION_KIND))
-		versionString += verInfo.short_info;
-}
-
 /**
  *	@brief	プログラムの引数を処理するために呼ばれます。
  *	@param[in]	argc	引数の個数
@@ -129,17 +110,11 @@ PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
 	BMessage refsMsg;
 	bool isLabel = false;
 	for (int32 ix = 1; ix < argc; ix++) {
-		if ('-' == argv[ix][0]) { // オプション
-			isLabel = strcmp(&argv[ix][1], OPTION_LABEL) == 0; // ラベル指定
-		} else if (isLabel == true) { // 手前にラベル指定オプションがあった場合
-			refsMsg.AddString("labels", argv[ix]);
-			isLabel = false;
-		} else { // ファイル名
-			entry_ref ref;
-			if (BEntry(argv[ix]).GetRef(&ref) == B_OK)
-				refsMsg.AddRef("refs", &ref);
-		}
+		entry_ref ref;
+		if (BEntry(argv[ix]).GetRef(&ref) == B_OK)
+			refsMsg.AddRef("refs", &ref);
 	}
+
 	if (refsMsg.IsEmpty() == false)
 		RefsReceived(&refsMsg);
 }
@@ -148,21 +123,16 @@ PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
 void
 PonpokoDiffApp::RefsReceived(BMessage* message)
 {
-	const char* lastLabel;
 	BPath lastPath;
 	entry_ref ref;
 	for (int i = 0; message->FindRef("refs", i, &ref) == B_OK; i++) {
 		BPath path = BPath(&ref);
-		const char* label = message->GetString("labels", i, NULL);
-
 		if (lastPath.InitCheck() == B_OK && path.InitCheck() == B_OK) {
 			TextDiffWnd* wnd = NewTextDiffWnd();
-			wnd->ExecuteDiff(lastPath, path, lastLabel, label);
+			wnd->ExecuteDiff(lastPath, path);
 			lastPath.Unset();
-		} else {
+		} else
 			lastPath = path;
-			lastLabel = label;
-		}
 	}
 
 	// If there's a stray ref (odd amount), then populate an open dialog

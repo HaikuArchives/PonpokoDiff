@@ -285,7 +285,7 @@ OpenFilesDialog::doDiffThem()
 
 	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
 	TextDiffWnd* newDiffWnd = app->NewTextDiffWnd();
-	newDiffWnd->ExecuteDiff(leftPath, rightPath, NULL, NULL);
+	newDiffWnd->ExecuteDiff(leftPath, rightPath);
 	PostMessage(B_QUIT_REQUESTED);
 }
 

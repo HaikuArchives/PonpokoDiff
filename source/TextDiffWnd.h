@@ -50,8 +50,7 @@ public:
 
 			void			Initialize();
 
-			void			ExecuteDiff(const BPath& pathLeft, const BPath& pathRight,
-								const char* labelLeft, const char* labelRight);
+			void			ExecuteDiff(const BPath& pathLeft, const BPath& pathRight);
 
 public:
 	virtual	void			Quit();
@@ -59,11 +58,18 @@ public:
 
 private:
 			void			createMainMenu(BMenuBar* menuBar);
+			void			startNodeMonitor();
+			void			handleNodeMonitorEvent(BMessage* message);
+			void			askToReload(node_ref nref_node);
+			void			updateTitle();
 			void			doFileOpen();
 			void			doFileQuit();
 
 			BPath			fPathLeft;
 			BPath			fPathRight;
+			node_ref 		fLeftNodeRef;
+			node_ref 		fRightNodeRef;
+
 			const char*		fLabelLeft;
 			const char*		fLabelRight;
 };

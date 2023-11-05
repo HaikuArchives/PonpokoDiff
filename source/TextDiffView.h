@@ -51,8 +51,7 @@ public:
 	virtual				~TextDiffView();
 
 			void		Initialize();
-			void		ExecuteDiff(const BPath& pathLeft, const BPath& pathRight,
-							const char* labelLeft, const char* labelRight);
+			void		ExecuteDiff(const BPath& pathLeft, const BPath& pathRight);
 
 public:
 	virtual	void		FrameResized(float width, float height);

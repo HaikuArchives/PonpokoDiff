@@ -312,12 +312,10 @@ public:
  *	@brief	Diff を実行します。
  *	@param[in]	pathLeft	左ペインに表示するファイルのパス
  *	@param[in]	pathRight	右ペインに表示するファイルのパス
- *	@param[in]	labelLeft	左ペインに表示するファイルのラベル (NULL ならパス名を使います)
- *	@param[in]	labelRight	右ペインに表示するファイルのラベル (NULL ならパス名を使います)
  */
 void
 TextDiffView::ExecuteDiff(
-	const BPath& pathLeft, const BPath& pathRight, const char* labelLeft, const char* labelRight)
+	const BPath& pathLeft, const BPath& pathRight)
 {
 	// 初期化
 	textData[LeftPane].Unload();

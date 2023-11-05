@@ -60,7 +60,6 @@ public:
 private:
 			void			makeNewTextDiffWndRect(BRect& frameRect);
 			void			doOpenFileDialog();
-			void			makeVersionString(BString& versionString);
 
 private:
 		int32				textDiffWndCount;		///< 動作している TextDiffWnd の数
