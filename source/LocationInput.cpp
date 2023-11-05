@@ -9,7 +9,7 @@
 
 #include "LocationInput.h"
 
-// BeOS headers
+
 #include <Entry.h>
 #include <Path.h>
 
@@ -20,11 +20,14 @@ LocationInput::LocationInput(const char* name, const char* label)
 {
 }
 
+
 LocationInput::~LocationInput()
 {
 }
 
-void LocationInput::MessageReceived(BMessage* message)
+
+void
+LocationInput::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
 		case B_SIMPLE_DATA:
@@ -36,11 +39,10 @@ void LocationInput::MessageReceived(BMessage* message)
 			BPath path;
 			entry.GetPath(&path);
 			SetText(path.Path());
-			break;
-		}
+		} break;
+
 		default:
 			BTextControl::MessageReceived(message);
 			break;
 	}
-	
 }

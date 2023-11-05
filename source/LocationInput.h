@@ -9,17 +9,15 @@
 #define LOCATIONINPUT_H
 
 
-// BeOS headers
 #include <TextControl.h>
 
 
 class LocationInput : public BTextControl {
 public:
-								LocationInput(const char* name,	const char* label);
-		virtual					~LocationInput();
+							LocationInput(const char* name,	const char* label);
+		virtual				~LocationInput();
 
-		virtual void			MessageReceived(BMessage* message);
+		virtual void		MessageReceived(BMessage* message);
 };
 
-
-#endif
+#endif // LOCATIONINPUT_H

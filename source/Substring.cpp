@@ -2,7 +2,7 @@
  * PonpokoDiff
  *
  * Copyright (c) 2008 PonpokoDiff Project Contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -80,12 +80,12 @@ Substring::Substring(const Substring& other)
  *	@brief	代入演算子
  *	@param[in]	other	代入元
  */
-Substring& Substring::operator=(const Substring& other)
+Substring&
+Substring::operator=(const Substring& other)
 {
-	if (this != &other)
-	{
+	if (this != &other) {
 		this->begin = other.begin;
-		this->end = other.end;		
+		this->end = other.end;
 	}
 	return *this;
 }
@@ -95,27 +95,19 @@ Substring& Substring::operator=(const Substring& other)
  *	@param[in]	other	比べる文字列
  *	@return	同じなら true。
  */
-bool Substring::IsSameString(const Substring& other) const
+bool
+Substring::IsSameString(const Substring& other) const
 {
 	if (Length() != other.Length())
-	{
 		return false;
-	}
 
 	char* ch1;
 	char* ch2;
-	for (ch1 = begin, ch2 = other.begin;
-		ch1 < end;
-		ch1++, ch2++)
-	{
+	for (ch1 = begin, ch2 = other.begin; ch1 < end; ch1++, ch2++) {
 		if (ch2 >= other.end)
-		{
 			return false;
-		}
 		if (*ch1 != *ch2)
-		{
 			return false;
-		}
 	}
 	return true;
 }

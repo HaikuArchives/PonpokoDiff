@@ -2,7 +2,7 @@
  * PonpokoDiff
  *
  * Copyright (c) 2008-2009 PonpokoDiff Project Contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -45,7 +45,6 @@
 
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
-#include "StringIDs.h"
 #include "TextDiffWnd.h"
 
 #undef B_TRANSLATION_CONTEXT
@@ -53,13 +52,14 @@
 
 
 const char* kAppSignature = "application/x-vnd.Hironytic-PonpokoDiff";
-static const char OPTION_LABEL[] = "L";		///< オプション「次のパラメータはラベル」
+static const char OPTION_LABEL[] = "L"; ///< オプション「次のパラメータはラベル」
 
 /**
  *	@brief	コンストラクタ
  */
 PonpokoDiffApp::PonpokoDiffApp()
-	: BApplication("application/x-vnd.Hironytic-PonpokoDiff")
+	:
+	BApplication("application/x-vnd.Hironytic-PonpokoDiff")
 {
 	textDiffWndCount = 0;
 	openFilesDialog = NULL;
@@ -91,10 +91,7 @@ PonpokoDiffApp::AboutRequested()
 	BAboutWindow* aboutwindow
 		= new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"), kAppSignature);
 
-	const char* authors[] = {
-		"2015-2023 HaikuArchives Team",
-		NULL
-	};
+	const char* authors[] = {"2015-2023 HaikuArchives Team", NULL};
 
 	aboutwindow->AddCopyright(2007, "ICHIMIYA Hironori (Hiron)");
 	aboutwindow->AddAuthors(authors);
@@ -107,15 +104,15 @@ void
 PonpokoDiffApp::makeVersionString(BString& versionString)
 {
 	versionString = "Version ";
-	
+
 	app_info appInfo;
 	BFile file;
 	BAppFileInfo appFileInfo;
-	
+
 	be_app->GetAppInfo(&appInfo);
 	file.SetTo(&appInfo.ref, B_READ_ONLY);
 	appFileInfo.SetTo(&file);
-	
+
 	version_info verInfo;
 	if (B_OK == appFileInfo.GetVersionInfo(&verInfo, B_APP_VERSION_KIND))
 		versionString += verInfo.short_info;
@@ -132,12 +129,12 @@ PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
 	BMessage refsMsg;
 	bool isLabel = false;
 	for (int32 ix = 1; ix < argc; ix++) {
-		if ('-' == argv[ix][0])		// オプション
-			isLabel = strcmp(&argv[ix][1], OPTION_LABEL) == 0;	// ラベル指定
-		else if (isLabel == true) {	// 手前にラベル指定オプションがあった場合
+		if ('-' == argv[ix][0]) { // オプション
+			isLabel = strcmp(&argv[ix][1], OPTION_LABEL) == 0; // ラベル指定
+		} else if (isLabel == true) { // 手前にラベル指定オプションがあった場合
 			refsMsg.AddString("labels", argv[ix]);
 			isLabel = false;
-		} else {						// ファイル名
+		} else { // ファイル名
 			entry_ref ref;
 			if (BEntry(argv[ix]).GetRef(&ref) == B_OK)
 				refsMsg.AddRef("refs", &ref);
@@ -196,7 +193,7 @@ PonpokoDiffApp::NewTextDiffWnd()
 		newWindow->Initialize();
 		return newWindow;
 	}
-	
+
 	return NULL;
 }
 
@@ -212,10 +209,10 @@ PonpokoDiffApp::makeNewTextDiffWndRect(BRect& frameRect)
 		BScreen screen;
 		screenFrame = screen.Frame();
 	}
-	
+
 	float screenWidth = screenFrame.Width() + 1;
 	float screenHeight = screenFrame.Height() + 1;
-	
+
 	frameRect.left = floor(screenWidth / 8);
 	frameRect.top = floor(screenHeight / 8);
 	frameRect.right = frameRect.left + floor(screenWidth / 2) - 1;
@@ -248,7 +245,7 @@ PonpokoDiffApp::OpenFilesDialogClosed()
 		openFilesDialog = NULL;
 		if (textDiffWndCount <= 0)
 			PostMessage(B_QUIT_REQUESTED);
-	}	
+	}
 }
 
 /**
@@ -262,7 +259,7 @@ PonpokoDiffApp::MessageReceived(BMessage* message)
 		case ID_FILE_OPEN:
 			doOpenFileDialog();
 			break;
-	
+
 		default:
 			BApplication::MessageReceived(message);
 			break;
@@ -286,7 +283,7 @@ PonpokoDiffApp::doOpenFileDialog()
 			return;
 		}
 	}
-	
+
 	openFilesDialog = new OpenFilesDialog(BPoint(100, 100));
 	openFilesDialog->Initialize();
 }
