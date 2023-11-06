@@ -39,10 +39,12 @@
 #include <Application.h>
 #include <Autolock.h>
 #include <Catalog.h>
+#include <ControlLook.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Message.h>
 #include <Messenger.h>
+#include <NodeInfo.h>
 #include <NodeMonitor.h>
 #include <Path.h>
 #include <String.h>
@@ -146,6 +148,36 @@ void
 TextDiffWnd::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
+		case B_SIMPLE_DATA:
+		{
+			if (message->WasDropped()) {
+				entry_ref ref;
+				if (message->FindRef("refs", &ref) != B_OK)
+					break;
+
+				// Only allow text files
+				BEntry entry(&ref, true); // traverse links
+				BNode node(&entry);
+				char mimeType[B_MIME_TYPE_LENGTH];
+				BNodeInfo(&node).GetType(mimeType);
+				if (!strncmp("text/", mimeType, 5) == 0)
+					break;
+
+				// Dropped on the left or right side
+				BView* diffView = FindView("TextDiffView");
+				BRect rect = ConvertToScreen(diffView->Bounds());
+				float viewWidth = (rect.Width() - be_control_look->GetScrollBarWidth(B_VERTICAL))
+					/ 2;
+				rect.right -= viewWidth;
+				BPoint dropPoint = message->DropPoint();
+				if (rect.Contains(dropPoint))
+					fPathLeft.SetTo(&entry);
+				else
+					fPathRight.SetTo(&entry);
+
+				ExecuteDiff(fPathLeft, fPathRight);
+			}
+		}
 		case B_NODE_MONITOR:
 			handleNodeMonitorEvent(message);
 			break;
