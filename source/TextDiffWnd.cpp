@@ -35,6 +35,7 @@
 #include "PonpokoDiffApp.h"
 #include "TextDiffView.h"
 
+#include <Alert.h>
 #include <Application.h>
 #include <Autolock.h>
 #include <Catalog.h>
@@ -42,8 +43,10 @@
 #include <MenuItem.h>
 #include <Message.h>
 #include <Messenger.h>
+#include <NodeMonitor.h>
 #include <Path.h>
 #include <String.h>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "TextDiffWindow"
@@ -95,6 +98,72 @@ TextDiffWnd::Initialize()
 	Show();
 }
 
+
+
+/**
+ *	@brief	Diff を実行します。
+ *	@param[in]	pathLeft	左ペインに表示するファイルのパス
+ *	@param[in]	pathRight	右ペインに表示するファイルのパス
+ */
+void
+TextDiffWnd::ExecuteDiff(
+	const BPath& pathLeft, const BPath& pathRight)
+{
+	fPathLeft = pathLeft;
+	fPathRight = pathRight;
+
+	// TODO:
+	// ここは最終的にはスクリプティングによるメッセージ送信にしたい。
+	BAutolock locker(this);
+	if (locker.IsLocked()) {
+		TextDiffView* diffView = dynamic_cast<TextDiffView*>(FindView("TextDiffView"));
+		if (NULL != diffView)
+			diffView->ExecuteDiff(fPathLeft, fPathRight);
+	}
+
+	updateTitle();
+	startNodeMonitor();
+}
+
+/**
+ *	@brief	ウィンドウが閉じるときに呼び出されます。
+ */
+void
+TextDiffWnd::Quit()
+{
+	// アプリケーションに終了を伝える
+	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
+	app->TextDiffWndQuit(this);
+
+	BWindow::Quit();
+}
+
+/**
+ *	@brief	メッセージを受信したら呼び出されます。
+ *	@param[in]	message	受信したメッセージ
+ */
+void
+TextDiffWnd::MessageReceived(BMessage* message)
+{
+	switch (message->what) {
+		case B_NODE_MONITOR:
+			handleNodeMonitorEvent(message);
+			break;
+
+		case ID_FILE_QUIT:
+			doFileQuit();
+			break;
+
+		case ID_FILE_RELOAD:
+			ExecuteDiff(fPathLeft, fPathRight);
+			break;
+
+		default:
+			BWindow::MessageReceived(message);
+			break;
+	}
+}
+
 /**
  *	@brief	メインメニューを追加します。
  *	@param[in]	menuBar	ここに各メニューが足されます。
@@ -127,46 +196,208 @@ TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 	fileMenu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(ID_FILE_QUIT), 'Q'));
 }
 
+
+void
+TextDiffWnd::startNodeMonitor()
+{
+	BEntry entry(fPathLeft.Path(), true);
+	if (entry.InitCheck() == B_OK)
+		entry.GetNodeRef(&fLeftNodeRef);
+
+	entry.SetTo(fPathRight.Path(), true);
+	if (entry.InitCheck() == B_OK)
+		entry.GetNodeRef(&fRightNodeRef);
+
+	watch_node(&fLeftNodeRef, B_STOP_WATCHING, this);
+	watch_node(&fRightNodeRef, B_STOP_WATCHING, this);
+	watch_node(&fLeftNodeRef, B_WATCH_STAT, this);
+	watch_node(&fRightNodeRef, B_WATCH_STAT, this);
+}
+
+
+void
+TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
+{
+	int32 opcode = 0;
+	if (message->FindInt32("opcode", &opcode) != B_OK)
+		return;
+
+	switch (opcode) {
+		case B_STAT_CHANGED:
+		{
+			node_ref nref;
+			int32 fields;
+
+			if (message->FindInt32("device", &nref.device) != B_OK
+				|| message->FindInt64("node", &nref.node) != B_OK
+				|| message->FindInt32("fields", &fields) != B_OK)
+					break;
+
+			if (((fields & B_STAT_MODIFICATION_TIME)  != 0)
+				&& ((fields & B_STAT_ACCESS_TIME)  == 0))
+				askToReload(nref);
+
+		} break;
+	}
+}
+
+
+void
+TextDiffWnd::askToReload(node_ref nref_node)
+{
+	BString text;
+	if (nref_node == fLeftNodeRef) {
+		text = B_TRANSLATE(
+			"The left file, %filename%, has changed.");
+		text.ReplaceFirst("%filename%", fPathLeft.Leaf());
+	} else if (nref_node == fRightNodeRef) {
+		text = B_TRANSLATE(
+			"The right file, %filename%, has changed.");
+		text.ReplaceFirst("%filename%", fPathRight.Leaf());
+	} else
+		return;
+
+	text << "\n" << B_TRANSLATE("Do you want to reload the files and diff them again?");
+	BAlert* alert = new BAlert(B_TRANSLATE("A file has changed"), text,
+		B_TRANSLATE("Cancel"), B_TRANSLATE("Reload"));
+	int32 result = alert->Go();
+
+	switch(result) {
+		case 0:
+			return;
+
+		case 1:
+			ExecuteDiff(fPathLeft, fPathRight, fLabelLeft, fLabelRight);
+			break;
+	}
+}
+
 /**
  *	@brief	Diff を実行します。
  *	@param[in]	pathLeft	左ペインに表示するファイルのパス
  *	@param[in]	pathRight	右ペインに表示するファイルのパス
  */
 void
-TextDiffWnd::ExecuteDiff(
-	const BPath& pathLeft, const BPath& pathRight, const char* labelLeft, const char* labelRight)
+TextDiffWnd::startNodeMonitor()
 {
-	fPathLeft = pathLeft;
-	fPathRight = pathRight;
-	fLabelLeft = labelLeft;
-	fLabelRight = labelRight;
+	BEntry entry(fPathLeft.Path(), true);
+	if (entry.InitCheck() == B_OK)
+		entry.GetNodeRef(&fLeftNodeRef);
 
-	// TODO:
-	// ここは最終的にはスクリプティングによるメッセージ送信にしたい。
-	BAutolock locker(this);
-	if (locker.IsLocked()) {
-		TextDiffView* diffView = dynamic_cast<TextDiffView*>(FindView("TextDiffView"));
-		if (NULL != diffView)
-			diffView->ExecuteDiff(pathLeft, pathRight, labelLeft, labelRight);
+	entry.SetTo(fPathRight.Path(), true);
+	if (entry.InitCheck() == B_OK)
+		entry.GetNodeRef(&fRightNodeRef);
+
+	watch_node(&fLeftNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+	watch_node(&fRightNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+}
+
+
+void
+TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
+{
+	int32 opcode = 0;
+	if (message->FindInt32("opcode", &opcode) != B_OK)
+		return;
+
+	switch (opcode) {
+		case B_STAT_CHANGED:
+		{
+			node_ref nref;
+			int32 fields;
+
+			if (message->FindInt32("device", &nref.device) != B_OK
+				|| message->FindInt64("node", &nref.node) != B_OK
+				|| message->FindInt32("fields", &fields) != B_OK)
+					break;
+
+			if (((fields & B_STAT_MODIFICATION_TIME)  != 0)
+				&& ((fields & B_STAT_ACCESS_TIME)  == 0))
+				askToReload(nref);
+
+		} break;
+
+		case B_ENTRY_MOVED:
+		{
+			message->PrintToStream();
+
+			int32 device = 0;
+			int64 dstFolder = 0;
+			const char* oldName = NULL;
+			const char* newName = NULL;
+			if (message->FindInt32("device", &device) != B_OK
+				|| message->FindInt64("to directory", &dstFolder) != B_OK
+				|| message->FindString("name", &newName) != B_OK
+				|| message->FindString("from name", &oldName) != B_OK)
+					break;
+
+			entry_ref newRef(device, dstFolder, newName);
+			BEntry entry(&newRef);
+			if (strcmp(oldName, fPathLeft.Leaf()) == 0) {
+				fPathLeft.SetTo(&entry);
+				watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
+				entry.GetNodeRef(&fLeftNodeRef);
+				watch_node(&fLeftNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+			} else if (strcmp(oldName, fPathRight.Leaf()) == 0) {
+				fPathRight.SetTo(&entry);
+				watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
+				entry.GetNodeRef(&fRightNodeRef);
+				watch_node(&fRightNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+			} else
+				break;
+
+			updateTitle();
+		} break;
 	}
+}
 
+
+void
+TextDiffWnd::askToReload(node_ref nref_node)
+{
+	BString text;
+	if (nref_node == fLeftNodeRef) {
+		text = B_TRANSLATE(
+			"The left file, %filename%, has changed.");
+		text.ReplaceFirst("%filename%", fPathLeft.Leaf());
+	} else if (nref_node == fRightNodeRef) {
+		text = B_TRANSLATE(
+			"The right file, %filename%, has changed.");
+		text.ReplaceFirst("%filename%", fPathRight.Leaf());
+	} else
+		return;
+
+	text << "\n" << B_TRANSLATE("Do you want to reload the files and diff them again?");
+	BAlert* alert = new BAlert(B_TRANSLATE("A file has changed"), text,
+		B_TRANSLATE("Cancel"), B_TRANSLATE("Reload"));
+	int32 result = alert->Go();
+
+	switch(result) {
+		case 0:
+			return;
+
+		case 1:
+			ExecuteDiff(fPathLeft, fPathRight);
+			break;
+	}
+}
+
+
+void
+TextDiffWnd::updateTitle()
+{
 	// ウィンドウのタイトルにラベルを追加
 	BString title(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
 	title += " : ";
-
-	if (NULL == labelLeft)
-		title += pathLeft.Leaf();
-	else
-		title += labelLeft;
+	title += fPathLeft.Leaf();
 	title += " ◄ | ► ";
-
-	if (NULL == labelRight)
-		title += pathRight.Leaf();
-	else
-		title += labelRight;
+	title += fPathRight.Leaf();
 
 	SetTitle(title.String());
+
+	startNodeMonitor();
 }
+
 
 /**
  *	@brief	ウィンドウが閉じるときに呼び出されます。
@@ -189,6 +420,10 @@ void
 TextDiffWnd::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
+		case B_NODE_MONITOR:
+			handleNodeMonitorEvent(message);
+			break;
+
 		case ID_FILE_QUIT:
 			doFileQuit();
 			break;
