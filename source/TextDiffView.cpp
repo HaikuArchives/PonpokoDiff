@@ -116,7 +116,7 @@ TextDiffView::Initialize()
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
 	SetViewColor(B_TRANSPARENT_COLOR);
 	// The splitter in the middle will be drawn with the low color
-	SetLowColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+	SetLowUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	// 念のためレイアウトを調整
 	recalcLayout();
@@ -555,6 +555,8 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 	if (NULL == textDiffView || TextDiffView::InvalidPane == paneIndex)
 		return;
 
+	SetLowUIColor(B_DOCUMENT_BACKGROUND_COLOR);
+	SetHighUIColor(B_DOCUMENT_TEXT_COLOR);
 	FillRect(Bounds(), B_SOLID_LOW);
 
 	BFont font;
