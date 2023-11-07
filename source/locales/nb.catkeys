@@ -1,0 +1,22 @@
+1	Norwegian	application/x-vnd.Hironytic-PonpokoDiff	1017592319
+A file has changed	TextDiffWindow		En fil er endret
+About PonpokoDiff	TextDiffWindow		Om PonpokoDiff
+Cancel	TextDiffWindow		Avbryt
+Close	TextDiffWindow		Lukk
+Do you want to reload the files and diff them again?	TextDiffWindow		Vil du laste inn filene på nytt og sammenligne dem igjen?
+File	TextDiffWindow		Fil
+Open…	TextDiffWindow		Åpne…
+Quit	TextDiffWindow		Avslutt
+Reload	TextDiffWindow		Last på nytt
+The left file, %filename%, has changed.	TextDiffWindow		Den venstre filen, %filename%, er endret.
+The right file, %filename%, has changed.	TextDiffWindow		Den høyre filen, %filename%, er endret.
+A graphical file comparison utility.	Application		Et grafisk verktøy for å sammenligne filer.
+Browse…	OpenFilesDialog		Bla gjennom…
+Cancel	OpenFilesDialog		Avbryt
+Diff	OpenFilesDialog		Diff
+Left file:	OpenFilesDialog		Venstre fil:
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Åpne filer
+Right file:	OpenFilesDialog		Høyre fil:
+Select left file	OpenFilesDialog		Velg venstre fil
+Select right file	OpenFilesDialog		Velg høyre fil
+PonpokoDiff	System name		PonpokoDiff

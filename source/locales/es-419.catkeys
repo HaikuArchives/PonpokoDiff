@@ -1,0 +1,22 @@
+1	Spanish (Latin American)	application/x-vnd.Hironytic-PonpokoDiff	1017592319
+A file has changed	TextDiffWindow		Un archivo ha cambiado
+About PonpokoDiff	TextDiffWindow		Sobre PonpokoDiff
+Cancel	TextDiffWindow		Cancelar
+Close	TextDiffWindow		Cerrar
+Do you want to reload the files and diff them again?	TextDiffWindow		¿Quieres volver a cargar los archivos y compararlos nuevamente?
+File	TextDiffWindow		Archivo
+Open…	TextDiffWindow		Abrir…
+Quit	TextDiffWindow		Salir
+Reload	TextDiffWindow		Volver a cargar
+The left file, %filename%, has changed.	TextDiffWindow		El archivo izquierdo, %filename%, ha cambiado.
+The right file, %filename%, has changed.	TextDiffWindow		El archivo derecho, %filename%, ha cambiado.
+A graphical file comparison utility.	Application		Una herramienta gráfica de comparación de archivos.
+Browse…	OpenFilesDialog		Navegar…
+Cancel	OpenFilesDialog		Cancelar
+Diff	OpenFilesDialog		Diff
+Left file:	OpenFilesDialog		Archivo izquierdo:
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Abrir archivos
+Right file:	OpenFilesDialog		Archivo derecho:
+Select left file	OpenFilesDialog		Seleccionar archivo izquierdo
+Select right file	OpenFilesDialog		Seleccionar archivo derecho
+PonpokoDiff	System name		PonpokoDiff
