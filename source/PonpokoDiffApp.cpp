@@ -61,7 +61,13 @@ PonpokoDiffApp::AboutRequested()
 	BAboutWindow* aboutwindow
 		= new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"), kAppSignature);
 
-	const char* authors[] = {"2015-2023 HaikuArchives Team", NULL};
+	const char* authors[] = {
+		"ICHIMIYA Hironori (Hiron)",
+		"Adrien Destugues (PulkoMandy)",
+		"Humdinger",
+		"Mark Hellegers",
+		NULL
+	};
 
 	aboutwindow->AddCopyright(2007, "ICHIMIYA Hironori (Hiron)");
 	aboutwindow->AddAuthors(authors);
