@@ -105,13 +105,13 @@ TextDiffView::recalcLayout()
 	float rightWidth = (bounds.Width() + 1 - PANE_SPLITTER_WIDTH) - leftWidth;
 
 	BView* leftPaneView = FindView("LeftPaneScroller");
-	if (NULL != leftPaneView) {
+	if (leftPaneView != NULL) {
 		leftPaneView->MoveTo(bounds.left, bounds.top);
 		leftPaneView->ResizeTo(leftWidth - 1, bounds.Height());
 	}
 
 	BView* rightPaneView = FindView("RightPaneScroller");
-	if (NULL != rightPaneView) {
+	if (rightPaneView != NULL) {
 		rightPaneView->MoveTo(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top);
 		rightPaneView->ResizeTo(rightWidth - 1, bounds.Height());
 	}
@@ -183,9 +183,9 @@ TextDiffView::paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex)
 				break;
 		}
 
-		if (NULL != viewName) {
+		if (viewName != NULL) {
 			BView* pane = FindView(viewName);
-			if (NULL != pane) {
+			if (pane != NULL) {
 				BRect bounds = pane->Bounds();
 				pane->ScrollTo(bounds.left, y);
 			}
@@ -200,7 +200,7 @@ void
 TextDiffView::makeFocusToPane(TextDiffView::PaneIndex /* paneIndex */)
 {
 	BView* rightPaneView = FindView("RightPane");
-	if (NULL != rightPaneView)
+	if (rightPaneView != NULL)
 		rightPaneView->MakeFocus();
 }
 
@@ -324,10 +324,10 @@ TextDiffView::ExecuteDiff(
 	}
 
 	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LeftPane"));
-	if (NULL != leftPaneView)
+	if (leftPaneView != NULL)
 		leftPaneView->DataChanged();
 	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RightPane"));
-	if (NULL != rightPaneView)
+	if (rightPaneView != NULL)
 		rightPaneView->DataChanged();
 
 	makeFocusToPane(LeftPane);
@@ -391,7 +391,7 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 	BRect bounds = Bounds();
 
 	BScrollBar* verticalBar = scroller->ScrollBar(B_VERTICAL);
-	if (NULL != verticalBar) {
+	if (verticalBar != NULL) {
 		float boundsHeight = bounds.Height() + 1;
 		float height = getDataHeight();
 		if (height < boundsHeight)
@@ -408,7 +408,7 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 	}
 
 	BScrollBar* horizontalBar = scroller->ScrollBar(B_HORIZONTAL);
-	if (NULL != horizontalBar) {
+	if (horizontalBar != NULL) {
 		float boundsWidth = bounds.Width() + 1;
 		horizontalBar->SetRange(0, HORIZONTAL_SCROLL_MAX);
 		horizontalBar->SetProportion(boundsWidth / (HORIZONTAL_SCROLL_MAX + boundsWidth));
@@ -421,7 +421,7 @@ float
 TextDiffView::DiffPaneView::getDataHeight()
 {
 	if (dataHeight < 0) {
-		if (NULL != textDiffView) {
+		if (textDiffView != NULL) {
 			BFont font;
 			GetFont(&font);
 
@@ -556,7 +556,7 @@ TextDiffView::DiffPaneView::ScrollTo(BPoint point)
 	BView::ScrollTo(point);
 
 	adjustScrollBar();
-	if (NULL != textDiffView)
+	if (textDiffView != NULL)
 		textDiffView->paneVScrolled(point.y, paneIndex);
 }
 
@@ -566,7 +566,7 @@ TextDiffView::DiffPaneView::MouseDown(BPoint point)
 {
 	BView::MouseDown(point);
 
-	if (NULL != textDiffView)
+	if (textDiffView != NULL)
 		textDiffView->makeFocusToPane(paneIndex);
 }
 

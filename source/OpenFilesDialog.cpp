@@ -80,7 +80,7 @@ OpenFilesDialog::~OpenFilesDialog()
 {
 	int index;
 	for (index = 0; index < FileMAX; index++) {
-		if (NULL != filePanels[index])
+		if (filePanels[index] != NULL)
 			delete filePanels[index];
 	}
 }
@@ -242,7 +242,7 @@ OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* 
 	}
 
 	BTextControl* textControl = dynamic_cast<BTextControl*>(FindView(viewName));
-	if (NULL != textControl)
+	if (textControl != NULL)
 		textControl->SetText(path.Path());
 }
 
@@ -255,18 +255,18 @@ OpenFilesDialog::doDiffThem()
 
 	text = NULL;
 	textControl = dynamic_cast<BTextControl*>(FindView("LeftTextControl"));
-	if (NULL != textControl)
+	if (textControl != NULL)
 		text = textControl->Text();
-	if (NULL == text || '\0' == text[0])
+	if (text == NULL || '\0' == text[0])
 		return;
 
 	BPath leftPath(text);
 
 	text = NULL;
 	textControl = dynamic_cast<BTextControl*>(FindView("RightTextControl"));
-	if (NULL != textControl)
+	if (textControl != NULL)
 		text = textControl->Text();
-	if (NULL == text || '\0' == text[0])
+	if (text == NULL|| '\0' == text[0])
 		return;
 
 	BPath rightPath(text);

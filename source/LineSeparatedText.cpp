@@ -54,7 +54,7 @@ LineSeparatedText::Load(const BPath& path)
 void
 LineSeparatedText::Unload()
 {
-	if (NULL != loadedBuffer) {
+	if (loadedBuffer != NULL) {
 		free(loadedBuffer);
 		loadedBuffer = NULL;
 	}

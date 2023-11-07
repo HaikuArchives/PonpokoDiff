@@ -191,7 +191,7 @@ PonpokoDiffApp::MessageReceived(BMessage* message)
 void
 PonpokoDiffApp::doOpenFileDialog()
 {
-	if (NULL != openFilesDialog) {
+	if (openFilesDialog != NULL) {
 		BAutolock locker(openFilesDialog);
 		if (locker.IsLocked()) {
 			if (openFilesDialog->IsMinimized())
