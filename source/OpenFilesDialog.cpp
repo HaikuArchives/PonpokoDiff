@@ -35,10 +35,12 @@
 #include <Button.h>
 #include <Catalog.h>
 #include <LayoutBuilder.h>
+#include <NodeInfo.h>
 #include <Path.h>
 #include <SeparatorView.h>
 #include <String.h>
 #include <TextControl.h>
+#include <Volume.h>
 
 #include "CommandIDs.h"
 #include "LocationInput.h"
@@ -48,6 +50,39 @@
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "OpenFilesDialog"
+
+class TextFilter : public BRefFilter {
+public:
+	bool	Filter(const entry_ref* entryRef, BNode* node,
+				struct stat_beos* stat, const char* fileType);
+};
+
+
+bool
+TextFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
+	const char* fileType)
+{
+	BEntry entry(ref, true); // traverse links
+
+	// allow folders and links of folders
+	if (entry.IsDirectory())
+		return true;
+
+	// allow text and linked text files
+	char mimeType[B_MIME_TYPE_LENGTH];
+	BNode traversedNode(&entry); // create a new node from the link-traversed BEntry
+	BNodeInfo(&traversedNode).GetType(mimeType);
+	if (strncmp("text/", mimeType, 5) == 0)
+		return true;
+
+	// allow all, if volume doesn't know MIME
+	BVolume volume;
+	volume.SetTo((ref->device));
+	if (volume.KnowsMime() == false)
+		return true;
+
+	return false;
+}
 
 
 /**
@@ -204,8 +239,8 @@ OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 				message = NULL; // ここには来ない
 				break;
 		}
-		filePanels[fileIndex]
-			= new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL, NULL, false, true);
+		filePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL,
+			new TextFilter(), false, true);
 		filePanels[fileIndex]->SetTarget(BMessenger(this));
 		filePanels[fileIndex]->SetMessage(message);
 		delete message;
