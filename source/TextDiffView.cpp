@@ -1,33 +1,12 @@
 /*
- * PonpokoDiff
+ * Copyright 2007, ICHIMIYA Hironori (Hiron)
+ * Distributed under the terms of the MIT License.
  *
- * Copyright (c) 2008 PonpokoDiff Project Contributors
+ * Authors:
+ * 		ICHIMIYA Hironori (Hiron)
+ *		Mark Hellegers
+ *		Humdinger
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-/**
- *	@file		TextDiffView.cpp
- *	@brief		TextDiffView クラスの実装
- *	@author		ICHIMIYA Hironori (Hiron)
- *	@date		2007-12-25 Created
  */
 
 #include "TextDiffView.h"
@@ -48,23 +27,13 @@ static const rgb_color colorInserted = {224, 255, 128, 255};
 static const rgb_color colorDeleted = {255, 224, 128, 255};
 static const rgb_color colorModified = {255, 255, 128, 255};
 
-static const int tabChars = 4; /// タブの文字数
+static const int tabChars = 4;
 
-/// ペインを分割している部分の幅
 #define PANE_SPLITTER_WIDTH 6
-
-/// 水平方向にどこまでスクロールするか
 #define HORIZONTAL_SCROLL_MAX 4000
-
-/// 水平方向の小さいステップ
 #define HORIZONTAL_SCROLL_MINSTEPS 8
 
-/**
- *	@brief	コンストラクタ
- *	@param[in]	frame			ビューの矩形
- *	@param[in]	name			ビューの名前
- *	@param[in]	resizingMode	ビューのリサイズモード
- */
+
 TextDiffView::TextDiffView(BRect frame, const char* name, uint32 resizingMode)
 	:
 	BView(frame, name, resizingMode, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE)
@@ -72,16 +41,12 @@ TextDiffView::TextDiffView(BRect frame, const char* name, uint32 resizingMode)
 	isPanesVScrolling = false;
 }
 
-/**
- *	@brief	デストラクタ
- */
+
 TextDiffView::~TextDiffView()
 {
 }
 
-/**
- *	@brief	初期化
- */
+
 void
 TextDiffView::Initialize()
 {
@@ -89,7 +54,6 @@ TextDiffView::Initialize()
 	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
 		- PANE_SPLITTER_WIDTH) / 2);
 
-	// 左ペインを作成
 	BRect leftFrame = BRect(bounds.left, bounds.top, bounds.left + leftWidth - 1,
 		bounds.bottom - be_control_look->GetScrollBarWidth(B_HORIZONTAL));
 	DiffPaneView* leftPaneView = new DiffPaneView(leftFrame, "LeftPane", B_FOLLOW_ALL_SIDES);
@@ -100,7 +64,6 @@ TextDiffView::Initialize()
 		B_FRAME_EVENTS, true, false, B_NO_BORDER);
 	AddChild(leftView);
 
-	// 右ペインを作成
 	BRect rightFrame = BRect(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top,
 		bounds.right - be_control_look->GetScrollBarWidth(B_VERTICAL),
 		bounds.bottom - be_control_look->GetScrollBarWidth(B_HORIZONTAL));
@@ -118,16 +81,13 @@ TextDiffView::Initialize()
 	// The splitter in the middle will be drawn with the low color
 	SetLowUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	// 念のためレイアウトを調整
 	recalcLayout();
 
 	leftPaneView->DataChanged();
 	rightPaneView->DataChanged();
 }
 
-/**
- *	@brief フレームのサイズが変化したときに呼び出されます。
- */
+
 void
 TextDiffView::FrameResized(float width, float height)
 {
@@ -135,9 +95,7 @@ TextDiffView::FrameResized(float width, float height)
 	recalcLayout();
 }
 
-/**
- *	@brief	レイアウトを調整します。
- */
+
 void
 TextDiffView::recalcLayout()
 {
@@ -146,14 +104,12 @@ TextDiffView::recalcLayout()
 		- PANE_SPLITTER_WIDTH) / 2);
 	float rightWidth = (bounds.Width() + 1 - PANE_SPLITTER_WIDTH) - leftWidth;
 
-	// 左ペイン
 	BView* leftPaneView = FindView("LeftPaneScroller");
 	if (NULL != leftPaneView) {
 		leftPaneView->MoveTo(bounds.left, bounds.top);
 		leftPaneView->ResizeTo(leftWidth - 1, bounds.Height());
 	}
 
-	// 右ペイン
 	BView* rightPaneView = FindView("RightPaneScroller");
 	if (NULL != rightPaneView) {
 		rightPaneView->MoveTo(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top);
@@ -201,20 +157,14 @@ TextDiffView::Draw(BRect updateRect)
 	SetHighColor(oldHighColor);
 }
 
-/**
- *	@brief	ペインが縦方向にスクロールしたら呼び出します。
- *	@param[in]	y				スクロール後の y 座標
- *	@param[in]	fromPaneIndex	この関数を呼び出しているペインのインデックス
- */
+
 void
 TextDiffView::paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex)
 {
-	// 再入を防ぐ
 	if (isPanesVScrolling)
 		return;
 	isPanesVScrolling = true;
 
-	// 他のペインもスクロールさせる
 	int index;
 	for (index = 0; index < PaneMAX; index++) {
 		if (index == fromPaneIndex)
@@ -245,28 +195,21 @@ TextDiffView::paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex)
 	isPanesVScrolling = false;
 }
 
-/**
- *	@brief	Diff ペインにフォーカスを与えます。
- *	@param[in]	paneIndex	フォーカスを与えるペイン
- */
+
 void
 TextDiffView::makeFocusToPane(TextDiffView::PaneIndex /* paneIndex */)
 {
-	// ホイールイベントのために常に右ペインにフォーカスを与えます。
-	// 必要ならここでフォーカスのあるはずのペインを記憶してもいいかも
 	BView* rightPaneView = FindView("RightPane");
 	if (NULL != rightPaneView)
 		rightPaneView->MakeFocus();
 }
 
-/**
- *	@brief	NPDiff オブジェクトにセットする行単位の符号列クラス
- */
+
 class LineSeparatedSequences : public Sequences
 {
 private:
-	const LineSeparatedText* leftText; ///< 左側テキスト
-	const LineSeparatedText* rightText; ///< 右側テキスト
+	const LineSeparatedText* leftText;
+	const LineSeparatedText* rightText;
 
 public:
 	LineSeparatedSequences(const LineSeparatedText* leftText, const LineSeparatedText* rightText)
@@ -277,11 +220,6 @@ public:
 
 	~LineSeparatedSequences() {}
 
-	/**
-	 *	@brief	指定した符号列の長さを得ます。
-	 *	@param[in]	seqNo	0 または 1 を指定します。
-	 *	@return	符号列の長さを返します。
-	 */
 	virtual int GetLength(int seqNo) const
 	{
 		switch (seqNo) {
@@ -296,43 +234,29 @@ public:
 		}
 	}
 
-	/**
-	 *	@brief	指定したインデックスの符号が一致するかどうかを調べます。
-	 *	@param[in]	index0	符号列 0 のインデックス (0 を起点とします)
-	 *	@param[in]	index1	符号列 1 のインデックス (0 を起点とします)
-	 *	@return	一致するなら true。
-	 */
 	virtual bool IsEqual(int index0, int index1) const
 	{
 		return leftText->GetLineAt(index0) == rightText->GetLineAt(index1);
 	}
 };
 
-/**
- *	@brief	Diff を実行します。
- *	@param[in]	pathLeft	左ペインに表示するファイルのパス
- *	@param[in]	pathRight	右ペインに表示するファイルのパス
- */
+
 void
 TextDiffView::ExecuteDiff(
 	const BPath& pathLeft, const BPath& pathRight)
 {
-	// 初期化
 	textData[LeftPane].Unload();
 	textData[RightPane].Unload();
 	lineInfos.clear();
 
 	try {
-		// 各ファイルを読み込み
 		textData[LeftPane].Load(pathLeft);
 		textData[RightPane].Load(pathRight);
 
-		// diff 実行
 		LineSeparatedSequences seqs(&textData[LeftPane], &textData[RightPane]);
 		NPDiff diffEngine;
 		diffEngine.Detect(&seqs);
 
-		// diff 結果から行情報を作成
 		int index;
 		for (index = 0;; index++) {
 			const DiffOperation* diffOperation = diffEngine.GetOperationAt(index);
@@ -396,11 +320,9 @@ TextDiffView::ExecuteDiff(
 			}
 		}
 	} catch (Exception* ex) {
-		// TODO: なんかメッセージ出す
 		ex->Delete();
 	}
 
-	// ペインを調整
 	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LeftPane"));
 	if (NULL != leftPaneView)
 		leftPaneView->DataChanged();
@@ -408,14 +330,10 @@ TextDiffView::ExecuteDiff(
 	if (NULL != rightPaneView)
 		rightPaneView->DataChanged();
 
-	// 左ペインにフォーカスを与えておく
 	makeFocusToPane(LeftPane);
 }
 
-/**
- *	@brief	コンストラクタ
- *	@param[in]	name	ビュー名
- */
+
 TextDiffView::DiffPaneView::DiffPaneView(BRect frame, const char* name, uint32 resizingMode)
 	:
 	BView(frame, name, resizingMode, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE)
@@ -431,31 +349,25 @@ TextDiffView::DiffPaneView::DiffPaneView(BRect frame, const char* name, uint32 r
 	SetViewColor(B_TRANSPARENT_COLOR);
 }
 
-/**
- *	@brief	デストラクタ
- */
+
 TextDiffView::DiffPaneView::~DiffPaneView()
 {
 }
 
-/**
- *	@brief	中に表示して入るデータが変わったら呼び出します。
- */
+
 void
 TextDiffView::DiffPaneView::DataChanged()
 {
-	dataHeight = -1; // 高さキャッシュをクリア
+	dataHeight = -1;
 	ScrollTo(BPoint(0, 0));
 	Invalidate();
 }
 
-/**
- * レイアウトを再計算します。
- */
+
 void
 TextDiffView::DiffPaneView::recalcLayout()
 {
-	dataHeight = -1; // 高さキャッシュをクリア
+	dataHeight = -1;
 
 	BRect bounds = Bounds();
 	float boundsHeight = bounds.Height() + 1;
@@ -463,19 +375,13 @@ TextDiffView::DiffPaneView::recalcLayout()
 	if (height < boundsHeight)
 		height = boundsHeight;
 
-	// サイズが広がったりした結果、縦方向に
-	// スクロールできないところまでスクロールした状態になったら
-	// バウンズ矩形を調整する。
-	if (bounds.bottom >= height) {
-		// この ScrollTo の中から adjustScrollBar が呼び出される
+	if (bounds.bottom >= height)
 		ScrollTo(BPoint(bounds.left, height - boundsHeight));
-	} else
+	else
 		adjustScrollBar();
 }
 
-/**
- *	@brief	コンテナのスクロールバーを調整します。
- */
+
 void
 TextDiffView::DiffPaneView::adjustScrollBar()
 {
@@ -484,7 +390,6 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 
 	BRect bounds = Bounds();
 
-	// 縦スクロールバーについての調整
 	BScrollBar* verticalBar = scroller->ScrollBar(B_VERTICAL);
 	if (NULL != verticalBar) {
 		float boundsHeight = bounds.Height() + 1;
@@ -502,7 +407,6 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 		verticalBar->SetSteps(lineHeight, boundsHeight);
 	}
 
-	// 横スクロールバーについての調整
 	BScrollBar* horizontalBar = scroller->ScrollBar(B_HORIZONTAL);
 	if (NULL != horizontalBar) {
 		float boundsWidth = bounds.Width() + 1;
@@ -512,10 +416,7 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 	}
 }
 
-/**
- *	@brief	データ領域の高さを求めます。
- *	@return	データ領域の高さ
- */
+
 float
 TextDiffView::DiffPaneView::getDataHeight()
 {
@@ -535,20 +436,14 @@ TextDiffView::DiffPaneView::getDataHeight()
 	return dataHeight;
 }
 
-/**
- *	@brief	BScrollView のターゲットになった時に呼び出されます。
- *	@param[in]	scroller	BScrollView オブジェクト
- */
+
 void
 TextDiffView::DiffPaneView::TargetedByScrollView(BScrollView* scroller)
 {
 	this->scroller = scroller;
 }
 
-/**
- *	@brief	描画を行います。
- *	@param[in]	updateRect	描画をおこなうべき矩形
- */
+
 void
 TextDiffView::DiffPaneView::Draw(BRect updateRect)
 {
@@ -577,7 +472,6 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 		rgb_color oldLowColor = LowColor();
 		const LineInfo& linfo = textDiffView->lineInfos[line];
 
-		// 背景色描画
 		rgb_color bkColor;
 		bool isDrawBackground = false;
 		switch (linfo.op) {
@@ -615,7 +509,6 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 				lineHeight * (line + 1) - 1), B_SOLID_LOW);
 		}
 
-		// テキスト描画
 		if (linfo.textIndex[paneIndex] >= 0) {
 			const Substring& paneText
 				= textDiffView->textData[paneIndex].GetLineAt(linfo.textIndex[paneIndex]);
@@ -626,12 +519,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 	}
 }
 
-/**
- *	@brief	タブを意識してテキストを描画します。
- *	@param[in]	font		描画に使われるはずのフォント（幅を取得するためにのみ用います）
- *	@param[in]	text		描画テキスト
- *	@param[in]	baseLine	ベースライン
- */
+
 void
 TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, float baseLine)
 {
@@ -650,7 +538,6 @@ TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, f
 		}
 
 		if ('\t' == *ptr) {
-			// タブ幅が計算されていなければ計算する
 			if (tabUnit < 0) {
 				tabUnit = font.StringWidth(FONT_SAMPLE, FONT_SAMPLE_LENGTH) / FONT_SAMPLE_LENGTH
 					* tabChars;
@@ -662,9 +549,7 @@ TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, f
 		DrawString(subTextBegin, end - subTextBegin, BPoint(left, baseLine));
 }
 
-/**
- *	@brief	スクロールされたら呼び出されます。
- */
+
 void
 TextDiffView::DiffPaneView::ScrollTo(BPoint point)
 {
@@ -675,9 +560,7 @@ TextDiffView::DiffPaneView::ScrollTo(BPoint point)
 		textDiffView->paneVScrolled(point.y, paneIndex);
 }
 
-/**
- *	@brief	マウスボタンが押されたら呼び出されます。
- */
+
 void
 TextDiffView::DiffPaneView::MouseDown(BPoint point)
 {
@@ -687,9 +570,7 @@ TextDiffView::DiffPaneView::MouseDown(BPoint point)
 		textDiffView->makeFocusToPane(paneIndex);
 }
 
-/**
- *	@brief フレームのサイズが変化したときに呼び出されます。
- */
+
 void
 TextDiffView::DiffPaneView::FrameResized(float width, float height)
 {
@@ -698,17 +579,13 @@ TextDiffView::DiffPaneView::FrameResized(float width, float height)
 	recalcLayout();
 }
 
-/**
- *	@brief	フォントを変更するときに呼び出されます。
- */
+
 void
 TextDiffView::DiffPaneView::SetFont(const BFont* font, uint32 properties /* = B_FONT_ALL */)
 {
 	BView::SetFont(font, properties);
 
-	// タブ幅のキャッシュをクリア
 	tabUnit = -1;
 
-	// 再レイアウト
 	recalcLayout();
 }

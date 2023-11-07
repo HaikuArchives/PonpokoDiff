@@ -1,33 +1,11 @@
 /*
- * PonpokoDiff
+ * Copyright 2008, ICHIMIYA Hironori (Hiron)
+ * Distributed under the terms of the MIT License.
  *
- * Copyright (c) 2008 PonpokoDiff Project Contributors
+ * Authors:
+ * 		ICHIMIYA Hironori (Hiron)
+ *		Humdinger
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-/**
- *	@file		OpenFilesDialog.cpp
- *	@brief		OpenFilesDialog クラスの実装
- *	@author		ICHIMIYA Hironori (Hiron)
- *  @date		2008-01-06 Created
  */
 
 #include "OpenFilesDialog.h"
@@ -50,6 +28,7 @@
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "OpenFilesDialog"
+
 
 class TextFilter : public BRefFilter {
 public:
@@ -85,10 +64,6 @@ TextFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
 }
 
 
-/**
- *	@brief	コンストラクタ
- *	@param[in]	topLeft	ダイアログの左上位置
- */
 OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
 	:
 	BWindow(BRect(topLeft.x, topLeft.y, topLeft.x + 480, topLeft.y + 220),
@@ -100,9 +75,7 @@ OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
 		filePanels[index] = NULL;
 }
 
-/**
- *	@brief	デストラクタ
- */
+
 OpenFilesDialog::~OpenFilesDialog()
 {
 	int index;
@@ -112,9 +85,7 @@ OpenFilesDialog::~OpenFilesDialog()
 	}
 }
 
-/**
- *	@brief	初期化を行います。
- */
+
 void
 OpenFilesDialog::Initialize()
 {
@@ -159,10 +130,7 @@ OpenFilesDialog::Initialize()
 	Show();
 }
 
-/**
- *	@brief	メッセージを受信したら呼び出されます。
- *	@param[in]	message	受信したメッセージ
- */
+
 void
 OpenFilesDialog::MessageReceived(BMessage* message)
 {
@@ -205,10 +173,7 @@ OpenFilesDialog::MessageReceived(BMessage* message)
 	}
 }
 
-/**
- *	@brief	Browse ボタンが押されたときの処理
- *	@param[in]	fileIndex	どっちのファイルか
- */
+
 void
 OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 {
@@ -236,7 +201,7 @@ OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 			} break;
 
 			default:
-				message = NULL; // ここには来ない
+				message = NULL;
 				break;
 		}
 		filePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL,
@@ -252,11 +217,7 @@ OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 		filePanels[fileIndex]->Window()->Activate();
 }
 
-/**
- *	@brief	ファイルが選択されたときの処理
- *	@param[in]	fileIndex	どっちのファイルか
- *	@param[in]	message	選択されたパラメータを含むメッセージ
- */
+
 void
 OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message)
 {
@@ -276,7 +237,7 @@ OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* 
 			break;
 
 		default:
-			viewName = NULL; // ここには来ない
+			viewName = NULL;
 			break;
 	}
 
@@ -285,37 +246,29 @@ OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* 
 		textControl->SetText(path.Path());
 }
 
-/**
- *	@brief	Diff Them ボタンの処理
- */
+
 void
 OpenFilesDialog::doDiffThem()
 {
 	const char* text = NULL;
 	BTextControl* textControl;
 
-	// 左側
 	text = NULL;
 	textControl = dynamic_cast<BTextControl*>(FindView("LeftTextControl"));
 	if (NULL != textControl)
 		text = textControl->Text();
-	if (NULL == text || '\0' == text[0]) {
-		// 左側ファイルが指定されていません
-		// TODO:
+	if (NULL == text || '\0' == text[0])
 		return;
-	}
+
 	BPath leftPath(text);
 
-	// 右側
 	text = NULL;
 	textControl = dynamic_cast<BTextControl*>(FindView("RightTextControl"));
 	if (NULL != textControl)
 		text = textControl->Text();
-	if (NULL == text || '\0' == text[0]) {
-		// 左側ファイルが指定されていません
-		// TODO:
+	if (NULL == text || '\0' == text[0])
 		return;
-	}
+
 	BPath rightPath(text);
 
 	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
@@ -324,13 +277,10 @@ OpenFilesDialog::doDiffThem()
 	PostMessage(B_QUIT_REQUESTED);
 }
 
-/**
- *	@brief	ウィンドウが閉じるときに呼び出されます。
- */
+
 void
 OpenFilesDialog::Quit()
 {
-	// アプリケーションにウィンドウが閉じることを伝える
 	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
 	app->OpenFilesDialogClosed();
 
