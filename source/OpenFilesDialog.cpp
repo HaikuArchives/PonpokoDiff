@@ -13,58 +13,21 @@
 #include <Button.h>
 #include <Catalog.h>
 #include <LayoutBuilder.h>
-#include <NodeInfo.h>
 #include <Path.h>
 #include <SeparatorView.h>
 #include <String.h>
+#include <StringView.h>
 #include <TextControl.h>
-#include <Volume.h>
 
 #include "CommandIDs.h"
 #include "LocationInput.h"
 #include "PonpokoDiffApp.h"
 #include "TextDiffWnd.h"
+#include "TextFileFilter.h"
 
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "OpenFilesDialog"
-
-
-class TextFilter : public BRefFilter {
-public:
-	bool	Filter(const entry_ref* entryRef, BNode* node,
-				struct stat_beos* stat, const char* fileType);
-};
-
-
-bool
-TextFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
-	const char* fileType)
-{
-	BEntry entry(ref, true); // traverse links
-
-	// allow folders and links of folders
-	if (entry.IsDirectory())
-		return true;
-
-	// allow text and linked text files
-	char mimeType[B_MIME_TYPE_LENGTH];
-	BNode traversedNode(&entry); // create a new node from the link-traversed BEntry
-	BNodeInfo(&traversedNode).GetType(mimeType);
-	if (strncmp("text/", mimeType, 5) == 0)
-		return true;
-
-	if (strncmp("locale/x-vnd.Be.locale-catalog.plaintext", mimeType, 40) == 0)
-		return true;
-
-	// allow all, if volume doesn't know MIME
-	BVolume volume;
-	volume.SetTo((ref->device));
-	if (volume.KnowsMime() == false)
-		return true;
-
-	return false;
-}
 
 
 OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
@@ -92,16 +55,14 @@ OpenFilesDialog::~OpenFilesDialog()
 void
 OpenFilesDialog::Initialize()
 {
-	// TODO: ダイアログのレイアウトについてはもう少し検討が必要
-	LocationInput* leftTextControl
-		= new LocationInput("LeftTextControl", B_TRANSLATE("Left file:"));
 
+	BStringView* leftLabel = new BStringView("leftlabel", B_TRANSLATE("Left file:"));
+	LocationInput* leftTextControl = new LocationInput("LeftTextControl", NULL);
 	BButton* leftBrowseButton = new BButton(
 		"LeftBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(ID_OFD_BROWSE_LEFT));
 
-	LocationInput* rightTextControl
-		= new LocationInput("RightTextControl", B_TRANSLATE("Right file:"));
-
+	BStringView* rightLabel = new BStringView("rightLabel", B_TRANSLATE("Right file:"));
+	LocationInput* rightTextControl = new LocationInput("RightTextControl", NULL);
 	BButton* rightBrowseButton = new BButton(
 		"RightBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(ID_OFD_BROWSE_RIGHT));
 
@@ -115,11 +76,11 @@ OpenFilesDialog::Initialize()
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_WINDOW_INSETS)
 		.AddGrid(B_USE_SMALL_SPACING)
-			.Add(leftTextControl->CreateLabelLayoutItem(), 0, 0)
-			.Add(leftTextControl->CreateTextViewLayoutItem(), 1, 0)
+			.Add(leftLabel, 0, 0)
+			.Add(leftTextControl, 1, 0)
 			.Add(leftBrowseButton, 2, 0)
-			.Add(rightTextControl->CreateLabelLayoutItem(), 0, 1)
-			.Add(rightTextControl->CreateTextViewLayoutItem(), 1, 1)
+			.Add(rightLabel, 0, 1)
+			.Add(rightTextControl, 1, 1)
 			.Add(rightBrowseButton, 2, 1)
 		.End()
 		.Add(new BSeparatorView(B_HORIZONTAL))
@@ -180,10 +141,8 @@ OpenFilesDialog::MessageReceived(BMessage* message)
 void
 OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 {
-	if (fileIndex < 0 || fileIndex >= FileMAX) {
-		// 無効な範囲
+	if (fileIndex < 0 || fileIndex >= FileMAX)
 		return;
-	}
 
 	if (NULL == filePanels[fileIndex]) {
 		BMessage* message = NULL;
@@ -208,7 +167,7 @@ OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 				break;
 		}
 		filePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL,
-			new TextFilter(), false, true);
+			new TextFileFilter(), false, true);
 		filePanels[fileIndex]->SetTarget(BMessenger(this));
 		filePanels[fileIndex]->SetMessage(message);
 		delete message;
@@ -245,8 +204,10 @@ OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* 
 	}
 
 	BTextControl* textControl = dynamic_cast<BTextControl*>(FindView(viewName));
-	if (textControl != NULL)
+	if (textControl != NULL) {
 		textControl->SetText(path.Path());
+		textControl->MarkAsInvalid(false); // in case it was invalid from a file drop before
+	}
 }
 
 

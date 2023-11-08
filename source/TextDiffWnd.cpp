@@ -12,6 +12,7 @@
 #include "CommandIDs.h"
 #include "PonpokoDiffApp.h"
 #include "TextDiffView.h"
+#include "TextFileFilter.h"
 
 #include <Alert.h>
 #include <Application.h>
@@ -108,12 +109,8 @@ TextDiffWnd::MessageReceived(BMessage* message)
 
 				// Only allow text files and catkeys
 				BEntry entry(&ref, true); // traverse links
-				BNode node(&entry);
-				char mimeType[B_MIME_TYPE_LENGTH];
-				BNodeInfo(&node).GetType(mimeType);
-				if (!strncmp("text/", mimeType, 5) == 0)
-					break;
-				if (!strncmp("locale/x-vnd.Be.locale-catalog.plaintext", mimeType, 40) == 0)
+				TextFileFilter filter;
+				if (filter.IsValid(&ref, &entry) != true)
 					break;
 
 				// Dropped on the left or right side

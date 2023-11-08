@@ -8,10 +8,12 @@
 
 
 #include "LocationInput.h"
-
+#include "TextFileFilter.h"
 
 #include <Entry.h>
+#include <NodeInfo.h>
 #include <Path.h>
+#include <Volume.h>
 
 
 LocationInput::LocationInput(const char* name, const char* label)
@@ -35,7 +37,16 @@ LocationInput::MessageReceived(BMessage* message)
 			// Get the ref that is dropped.
 			entry_ref ref;
 			message->FindRef("refs", &ref);
-			BEntry entry(&ref);
+
+			BEntry entry(&ref, true);
+			TextFileFilter filter;
+			if (filter.IsValid(&ref, &entry))
+				MarkAsInvalid(false);
+			else {
+				MarkAsInvalid(true);
+				break;
+			}
+
 			BPath path;
 			entry.GetPath(&path);
 			SetText(path.Path());
