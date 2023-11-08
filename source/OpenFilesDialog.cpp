@@ -54,6 +54,9 @@ TextFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
 	if (strncmp("text/", mimeType, 5) == 0)
 		return true;
 
+	if (strncmp("locale/x-vnd.Be.locale-catalog.plaintext", mimeType, 40) == 0)
+		return true;
+
 	// allow all, if volume doesn't know MIME
 	BVolume volume;
 	volume.SetTo((ref->device));

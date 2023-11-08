@@ -106,12 +106,14 @@ TextDiffWnd::MessageReceived(BMessage* message)
 				if (message->FindRef("refs", &ref) != B_OK)
 					break;
 
-				// Only allow text files
+				// Only allow text files and catkeys
 				BEntry entry(&ref, true); // traverse links
 				BNode node(&entry);
 				char mimeType[B_MIME_TYPE_LENGTH];
 				BNodeInfo(&node).GetType(mimeType);
 				if (!strncmp("text/", mimeType, 5) == 0)
+					break;
+				if (!strncmp("locale/x-vnd.Be.locale-catalog.plaintext", mimeType, 40) == 0)
 					break;
 
 				// Dropped on the left or right side
