@@ -14,8 +14,10 @@
 #include <Path.h>
 #include <Window.h>
 
+#include "TextDiffView.h"
 
 class BMenuBar;
+
 
 class TextDiffWnd : public BWindow {
 public:
@@ -25,7 +27,7 @@ public:
 
 			void			Initialize();
 
-			void			ExecuteDiff(const BPath& pathLeft, const BPath& pathRight);
+			void			ExecuteDiff(const BPath pathLeft, const BPath pathRight);
 
 public:
 	virtual	void			Quit();
@@ -36,17 +38,17 @@ private:
 			void			startNodeMonitor();
 			void			handleNodeMonitorEvent(BMessage* message);
 			void			askToReload(node_ref nref_node);
+			void			openFile(BPath path);
+
 			void			updateTitle();
 			void			doFileOpen();
 			void			doFileQuit();
 
+			TextDiffView* 	fDiffView;
 			BPath			fPathLeft;
 			BPath			fPathRight;
 			node_ref 		fLeftNodeRef;
 			node_ref 		fRightNodeRef;
-
-			const char*		fLabelLeft;
-			const char*		fLabelRight;
 };
 
 #endif // TEXTDIFFWND_H__INCLUDED

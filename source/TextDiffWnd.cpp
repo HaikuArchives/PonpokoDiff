@@ -11,8 +11,6 @@
 #include "TextDiffWnd.h"
 #include "CommandIDs.h"
 #include "PonpokoDiffApp.h"
-#include "TextDiffView.h"
-#include "TextFileFilter.h"
 
 #include <Alert.h>
 #include <Application.h>
@@ -26,6 +24,7 @@
 #include <NodeInfo.h>
 #include <NodeMonitor.h>
 #include <Path.h>
+#include <Roster.h>
 #include <String.h>
 
 
@@ -57,28 +56,24 @@ TextDiffWnd::Initialize()
 
 	// diff view
 	BRect menuBarFrame = menuBar->Frame();
-	BRect diffViewRect = BRect(bounds.left, menuBarFrame.bottom + 1, bounds.right, bounds.bottom);
-	TextDiffView* diffView
-		= new TextDiffView(diffViewRect, "TextDiffView", B_FOLLOW_ALL_SIDES);
-	diffView->Initialize();
-	AddChild(diffView);
+	BRect rect = BRect(bounds.left, menuBarFrame.bottom + 1, bounds.right, bounds.bottom);
+	fDiffView = new TextDiffView(rect, "TextDiffView", B_FOLLOW_ALL_SIDES);
+	fDiffView->Initialize();
+	AddChild(fDiffView);
 
 	Show();
 }
 
 
 void
-TextDiffWnd::ExecuteDiff(
-	const BPath& pathLeft, const BPath& pathRight)
+TextDiffWnd::ExecuteDiff(const BPath pathLeft, const BPath pathRight)
 {
 	fPathLeft = pathLeft;
 	fPathRight = pathRight;
 
-	BAutolock locker(this);
-	if (locker.IsLocked()) {
-		TextDiffView* diffView = dynamic_cast<TextDiffView*>(FindView("TextDiffView"));
-		if (NULL != diffView)
-			diffView->ExecuteDiff(fPathLeft, fPathRight);
+	if (fDiffView->LockLooper()) {
+		fDiffView->ExecuteDiff(fPathLeft, fPathRight);
+		fDiffView->UnlockLooper();
 	}
 
 	updateTitle();
@@ -100,34 +95,6 @@ void
 TextDiffWnd::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
-		case B_SIMPLE_DATA:
-		{
-			if (message->WasDropped()) {
-				entry_ref ref;
-				if (message->FindRef("refs", &ref) != B_OK)
-					break;
-
-				// Only allow text files and catkeys
-				BEntry entry(&ref, true); // traverse links
-				TextFileFilter filter;
-				if (filter.IsValid(&ref, &entry) != true)
-					break;
-
-				// Dropped on the left or right side
-				BView* diffView = FindView("TextDiffView");
-				BRect rect = ConvertToScreen(diffView->Bounds());
-				float viewWidth = (rect.Width() - be_control_look->GetScrollBarWidth(B_VERTICAL))
-					/ 2;
-				rect.right -= viewWidth;
-				BPoint dropPoint = message->DropPoint();
-				if (rect.Contains(dropPoint))
-					fPathLeft.SetTo(&entry);
-				else
-					fPathRight.SetTo(&entry);
-
-				ExecuteDiff(fPathLeft, fPathRight);
-			}
-		}
 		case B_NODE_MONITOR:
 			handleNodeMonitorEvent(message);
 			break;
@@ -136,9 +103,34 @@ TextDiffWnd::MessageReceived(BMessage* message)
 			doFileQuit();
 			break;
 
+		case ID_FILE_LAUNCH:
+		{
+			int32 pane;
+			if (message->FindInt32("pane", &pane) == B_OK) {
+				if (pane == 0)
+					openFile(fPathLeft);
+				else if (pane == 1)
+					openFile(fPathRight);
+			}
+		} break;
+
+		case ID_FILE_DROPPED:
+		{
+			BString path;
+			if (message->FindString("leftpath", &path) == B_OK) {
+				watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
+				fPathLeft.SetTo(path.String());
+			} else if (message->FindString("rightpath", &path) == B_OK) {
+				watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
+				fPathRight.SetTo(path.String());
+			}
+		} //intentional fall-through
 		case ID_FILE_RELOAD:
-			ExecuteDiff(fPathLeft, fPathRight);
-			break;
+		{
+			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
+			updateTitle();
+			startNodeMonitor();
+		} break;
 
 		default:
 			BWindow::MessageReceived(message);
@@ -218,8 +210,6 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 
 		case B_ENTRY_MOVED:
 		{
-			message->PrintToStream();
-
 			int32 device = 0;
 			int64 dstFolder = 0;
 			const char* oldName = NULL;
@@ -246,6 +236,7 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 				break;
 
 			updateTitle();
+			startNodeMonitor();
 		} break;
 	}
 }
@@ -276,9 +267,18 @@ TextDiffWnd::askToReload(node_ref nref_node)
 			return;
 
 		case 1:
-			ExecuteDiff(fPathLeft, fPathRight);
+			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
 			break;
 	}
+}
+
+
+void
+TextDiffWnd::openFile(BPath path)
+{
+	entry_ref ref;
+	get_ref_for_path(path.Path(), &ref);
+	be_roster->Launch(&ref);
 }
 
 
@@ -292,8 +292,6 @@ TextDiffWnd::updateTitle()
 	title += fPathRight.Leaf();
 
 	SetTitle(title.String());
-
-	startNodeMonitor();
 }
 
 
