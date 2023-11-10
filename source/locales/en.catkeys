@@ -1,22 +1,28 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	1017592319
+1	English	application/x-vnd.Hironytic-PonpokoDiff	994275366
 Cancel	TextDiffWindow		Cancel
 Right file:	OpenFilesDialog		Right file:
-PonpokoDiff	System name		PonpokoDiff
-File	TextDiffWindow		File
-Close	TextDiffWindow		Close
-Select left file	OpenFilesDialog		Select left file
-A graphical file comparison utility.	Application		A graphical file comparison utility.
 Do you want to reload the files and diff them again?	TextDiffWindow		Do you want to reload the files and diff them again?
-A file has changed	TextDiffWindow		A file has changed
 Reload	TextDiffWindow		Reload
+A file has changed	TextDiffWindow		A file has changed
 Left file:	OpenFilesDialog		Left file:
-Cancel	OpenFilesDialog		Cancel
-Select right file	OpenFilesDialog		Select right file
-The left file, %filename%, has changed.	TextDiffWindow		The left file, %filename%, has changed.
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
 PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Open files
 Open…	TextDiffWindow		Open…
+A file has disappeared	TextDiffWindow		A file has disappeared
 Diff	OpenFilesDialog		Diff
+Quit	TextDiffWindow		Quit
+The right file, '%filename%', has changed.	TextDiffWindow		The right file, '%filename%', has changed.
+PonpokoDiff	System name		PonpokoDiff
+File	TextDiffWindow		File
+Select left file	OpenFilesDialog		Select left file
+Close	TextDiffWindow		Close
+A graphical file comparison utility.	Application		A graphical file comparison utility.
+The left file, '%filename%', has changed.	TextDiffWindow		The left file, '%filename%', has changed.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+Cancel	OpenFilesDialog		Cancel
+Diff new files	TextDiffWindow		Diff new files
+Select right file	OpenFilesDialog		Select right file
+Ignore	TextDiffWindow		Ignore
 Browse…	OpenFilesDialog		Browse…
 About PonpokoDiff	TextDiffWindow		About PonpokoDiff
-Quit	TextDiffWindow		Quit
-The right file, %filename%, has changed.	TextDiffWindow		The right file, %filename%, has changed.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.

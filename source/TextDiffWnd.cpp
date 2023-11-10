@@ -238,26 +238,38 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 			updateTitle();
 			startNodeMonitor();
 		} break;
+
+		case B_ENTRY_REMOVED:
+		{
+			node_ref nref;
+
+			if (message->FindInt32("device", &nref.device) != B_OK
+				|| message->FindInt64("node", &nref.node) != B_OK)
+				break;
+
+			askFileRemoved(nref);
+		}
+		break;
 	}
 }
 
 
 void
-TextDiffWnd::askToReload(node_ref nref_node)
+TextDiffWnd::askToReload(node_ref nref)
 {
 	BString text;
-	if (nref_node == fLeftNodeRef) {
+	if (nref == fLeftNodeRef) {
 		text = B_TRANSLATE(
-			"The left file, %filename%, has changed.");
+			"The left file, '%filename%', has changed.");
 		text.ReplaceFirst("%filename%", fPathLeft.Leaf());
-	} else if (nref_node == fRightNodeRef) {
+	} else if (nref == fRightNodeRef) {
 		text = B_TRANSLATE(
-			"The right file, %filename%, has changed.");
+			"The right file, '%filename%', has changed.");
 		text.ReplaceFirst("%filename%", fPathRight.Leaf());
 	} else
 		return;
 
-	text << "\n" << B_TRANSLATE("Do you want to reload the files and diff them again?");
+	text << "\n\n" << B_TRANSLATE("Do you want to reload the files and diff them again?");
 	BAlert* alert = new BAlert(B_TRANSLATE("A file has changed"), text,
 		B_TRANSLATE("Cancel"), B_TRANSLATE("Reload"));
 	int32 result = alert->Go();
@@ -269,6 +281,46 @@ TextDiffWnd::askToReload(node_ref nref_node)
 		case 1:
 			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
 			break;
+	}
+}
+
+
+void
+TextDiffWnd::askFileRemoved(node_ref nref)
+{
+	BString text;
+	if (nref == fLeftNodeRef) {
+		text = B_TRANSLATE(
+			"The left file, '%filename%', has disappeared. Probably it was deleted "
+			"or moved to another volume.");
+		text.ReplaceFirst("%filename%", fPathLeft.Leaf());
+	} else if (nref == fRightNodeRef) {
+		text = B_TRANSLATE(
+			"The right file, '%filename%', has disappeared. Probably it was deleted "
+			"or moved to another volume.");
+		text.ReplaceFirst("%filename%", fPathRight.Leaf());
+	} else
+		return;
+
+	text << "\n\n" << B_TRANSLATE("Do you want to diff two new files, or just ignore this?");
+	BAlert* alert = new BAlert(B_TRANSLATE("A file has disappeared"), text,
+		B_TRANSLATE("Diff new files"), B_TRANSLATE("Ignore"));
+	int32 result = alert->Go();
+
+	switch(result) {
+		case 0:
+		{
+			watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
+			watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
+
+			BMessage message(ID_FILE_OPEN);
+			message.AddMessenger("killme", this);
+			be_app->PostMessage(&message);
+
+		} break;
+
+		case 1:
+			return;
 	}
 }
 

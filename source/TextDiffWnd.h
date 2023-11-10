@@ -37,7 +37,8 @@ private:
 			void			createMainMenu(BMenuBar* menuBar);
 			void			startNodeMonitor();
 			void			handleNodeMonitorEvent(BMessage* message);
-			void			askToReload(node_ref nref_node);
+			void			askToReload(node_ref nref);
+			void			askFileRemoved(node_ref nref);
 			void			openFile(BPath path);
 
 			void			updateTitle();
