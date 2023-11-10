@@ -13,7 +13,11 @@
 
 #include <math.h>
 
+#include "CommandIDs.h"
 #include "Exception.h"
+#include "TextFileFilter.h"
+
+#include <Window.h>
 #include <ControlLook.h>
 #include <ScrollBar.h>
 #include <ScrollView.h>
@@ -44,6 +48,49 @@ TextDiffView::TextDiffView(BRect frame, const char* name, uint32 resizingMode)
 
 TextDiffView::~TextDiffView()
 {
+}
+
+
+void
+TextDiffView::MessageReceived(BMessage* message)
+{
+	switch (message->what) {
+		case B_SIMPLE_DATA:
+		{
+			if (message->WasDropped()) {
+				entry_ref ref;
+				if (message->FindRef("refs", &ref) != B_OK)
+					break;
+
+				// Only allow text files and catkeys
+				BEntry entry(&ref, true); // traverse links
+				TextFileFilter filter;
+				if (filter.IsValid(&ref, &entry) != true)
+					break;
+
+				// Dropped on the left or right side
+				BPoint dropPoint = message->DropPoint();
+				ConvertFromScreen(&dropPoint);
+				BView* leftPaneView = FindView("LeftPane");
+				if (leftPaneView != NULL) {
+					BRect rect = leftPaneView->Bounds();
+					BMessage msg(ID_FILE_DROPPED);
+					BPath path(&entry);
+					if (rect.Contains(dropPoint))
+						msg.AddString("leftpath", path.Path());
+					else
+						msg.AddString("rightpath", path.Path());
+
+					Window()->PostMessage(&msg);
+				}
+
+			}
+		} break;
+
+		default:
+			BView::MessageReceived(message);
+			break;
+	}
 }
 
 
@@ -242,8 +289,7 @@ public:
 
 
 void
-TextDiffView::ExecuteDiff(
-	const BPath& pathLeft, const BPath& pathRight)
+TextDiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 {
 	textData[LeftPane].Unload();
 	textData[RightPane].Unload();
@@ -562,9 +608,25 @@ TextDiffView::DiffPaneView::ScrollTo(BPoint point)
 
 
 void
-TextDiffView::DiffPaneView::MouseDown(BPoint point)
+TextDiffView::DiffPaneView::MouseDown(BPoint where)
 {
-	BView::MouseDown(point);
+	BView::MouseDown(where);
+
+	BMessage* message = Window()->CurrentMessage();
+
+    int32 mods = 0, clicks = 0, buttons=0;
+    message->FindInt32("modifiers", &mods);
+    message->FindInt32("clicks", &clicks);
+    message->FindInt32("buttons", &buttons);
+
+	// double click handling
+	if (clicks % 2 == 0) {
+		if (buttons == B_PRIMARY_MOUSE_BUTTON) {
+			BMessage msg(ID_FILE_LAUNCH);
+			msg.AddInt32("pane", paneIndex);
+			Window()->PostMessage(&msg);
+		}
+	}
 
 	if (textDiffView != NULL)
 		textDiffView->makeFocusToPane(paneIndex);

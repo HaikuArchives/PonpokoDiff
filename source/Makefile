@@ -38,6 +38,7 @@ SRCS = \
 	Substring.cpp \
 	TextDiffView.cpp \
 	TextDiffWnd.cpp \
+	TextFileFilter.cpp \
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.

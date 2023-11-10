@@ -19,6 +19,8 @@ enum
 	ID_FILE_CLOSE			= B_QUIT_REQUESTED,
 	ID_FILE_ABOUT			= B_ABOUT_REQUESTED,
 	ID_FILE_QUIT			= 'mQit',
+	ID_FILE_DROPPED			= 'mDrp',
+	ID_FILE_LAUNCH			= 'mlnc',
 
 	ID_CANCEL				= '-Ccl',
 

@@ -25,8 +25,10 @@ public:
 						TextDiffView(BRect frame, const char* name, uint32 resizingMode);
 	virtual				~TextDiffView();
 
+	virtual	void		MessageReceived(BMessage* message);
+
 			void		Initialize();
-			void		ExecuteDiff(const BPath& pathLeft, const BPath& pathRight);
+			void		ExecuteDiff(BPath pathLeft, BPath pathRight);
 
 public:
 	virtual	void		FrameResized(float width, float height);
@@ -63,7 +65,7 @@ private:
 		virtual void		TargetedByScrollView(BScrollView* scroller);
 		virtual	void		Draw(BRect updateRect);
 		virtual void		ScrollTo(BPoint point);
-		virtual void		MouseDown(BPoint point);
+		virtual void		MouseDown(BPoint where);
 		virtual	void		FrameResized(float width, float height);
 		virtual void		SetFont(const BFont* font, uint32 properties = B_FONT_ALL);
 
