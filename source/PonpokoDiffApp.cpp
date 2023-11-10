@@ -161,7 +161,7 @@ PonpokoDiffApp::TextDiffWndQuit(TextDiffWnd* /* wnd */)
 	BAutolock locker(this);
 	if (locker.IsLocked()) {
 		textDiffWndCount--;
-		if (textDiffWndCount <= 0)
+		if (textDiffWndCount <= 0 && openFilesDialog == NULL)
 			PostMessage(B_QUIT_REQUESTED);
 	}
 }
@@ -184,8 +184,14 @@ PonpokoDiffApp::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
 		case ID_FILE_OPEN:
+		{
 			doOpenFileDialog();
-			break;
+
+			BMessenger window;
+			if (message->FindMessenger("killme", &window) == B_OK)
+				window.SendMessage(new BMessage(B_QUIT_REQUESTED));
+
+		} break;
 
 		default:
 			BApplication::MessageReceived(message);
