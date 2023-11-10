@@ -26,10 +26,24 @@
 static const char FONT_SAMPLE[] = " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const int FONT_SAMPLE_LENGTH = sizeof(FONT_SAMPLE) - 1;
 
-static const rgb_color colorEmpty = {192, 192, 192, 255};
-static const rgb_color colorInserted = {224, 255, 128, 255};
-static const rgb_color colorDeleted = {255, 224, 128, 255};
-static const rgb_color colorModified = {255, 255, 128, 255};
+enum system_theme {
+	LIGHT = 0,
+	DARK = 1
+};
+
+static const rgb_color colorEmpty = ui_color(B_PANEL_BACKGROUND_COLOR);
+static const rgb_color colorInserted[] = {
+	{163, 255, 180, 255},
+	{0, 135, 30, 255}
+};
+static const rgb_color colorDeleted[] = {
+	{255, 221, 191, 255},
+	{210, 100, 0, 255}
+};
+static const rgb_color colorModified[] = {
+	{255, 255, 191, 255},
+	{180, 180, 0, 255}
+};
 
 static const int tabChars = 4;
 
@@ -518,13 +532,17 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 		rgb_color oldLowColor = LowColor();
 		const LineInfo& linfo = textDiffView->lineInfos[line];
 
-		rgb_color bkColor;
+		rgb_color bkColor = ui_color(B_DOCUMENT_TEXT_COLOR);
+		system_theme theme = LIGHT;
+		if (bkColor.Brightness() > 100)
+			theme = DARK;
+
 		bool isDrawBackground = false;
 		switch (linfo.op) {
 			case DiffOperation::Inserted:
 			{
 				if (paneIndex == TextDiffView::RightPane)
-					bkColor = colorInserted;
+					bkColor = colorInserted[theme];
 				else
 					bkColor = colorEmpty;
 				isDrawBackground = true;
@@ -533,7 +551,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 			case DiffOperation::Deleted:
 			{
 				if (paneIndex == TextDiffView::LeftPane)
-					bkColor = colorDeleted;
+					bkColor = colorDeleted[theme];
 				else
 					bkColor = colorEmpty;
 				isDrawBackground = true;
@@ -541,7 +559,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 
 			case DiffOperation::Modified:
 			{
-				bkColor = colorModified;
+				bkColor = colorModified[theme];
 				isDrawBackground = true;
 			} break;
 
