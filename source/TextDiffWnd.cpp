@@ -127,6 +127,17 @@ TextDiffWnd::MessageReceived(BMessage* message)
 		} //intentional fall-through
 		case ID_FILE_RELOAD:
 		{
+			// Are the files still there?
+			BEntry entryLeft(fPathLeft.Path());
+			BEntry entryRight(fPathRight.Path());
+			if (!entryLeft.Exists()) {
+				askFileRemoved(fLeftNodeRef);
+				break;
+			} else if (!entryRight.Exists()) {
+				askFileRemoved(fRightNodeRef);
+				break;
+			}
+
 			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
 			updateTitle();
 			startNodeMonitor();
