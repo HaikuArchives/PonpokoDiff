@@ -1,6 +1,7 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	994275366
+1	English	application/x-vnd.Hironytic-PonpokoDiff	269860780
 Cancel	TextDiffWindow		Cancel
 Right file:	OpenFilesDialog		Right file:
+The file '%s' does not exist!\n	Application		The file '%s' does not exist!\n
 Do you want to reload the files and diff them again?	TextDiffWindow		Do you want to reload the files and diff them again?
 Reload	TextDiffWindow		Reload
 A file has changed	TextDiffWindow		A file has changed

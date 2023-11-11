@@ -22,6 +22,8 @@
 #include <Screen.h>
 #include <String.h>
 
+#include <cstdio>
+
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
 #include "TextDiffWnd.h"
@@ -99,6 +101,11 @@ PonpokoDiffApp::RefsReceived(BMessage* message)
 	entry_ref ref;
 	for (int i = 0; message->FindRef("refs", i, &ref) == B_OK; i++) {
 		BPath path = BPath(&ref);
+		BEntry entry(&ref);
+		if (!entry.Exists()) {
+			printf(B_TRANSLATE("The file '%s' does not exist!\n"), path.Path());
+			continue;
+		}
 		if (lastPath.InitCheck() == B_OK && path.InitCheck() == B_OK) {
 			TextDiffWnd* wnd = NewTextDiffWnd();
 			wnd->ExecuteDiff(lastPath, path);
