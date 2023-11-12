@@ -18,6 +18,11 @@
 
 class BMenuBar;
 
+enum pane_side {
+	LEFT = 0,
+	RIGHT,
+	BOTH
+};
 
 class TextDiffWnd : public BWindow {
 public:
@@ -39,6 +44,7 @@ private:
 			void			handleNodeMonitorEvent(BMessage* message);
 			void			askToReload(node_ref nref);
 			void			askFileRemoved(node_ref nref);
+			void			askDeviceRemoved(pane_side side);
 			void			openFile(BPath path);
 
 			void			updateTitle();

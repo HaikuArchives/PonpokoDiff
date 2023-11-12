@@ -190,8 +190,8 @@ TextDiffWnd::startNodeMonitor()
 	if (entry.InitCheck() == B_OK)
 		entry.GetNodeRef(&fRightNodeRef);
 
-	watch_node(&fLeftNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
-	watch_node(&fRightNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+	watch_node(&fLeftNodeRef, B_WATCH_STAT | B_WATCH_NAME | B_WATCH_MOUNT, this);
+	watch_node(&fRightNodeRef, B_WATCH_STAT | B_WATCH_NAME | B_WATCH_MOUNT, this);
 }
 
 
@@ -237,12 +237,12 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 				fPathLeft.SetTo(&entry);
 				watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
 				entry.GetNodeRef(&fLeftNodeRef);
-				watch_node(&fLeftNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+				watch_node(&fLeftNodeRef, B_WATCH_STAT | B_WATCH_NAME | B_WATCH_MOUNT, this);
 			} else if (strcmp(oldName, fPathRight.Leaf()) == 0) {
 				fPathRight.SetTo(&entry);
 				watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
 				entry.GetNodeRef(&fRightNodeRef);
-				watch_node(&fRightNodeRef, B_WATCH_STAT | B_WATCH_NAME, this);
+				watch_node(&fRightNodeRef, B_WATCH_STAT | B_WATCH_NAME | B_WATCH_MOUNT, this);
 			} else
 				break;
 
@@ -259,8 +259,22 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 				break;
 
 			askFileRemoved(nref);
-		}
-		break;
+		} break;
+
+		case B_DEVICE_UNMOUNTED:
+		{
+			node_ref nref;
+
+			if (message->FindInt32("device", &nref.device) != B_OK)
+				break;
+
+			if (nref.device == fLeftNodeRef.device && nref.device == fRightNodeRef.device)
+				askDeviceRemoved(BOTH);
+			else if (nref.device == fLeftNodeRef.device)
+				askDeviceRemoved(LEFT);
+			else if (nref.device == fRightNodeRef.device)
+				askDeviceRemoved(RIGHT);
+		} break;
 	}
 }
 
@@ -314,6 +328,49 @@ TextDiffWnd::askFileRemoved(node_ref nref)
 		return;
 
 	text << "\n\n" << B_TRANSLATE("Do you want to diff two new files, or just ignore this?");
+	BAlert* alert = new BAlert(B_TRANSLATE("A file has disappeared"), text,
+		B_TRANSLATE("Diff new files"), B_TRANSLATE("Ignore"));
+	int32 result = alert->Go();
+
+	switch(result) {
+		case 0:
+		{
+			watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
+			watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
+
+			BMessage message(ID_FILE_OPEN);
+			message.AddMessenger("killme", this);
+			be_app->PostMessage(&message);
+
+		} break;
+
+		case 1:
+			return;
+	}
+}
+
+
+void
+TextDiffWnd::askDeviceRemoved(pane_side side)
+{
+	BString text;
+	if (side == BOTH) {
+		text = B_TRANSLATE(
+			"The volume of the files that are being compared has disappeared.");
+	} else if (side == LEFT) {
+		text = B_TRANSLATE(
+			"The volume of the left file, '%filename%', has disappeared.");
+		text.ReplaceFirst("%filename%", fPathLeft.Leaf());
+	} else if (side == RIGHT) {
+		text = B_TRANSLATE(
+			"The volume of the right file, '%filename%', has disappeared.");
+		text.ReplaceFirst("%filename%", fPathRight.Leaf());
+	} else
+		return;
+
+	text << " " << B_TRANSLATE("Probably it was unmounted.") << "\n\n"
+	<< B_TRANSLATE("Do you want to diff two new files, or just ignore this?");
+
 	BAlert* alert = new BAlert(B_TRANSLATE("A file has disappeared"), text,
 		B_TRANSLATE("Diff new files"), B_TRANSLATE("Ignore"));
 	int32 result = alert->Go();
