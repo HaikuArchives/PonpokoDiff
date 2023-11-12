@@ -1,17 +1,33 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	1584786771
-Right file:	OpenFilesDialog		Rechte Datei:
-PonpokoDiff	System name		PonpokoDiff
-File	TextDiffWindow		Datei
-Close	TextDiffWindow		Schließen
-Select left file	OpenFilesDialog		Linke Datei wählen
-A graphical file comparison utility.	Application		Ein Werkzeug für den grafische Dateivergleich.
-Reload	TextDiffWindow		Neu laden
-Left file:	OpenFilesDialog		Linke Datei
-Cancel	OpenFilesDialog		Abbrechen
-Select right file	OpenFilesDialog		Rechte Datei wählen
-PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Dateien öffnen
-Open…	TextDiffWindow		Öffnen…
-Diff	OpenFilesDialog		Diff
-Browse…	OpenFilesDialog		Auswählen…
+1	German	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+A file has changed	TextDiffWindow		Eine Datei wurde verändert
+A file has disappeared	TextDiffWindow		Datei verschwunden.
 About PonpokoDiff	TextDiffWindow		Über PonpokoDiff
+Cancel	TextDiffWindow		Abbrechen
+Close	TextDiffWindow		Schließen
+Diff new files	TextDiffWindow		Neue Dateien vergleichen
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Sollen zwei neue Dateien verglichen oder das Problem ignoriert werden?
+Do you want to reload the files and diff them again?	TextDiffWindow		Sollen die Dateien neu geladen und verglichen werden?
+File	TextDiffWindow		Datei
+Ignore	TextDiffWindow		Ignorieren
+Open…	TextDiffWindow		Öffnen…
+Probably it was unmounted.	TextDiffWindow		Sie wurde wahrscheinlich ausgehängt.
 Quit	TextDiffWindow		Beenden
+Reload	TextDiffWindow		Neu laden
+The left file, '%filename%', has changed.	TextDiffWindow		Die linke Datei, '%filename%', wurde verändert.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Die linke Datei, '%filename%', ist verschwunden. Sie wurde wahrscheinlich entfernt oder auf eine andere Partition verschoben.
+The right file, '%filename%', has changed.	TextDiffWindow		Die rechte Datei, '%filename%', wurde verändert.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Die rechte Datei, '%filename%', ist verschwunden. Sie wurde wahrscheinlich entfernt oder auf eine andere Partition verschoben.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Die Partition der gerade verglichenen Dateien ist verschwunden.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Die Partition der linken Datei, '%filename%', ist verschwunden.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Die Partition der rechten Datei, '%filename%', ist verschwunden.
+A graphical file comparison utility.	Application		Ein Werkzeug für den grafische Dateivergleich.
+The file '%s' does not exist!\n	Application		Die Datei '%s' existiert nicht!\n
+Browse…	OpenFilesDialog		Auswählen…
+Cancel	OpenFilesDialog		Abbrechen
+Diff	OpenFilesDialog		Vergleichen
+Left file:	OpenFilesDialog		Linke Datei
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Dateien öffnen
+Right file:	OpenFilesDialog		Rechte Datei:
+Select left file	OpenFilesDialog		Linke Datei wählen
+Select right file	OpenFilesDialog		Rechte Datei wählen
+PonpokoDiff	System name		PonpokoDiff

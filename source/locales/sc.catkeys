@@ -1,0 +1,33 @@
+1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+A file has changed	TextDiffWindow		Un'isceda est mudada
+A file has disappeared	TextDiffWindow		A file has disappeared
+About PonpokoDiff	TextDiffWindow		A subra de PonpokoDiff
+Cancel	TextDiffWindow		Annudda
+Close	TextDiffWindow		Serra
+Diff new files	TextDiffWindow		Diff new files
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
+Do you want to reload the files and diff them again?	TextDiffWindow		Cheres torrare a carrigare is iscedas pro nde otènnere su diff torra?
+File	TextDiffWindow		Isceda
+Ignore	TextDiffWindow		Ignore
+Open…	TextDiffWindow		Aberi…
+Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
+Quit	TextDiffWindow		Essi
+Reload	TextDiffWindow		Carriga torra
+The left file, '%filename%', has changed.	TextDiffWindow		S'isceda a manca, '%filename%', est mudada.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+The right file, '%filename%', has changed.	TextDiffWindow		S'isceda a dereta, '%filename%', est mudada.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		The volume of the files that are being compared has disappeared.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		The volume of the right file, '%filename%', has disappeared.
+A graphical file comparison utility.	Application		Un'aina pro comparare is iscedas de manera gràfica.
+The file '%s' does not exist!\n	Application		The file '%s' does not exist!\n
+Browse…	OpenFilesDialog		Iscartafollia…
+Cancel	OpenFilesDialog		Annudda
+Diff	OpenFilesDialog		Diff
+Left file:	OpenFilesDialog		Isceda a manca:
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Aberi is iscedas
+Right file:	OpenFilesDialog		Isceda a dereta:
+Select left file	OpenFilesDialog		Issèbera s'isceda a manca
+Select right file	OpenFilesDialog		Issèbera s'isceda a dereta
+PonpokoDiff	System name		PonpokoDiff

@@ -1,0 +1,33 @@
+1	Friulian	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+A file has changed	TextDiffWindow		Al è stât modificât un file
+A file has disappeared	TextDiffWindow		A file has disappeared
+About PonpokoDiff	TextDiffWindow		Informazions su PonpokoDiff
+Cancel	TextDiffWindow		Anule
+Close	TextDiffWindow		Siere
+Diff new files	TextDiffWindow		Diff new files
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
+Do you want to reload the files and diff them again?	TextDiffWindow		Desideristu tornâ a cjariâ i files e paragonâju?
+File	TextDiffWindow		File
+Ignore	TextDiffWindow		Ignore
+Open…	TextDiffWindow		Vierç…
+Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
+Quit	TextDiffWindow		Jes
+Reload	TextDiffWindow		Torne cjame
+The left file, '%filename%', has changed.	TextDiffWindow		Il file di çampe, '%filename%', al è stât modificât.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+The right file, '%filename%', has changed.	TextDiffWindow		Il file di diestre, '%filename%', al è stât modificât.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		The volume of the files that are being compared has disappeared.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		The volume of the right file, '%filename%', has disappeared.
+A graphical file comparison utility.	Application		Une utilitât di comparazion grafiche dai files.
+The file '%s' does not exist!\n	Application		The file '%s' does not exist!\n
+Browse…	OpenFilesDialog		Esplore…
+Cancel	OpenFilesDialog		Anule
+Diff	OpenFilesDialog		Diff
+Left file:	OpenFilesDialog		File di çampe:
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Vierç files
+Right file:	OpenFilesDialog		File di diestre:
+Select left file	OpenFilesDialog		Selezione il file di çampe
+Select right file	OpenFilesDialog		Selezione il file di diestre
+PonpokoDiff	System name		PonpokoDiff

@@ -1,0 +1,33 @@
+1	Turkish	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+A file has changed	TextDiffWindow		Bir dosya değiştirildi
+A file has disappeared	TextDiffWindow		Bir dosya kayboldu
+About PonpokoDiff	TextDiffWindow		PonpokoDiff hakkında
+Cancel	TextDiffWindow		Vazgeç
+Close	TextDiffWindow		Kapat
+Diff new files	TextDiffWindow		Yeni dosyaların farkını al
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		İki yeni dosyanın farkını mı almak veya bunu yok mu saymak istiyorsunuz?
+Do you want to reload the files and diff them again?	TextDiffWindow		Dosyaları yeniden yükleyip yeniden farklarını almak istiyor musunuz?
+File	TextDiffWindow		Dosya
+Ignore	TextDiffWindow		Yok say
+Open…	TextDiffWindow		Aç…
+Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
+Quit	TextDiffWindow		Çık
+Reload	TextDiffWindow		Yeniden yükle
+The left file, '%filename%', has changed.	TextDiffWindow		Soldaki dosya, '%filename%', değiştirildi.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Soldaki dosya, '%filename%', kayboldu. Büyük olasılıkla silinmiş veya başka bir bölüme taşınmış olabilir.
+The right file, '%filename%', has changed.	TextDiffWindow		Sağdaki dosya, '%filename%', değiştirildi.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Sağdaki dosya, '%filename%', kayboldu. Büyük olasılıkla silinmiş veya başka bir bölüme taşınmış olabilir.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		The volume of the files that are being compared has disappeared.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		The volume of the right file, '%filename%', has disappeared.
+A graphical file comparison utility.	Application		Grafiksel bir dosya karşılaştırma izlencesi.
+The file '%s' does not exist!\n	Application		'%s' dosyası yok!\n
+Browse…	OpenFilesDialog		Göz at…
+Cancel	OpenFilesDialog		Vazgeç
+Diff	OpenFilesDialog		Diff
+Left file:	OpenFilesDialog		Soldaki dosya:
+PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Dosyalar aç
+Right file:	OpenFilesDialog		Sağdaki dosya:
+Select left file	OpenFilesDialog		Soldaki dosyayı seç
+Select right file	OpenFilesDialog		Sağdaki dosyayı seç
+PonpokoDiff	System name		PonpokoDiff

@@ -1,0 +1,27 @@
+v0.1.0
+
+* Initial release
+
+v0.2.0
+
+* Accept drag & drop in open files dialog
+* Accept files via command line arguments
+* Fix flickering
+
+v0.3.0
+
+* Offer to reload files when their contents changes
+* Keep track of renamed or moved files
+* Warn of deleted or otherwise disappeared files
+* Add manual reload feature
+* Accept drag & dropping files into main window
+* Only accept "text/*" and catkeys MIME typed files
+* Double-click left/right text view to open the file in the preferred app
+* Make font size agnostic
+* React live to changes of system colors
+* Better distinguishable colors
+* Use different colors for dark themed systems
+* Add localization
+* Thanks all translators for:
+  Catalan, Dutch, French, Friaulian, German, Italian,
+  Norwegian, Sardinian, Latin American Spanish, Turkish

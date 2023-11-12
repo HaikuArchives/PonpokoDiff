@@ -18,7 +18,8 @@ resource app_flags B_MULTIPLE_LAUNCH;
 resource file_types message
 {
 	"types" = "text/plain",
-	"types" = "text"
+	"types" = "text",
+	"types" = "locale/x-vnd.Be.locale-catalog.plaintext"
 };
 
 resource vector_icon {

@@ -13,6 +13,8 @@
 #include <NodeInfo.h>
 #include <Volume.h>
 
+#include <stdlib.h>
+
 
 bool
 TextFileFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
