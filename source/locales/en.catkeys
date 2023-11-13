@@ -1,4 +1,4 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+1	English	application/x-vnd.Hironytic-PonpokoDiff	3855386910
 Cancel	TextDiffWindow		Cancel
 The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
 Right file:	OpenFilesDialog		Right file:
@@ -7,9 +7,9 @@ Do you want to reload the files and diff them again?	TextDiffWindow		Do you want
 Reload	TextDiffWindow		Reload
 A file has changed	TextDiffWindow		A file has changed
 Left file:	OpenFilesDialog		Left file:
+Choose files…	TextDiffWindow		Choose files…
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
 PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Open files
-Open…	TextDiffWindow		Open…
 A file has disappeared	TextDiffWindow		A file has disappeared
 Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
 Diff	OpenFilesDialog		Diff

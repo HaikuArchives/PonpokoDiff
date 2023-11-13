@@ -107,10 +107,21 @@ TextDiffWnd::MessageReceived(BMessage* message)
 		{
 			int32 pane;
 			if (message->FindInt32("pane", &pane) == B_OK) {
-				if (pane == 0)
+				if (pane == LEFT)
 					openFile(fPathLeft);
-				else if (pane == 1)
+				else if (pane == RIGHT)
 					openFile(fPathRight);
+			}
+		} break;
+
+		case ID_OPEN_LOCATION:
+		{
+			int32 pane;
+			if (message->FindInt32("pane", &pane) == B_OK) {
+				if (pane == LEFT)
+					openLocation(fPathLeft);
+				else if (pane == RIGHT)
+					openLocation(fPathRight);
 			}
 		} break;
 
@@ -158,7 +169,8 @@ TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 	// File
 	BMenu* fileMenu = new BMenu(B_TRANSLATE("File"));
 	menuBar->AddItem(fileMenu);
-	menuItem = new BMenuItem(B_TRANSLATE("Open" B_UTF8_ELLIPSIS), new BMessage(ID_FILE_OPEN), 'O');
+	menuItem = new BMenuItem(B_TRANSLATE("Choose files" B_UTF8_ELLIPSIS),
+		new BMessage(ID_FILE_OPEN), 'O');
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
 
@@ -397,6 +409,16 @@ void
 TextDiffWnd::openFile(BPath path)
 {
 	entry_ref ref;
+	get_ref_for_path(path.Path(), &ref);
+	be_roster->Launch(&ref);
+}
+
+
+void
+TextDiffWnd::openLocation(BPath path)
+{
+	entry_ref ref;
+	path.GetParent(&path);
 	get_ref_for_path(path.Path(), &ref);
 	be_roster->Launch(&ref);
 }

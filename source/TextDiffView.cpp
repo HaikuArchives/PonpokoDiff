@@ -640,7 +640,11 @@ TextDiffView::DiffPaneView::MouseDown(BPoint where)
 	// double click handling
 	if (clicks % 2 == 0) {
 		if (buttons == B_PRIMARY_MOUSE_BUTTON) {
-			BMessage msg(ID_FILE_LAUNCH);
+			BMessage msg;
+			if (mods & B_CONTROL_KEY)
+				msg.what = ID_OPEN_LOCATION;
+			else
+				msg.what = ID_FILE_LAUNCH;
 			msg.AddInt32("pane", paneIndex);
 			Window()->PostMessage(&msg);
 		}

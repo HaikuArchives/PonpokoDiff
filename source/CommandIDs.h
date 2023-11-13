@@ -20,7 +20,8 @@ enum
 	ID_FILE_ABOUT			= B_ABOUT_REQUESTED,
 	ID_FILE_QUIT			= 'mQit',
 	ID_FILE_DROPPED			= 'mDrp',
-	ID_FILE_LAUNCH			= 'mlnc',
+	ID_FILE_LAUNCH			= 'mLnc',
+	ID_OPEN_LOCATION		= 'mLoc',
 
 	ID_CANCEL				= '-Ccl',
 

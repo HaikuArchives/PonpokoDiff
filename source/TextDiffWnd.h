@@ -46,6 +46,7 @@ private:
 			void			askFileRemoved(node_ref nref);
 			void			askDeviceRemoved(pane_side side);
 			void			openFile(BPath path);
+			void			openLocation(BPath path);
 
 			void			updateTitle();
 			void			doFileOpen();
