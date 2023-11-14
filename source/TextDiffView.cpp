@@ -17,10 +17,11 @@
 #include "Exception.h"
 #include "TextFileFilter.h"
 
-#include <Window.h>
+#include <ColorConversion.h>
 #include <ControlLook.h>
 #include <ScrollBar.h>
 #include <ScrollView.h>
+#include <Window.h>
 
 
 static const char FONT_SAMPLE[] = " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -31,18 +32,17 @@ enum system_theme {
 	DARK = 1
 };
 
-static const rgb_color colorEmpty = ui_color(B_PANEL_BACKGROUND_COLOR);
-static const rgb_color colorInserted[] = {
+rgb_color colorInserted[] = {
 	{163, 255, 180, 255},
-	{0, 135, 30, 255}
+	{0, 90, 20, 255}
 };
 static const rgb_color colorDeleted[] = {
 	{255, 221, 191, 255},
-	{210, 100, 0, 255}
+	{128, 60, 0, 255}
 };
 static const rgb_color colorModified[] = {
 	{255, 255, 191, 255},
-	{180, 180, 0, 255}
+	{110, 110, 0, 255}
 };
 
 static const int tabChars = 4;
@@ -532,10 +532,10 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 		rgb_color oldLowColor = LowColor();
 		const LineInfo& linfo = textDiffView->lineInfos[line];
 
-		rgb_color bkColor = ui_color(B_DOCUMENT_TEXT_COLOR);
-		system_theme theme = LIGHT;
-		if (bkColor.Brightness() > 100)
-			theme = DARK;
+		rgb_color bkColor;
+		int brightness = BPrivate::perceptual_brightness(ui_color(B_DOCUMENT_TEXT_COLOR));
+		system_theme theme;
+		theme = brightness > 127 ? DARK : LIGHT;
 
 		bool isDrawBackground = false;
 		switch (linfo.op) {
@@ -544,7 +544,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 				if (paneIndex == TextDiffView::RightPane)
 					bkColor = colorInserted[theme];
 				else
-					bkColor = colorEmpty;
+					bkColor = ui_color(B_PANEL_BACKGROUND_COLOR);
 				isDrawBackground = true;
 			} break;
 
@@ -553,7 +553,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 				if (paneIndex == TextDiffView::LeftPane)
 					bkColor = colorDeleted[theme];
 				else
-					bkColor = colorEmpty;
+					bkColor = ui_color(B_PANEL_BACKGROUND_COLOR);
 				isDrawBackground = true;
 			} break;
 
