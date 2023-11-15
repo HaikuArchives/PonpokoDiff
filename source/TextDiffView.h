@@ -81,6 +81,7 @@ private:
 		BScrollView*		scroller;
 		float				dataHeight;
 		float				tabUnit;
+		float				maxLineLength;
 	};
 	friend class DiffPaneView;
 

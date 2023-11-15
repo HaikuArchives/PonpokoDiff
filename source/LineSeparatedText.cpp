@@ -16,7 +16,6 @@
 
 #include <stdlib.h>
 
-
 LineSeparatedText::LineSeparatedText()
 {
 	loadedBuffer = NULL;

@@ -48,7 +48,6 @@ static const rgb_color colorModified[] = {
 static const int tabChars = 4;
 
 #define PANE_SPLITTER_WIDTH 6
-#define HORIZONTAL_SCROLL_MAX 4000
 #define HORIZONTAL_SCROLL_MINSTEPS 8
 
 
@@ -143,9 +142,6 @@ TextDiffView::Initialize()
 	SetLowUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	recalcLayout();
-
-	leftPaneView->DataChanged();
-	rightPaneView->DataChanged();
 }
 
 
@@ -386,6 +382,7 @@ TextDiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LeftPane"));
 	if (leftPaneView != NULL)
 		leftPaneView->DataChanged();
+
 	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RightPane"));
 	if (rightPaneView != NULL)
 		rightPaneView->DataChanged();
@@ -403,6 +400,7 @@ TextDiffView::DiffPaneView::DiffPaneView(BRect frame, const char* name, uint32 r
 	scroller = NULL;
 	dataHeight = -1;
 	tabUnit = -1;
+	maxLineLength = 0;
 
 	// Don't let the app server erase the view.
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
@@ -419,8 +417,11 @@ void
 TextDiffView::DiffPaneView::DataChanged()
 {
 	dataHeight = -1;
+	maxLineLength = 0;
 	ScrollTo(BPoint(0, 0));
-	Invalidate();
+
+	Draw(Bounds()); // force update max line length
+	adjustScrollBar();
 }
 
 
@@ -469,10 +470,16 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 
 	BScrollBar* horizontalBar = scroller->ScrollBar(B_HORIZONTAL);
 	if (horizontalBar != NULL) {
-		float boundsWidth = bounds.Width() + 1;
-		horizontalBar->SetRange(0, HORIZONTAL_SCROLL_MAX);
-		horizontalBar->SetProportion(boundsWidth / (HORIZONTAL_SCROLL_MAX + boundsWidth));
-		horizontalBar->SetSteps(HORIZONTAL_SCROLL_MINSTEPS, boundsWidth);
+		float boundsWidth = bounds.Width();
+		float range = maxLineLength - boundsWidth;
+		if (range > 0) {
+			horizontalBar->SetRange(0, range);
+			horizontalBar->SetProportion((boundsWidth + 1) / (maxLineLength + 1));
+			horizontalBar->SetSteps(HORIZONTAL_SCROLL_MINSTEPS, boundsWidth + 1);
+		} else {
+			horizontalBar->SetRange(0, 0);
+			horizontalBar->SetProportion(1);
+		}
 	}
 }
 
@@ -578,7 +585,6 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 				= textDiffView->textData[paneIndex].GetLineAt(linfo.textIndex[paneIndex]);
 			drawText(font, paneText, lineHeight * line + fh.ascent);
 		}
-
 		SetLowColor(oldLowColor);
 	}
 }
@@ -608,7 +614,9 @@ TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, f
 			}
 			left = (floor(left / tabUnit) + 1) * tabUnit;
 		}
+		maxLineLength = std::max(maxLineLength, left);
 	}
+
 	if (subTextBegin < end)
 		DrawString(subTextBegin, end - subTextBegin, BPoint(left, baseLine));
 }
@@ -619,7 +627,6 @@ TextDiffView::DiffPaneView::ScrollTo(BPoint point)
 {
 	BView::ScrollTo(point);
 
-	adjustScrollBar();
 	if (textDiffView != NULL)
 		textDiffView->paneVScrolled(point.y, paneIndex);
 }
