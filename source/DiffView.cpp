@@ -114,7 +114,9 @@ DiffView::Initialize()
 	leftPaneView->SetPaneIndex(LEFT_PANE);
 
 	BScrollView* leftView = new BScrollView("LeftPaneScroller", leftPaneView,
-		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, false, B_NO_BORDER);
+		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_NO_BORDER);
+	BScrollBar* vBar = leftView->ScrollBar(B_VERTICAL);
+	vBar->SetExplicitSize(BSize(0, B_SIZE_UNSET));
 
 	DiffPaneView* rightPaneView = new DiffPaneView("RightPane");
 	rightPaneView->SetDiffView(this);
