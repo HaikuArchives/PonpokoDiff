@@ -21,6 +21,7 @@ enum
 	ID_FILE_QUIT			= 'mQit',
 	ID_FILE_DROPPED			= 'mDrp',
 	ID_FILE_LAUNCH			= 'mLnc',
+	ID_FILE_SWITCH			= 'mSwi',
 	ID_OPEN_LOCATION		= 'mLoc',
 
 	ID_CANCEL				= '-Ccl',

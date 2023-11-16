@@ -154,6 +154,20 @@ TextDiffWnd::MessageReceived(BMessage* message)
 			startNodeMonitor();
 		} break;
 
+		case ID_FILE_SWITCH:
+		{
+			node_ref tempNode = fLeftNodeRef;
+			fLeftNodeRef = fRightNodeRef;
+			fRightNodeRef = tempNode;
+
+			BPath tempPath = fPathLeft;
+			fPathLeft = fPathRight;
+			fPathRight = tempPath;
+
+			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
+			updateTitle();
+		} break;
+
 		default:
 			BWindow::MessageReceived(message);
 			break;
@@ -166,7 +180,6 @@ TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 {
 	BMenuItem* menuItem;
 
-	// File
 	BMenu* fileMenu = new BMenu(B_TRANSLATE("File"));
 	menuBar->AddItem(fileMenu);
 	menuItem = new BMenuItem(B_TRANSLATE("Choose files" B_UTF8_ELLIPSIS),
@@ -174,10 +187,16 @@ TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
 
+	menuItem = new BMenuItem(B_TRANSLATE("Switch files"), new BMessage(ID_FILE_SWITCH), B_TAB);
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
+
 	menuItem = new BMenuItem(B_TRANSLATE("Reload"), new BMessage(ID_FILE_RELOAD), 'R');
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
-	fileMenu->AddItem(new BMenuItem(B_TRANSLATE("Close"), new BMessage(ID_FILE_CLOSE), 'W'));
+
+	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(ID_FILE_CLOSE), 'W');
+	fileMenu->AddItem(menuItem);
 
 	fileMenu->AddSeparatorItem();
 
@@ -187,7 +206,8 @@ TextDiffWnd::createMainMenu(BMenuBar* menuBar)
 
 	fileMenu->AddSeparatorItem();
 
-	fileMenu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(ID_FILE_QUIT), 'Q'));
+	menuItem = new BMenuItem(B_TRANSLATE("Quit"), new BMessage(ID_FILE_QUIT), 'Q');
+	fileMenu->AddItem(menuItem);
 }
 
 
