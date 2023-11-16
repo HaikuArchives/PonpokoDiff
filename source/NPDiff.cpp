@@ -35,7 +35,7 @@ NPDiff::Detect(const Sequences* sequences)
 	isSwapped = (sequences->GetLength(0) > sequences->GetLength(1));
 	diffResult.clear();
 
-	if (NULL == sequences)
+	if (sequences == NULL)
 		return;
 
 	int m = getLength(0);
@@ -43,7 +43,7 @@ NPDiff::Detect(const Sequences* sequences)
 	int delta = n - m;
 
 	fpBuffer = static_cast<int*>(malloc((m + n + 3) * sizeof(int)));
-	if (NULL == fpBuffer)
+	if (fpBuffer == NULL)
 		MemoryException::Throw();
 
 	memset(fpBuffer, 0, (m + n + 3) * sizeof(int));

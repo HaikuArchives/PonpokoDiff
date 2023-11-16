@@ -42,7 +42,7 @@ LineSeparatedText::Load(const BPath& path)
 	file.GetSize(&size);
 	uint32 size32 = static_cast<uint32>(size);
 	fLoadedBuffer = static_cast<char*>(malloc(size32));
-	if (NULL == fLoadedBuffer)
+	if (fLoadedBuffer == NULL)
 		MemoryException::Throw();
 	file.Read(fLoadedBuffer, size32);
 

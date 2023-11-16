@@ -114,7 +114,7 @@ DiffView::Initialize()
 	leftPaneView->SetPaneIndex(LEFT_PANE);
 
 	BScrollView* leftView = new BScrollView("LeftPaneScroller", leftPaneView,
-		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_NO_BORDER);
+		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_PLAIN_BORDER);
 	BScrollBar* vBar = leftView->ScrollBar(B_VERTICAL);
 	vBar->SetExplicitSize(BSize(0, B_SIZE_UNSET));
 
@@ -123,7 +123,7 @@ DiffView::Initialize()
 	rightPaneView->SetPaneIndex(RIGHT_PANE);
 
 	BScrollView* rightView = new BScrollView("RightPaneScroller", rightPaneView,
-		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_NO_BORDER);
+		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_PLAIN_BORDER);
 
 	// Don't let the app server erase the view.
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
@@ -131,10 +131,11 @@ DiffView::Initialize()
 	// The splitter in the middle will be drawn with the low color
 	SetLowUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	BSeparatorView* separator = new BSeparatorView(B_VERTICAL);
+	BSeparatorView* separator = new BSeparatorView(B_VERTICAL, B_FANCY_BORDER);
 	separator->SetExplicitMinSize(BSize(2, B_SIZE_UNSET));
 
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
+		.SetInsets(-1, -1, 0, 0)
 		.Add(leftView)
 		.Add(separator)
 		.Add(rightView)
@@ -151,9 +152,6 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 
 	int index;
 	for (index = 0; index < PaneMAX; index++) {
-		// if (index == fromPaneIndex)
-			// continue;
-
 		const char* viewName;
 		switch (index) {
 			case LEFT_PANE:
@@ -183,7 +181,7 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 void
 DiffView::_MakeFocusToPane(DiffView::PaneIndex /* fPaneIndex */)
 {
-	BView* rightPaneView = FindView("RIGHT_PANE");
+	BView* rightPaneView = FindView("RightPane");
 	if (rightPaneView != NULL)
 		rightPaneView->MakeFocus();
 }
@@ -243,7 +241,7 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 		int index;
 		for (index = 0;; index++) {
 			const DiffOperation* diffOperation = diffEngine.GetOperationAt(index);
-			if (NULL == diffOperation)
+			if (diffOperation == NULL)
 				break;
 
 			LineInfo line;
@@ -373,7 +371,7 @@ DiffView::DiffPaneView::_RecalcLayout()
 void
 DiffView::DiffPaneView::_AdjustScrollBar()
 {
-	if (NULL == fScroller)
+	if (fScroller == NULL)
 		return;
 
 	BRect bounds = Bounds();
@@ -441,7 +439,7 @@ DiffView::DiffPaneView::TargetedByScrollView(BScrollView* fScroller)
 void
 DiffView::DiffPaneView::Draw(BRect updateRect)
 {
-	if (NULL == fDiffView || DiffView::InvalidPane == fPaneIndex)
+	if (fDiffView == NULL || DiffView::InvalidPane == fPaneIndex)
 		return;
 
 	SetLowUIColor(B_DOCUMENT_BACKGROUND_COLOR);

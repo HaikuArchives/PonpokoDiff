@@ -196,7 +196,7 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 
 	BMenu* fileMenu = new BMenu(B_TRANSLATE("File"));
 	menuBar->AddItem(fileMenu);
-	menuItem = new BMenuItem(B_TRANSLATE("Choose files" B_UTF8_ELLIPSIS),
+	menuItem = new BMenuItem(B_TRANSLATE("Select files" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_FILE_OPEN), 'O');
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);

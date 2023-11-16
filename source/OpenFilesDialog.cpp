@@ -33,7 +33,7 @@
 OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
 	:
 	BWindow(BRect(topLeft.x, topLeft.y, topLeft.x + 480, topLeft.y + 220),
-		B_TRANSLATE("PonpokoDiff: Choose files"), B_TITLED_WINDOW,
+		B_TRANSLATE("PonpokoDiff: Select files"), B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	int index;
@@ -144,7 +144,7 @@ OpenFilesDialog::_BrowseFile(OpenFilesDialog::FileIndex fileIndex)
 	if (fileIndex < 0 || fileIndex >= FileMAX)
 		return;
 
-	if (NULL == fFilePanels[fileIndex]) {
+	if (fFilePanels[fileIndex] == NULL) {
 		BMessage* message = NULL;
 		BString title;
 		title += B_TRANSLATE_SYSTEM_NAME("PonpokoDiff");
