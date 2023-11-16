@@ -25,7 +25,9 @@
 #include <NodeInfo.h>
 #include <NodeMonitor.h>
 #include <Path.h>
+#include <PathFinder.h>
 #include <Roster.h>
+#include <Screen.h>
 #include <String.h>
 
 
@@ -33,16 +35,27 @@
 #define B_TRANSLATION_CONTEXT "TextDiffWindow"
 
 
-DiffWindow::DiffWindow(
-	BRect frame, const char* name, uint32 workspaces /* = B_CURRENT_WORKSPACE */)
+DiffWindow::DiffWindow()
 	:
-	BWindow(frame, name, B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, workspaces)
+	BWindow(BRect(), B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"),
+	B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS)
 {
+	_LoadSettings();
+
+	BRect frame;
+	if (fSettings->FindRect("window_frame", &frame) == B_OK) {
+		BScreen screen(this);
+		if (frame.Intersects(screen.Frame())) {
+			MoveTo(frame.LeftTop());
+			ResizeTo(frame.Width(), frame.Height());
+		}
+	}
 }
 
 
 DiffWindow::~DiffWindow()
 {
+	_SaveSettings();
 }
 
 
@@ -442,6 +455,45 @@ DiffWindow::_OpenLocation(BPath path)
 	path.GetParent(&path);
 	get_ref_for_path(path.Path(), &ref);
 	be_roster->Launch(&ref);
+}
+
+
+void
+DiffWindow::_LoadSettings()
+{
+	fSettings = new BMessage();
+
+	BPath path;
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) != B_OK)
+		return;
+
+	BString settingsFile(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
+	settingsFile << "_settings";
+	path.Append(settingsFile.String());
+	BFile file(path.Path(), B_READ_ONLY);
+
+	if (fSettings->Unflatten(&file) != B_OK)
+		fSettings->AddRect("window_frame", BRect(100, 75, 700, 575));
+}
+
+
+void
+DiffWindow::_SaveSettings()
+{
+	BPath path;
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) < B_OK)
+		return;
+
+	BMessage settings;
+	settings.AddRect("window_frame", Frame());
+
+	BString settingsFile(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
+	settingsFile << "_settings";
+	path.Append(settingsFile.String());
+
+	BFile file(path.Path(), B_WRITE_ONLY | B_CREATE_FILE | B_ERASE_FILE);
+	if (file.InitCheck() == B_OK)
+		settings.Flatten(&file);
 }
 
 

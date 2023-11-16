@@ -131,8 +131,7 @@ App::NewDiffWindow()
 {
 	BAutolock locker(this);
 	if (locker.IsLocked()) {
-		DiffWindow* newWindow = new DiffWindow(BRect(0, 0 , 600, 400),
-			B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
+		DiffWindow* newWindow = new DiffWindow();
 		fWindowCount++;
 		newWindow->Initialize();
 		return newWindow;

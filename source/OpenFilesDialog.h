@@ -38,7 +38,7 @@ private:
 			void		_RunDiff();
 
 private:
-		BFilePanel*		filePanels[FileMAX];
+		BFilePanel*		fFilePanels[FileMAX];
 };
 
 #endif // OPENFILESDIALOG_H

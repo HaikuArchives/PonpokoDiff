@@ -33,12 +33,12 @@
 OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
 	:
 	BWindow(BRect(topLeft.x, topLeft.y, topLeft.x + 480, topLeft.y + 220),
-		B_TRANSLATE("PonpokoDiff: Open files"), B_TITLED_WINDOW,
+		B_TRANSLATE("PonpokoDiff: Choose files"), B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	int index;
 	for (index = 0; index < FileMAX; index++)
-		filePanels[index] = NULL;
+		fFilePanels[index] = NULL;
 }
 
 
@@ -46,8 +46,8 @@ OpenFilesDialog::~OpenFilesDialog()
 {
 	int index;
 	for (index = 0; index < FileMAX; index++) {
-		if (filePanels[index] != NULL)
-			delete filePanels[index];
+		if (fFilePanels[index] != NULL)
+			delete fFilePanels[index];
 	}
 }
 
@@ -144,7 +144,7 @@ OpenFilesDialog::_BrowseFile(OpenFilesDialog::FileIndex fileIndex)
 	if (fileIndex < 0 || fileIndex >= FileMAX)
 		return;
 
-	if (NULL == filePanels[fileIndex]) {
+	if (NULL == fFilePanels[fileIndex]) {
 		BMessage* message = NULL;
 		BString title;
 		title += B_TRANSLATE_SYSTEM_NAME("PonpokoDiff");
@@ -166,17 +166,17 @@ OpenFilesDialog::_BrowseFile(OpenFilesDialog::FileIndex fileIndex)
 				message = NULL;
 				break;
 		}
-		filePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL,
+		fFilePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL,
 			new TextFileFilter(), false, true);
-		filePanels[fileIndex]->SetTarget(BMessenger(this));
-		filePanels[fileIndex]->SetMessage(message);
+		fFilePanels[fileIndex]->SetTarget(BMessenger(this));
+		fFilePanels[fileIndex]->SetMessage(message);
 		delete message;
-		filePanels[fileIndex]->Window()->SetTitle(title.String());
+		fFilePanels[fileIndex]->Window()->SetTitle(title.String());
 	}
-	if (!filePanels[fileIndex]->IsShowing())
-		filePanels[fileIndex]->Show();
+	if (!fFilePanels[fileIndex]->IsShowing())
+		fFilePanels[fileIndex]->Show();
 	else
-		filePanels[fileIndex]->Window()->Activate();
+		fFilePanels[fileIndex]->Window()->Activate();
 }
 
 

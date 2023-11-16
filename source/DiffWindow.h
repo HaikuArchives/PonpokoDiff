@@ -26,8 +26,7 @@ enum pane_side {
 
 class DiffWindow : public BWindow {
 public:
-							DiffWindow(BRect frame, const char* name,
-								uint32 workspaces = B_CURRENT_WORKSPACE);
+							DiffWindow();
 	virtual					~DiffWindow();
 
 			void			Initialize();
@@ -47,6 +46,9 @@ private:
 			void			_OpenFile(BPath path);
 			void			_OpenLocation(BPath path);
 
+			void			_LoadSettings();
+			void			_SaveSettings();
+
 			void			_UpdateTitle();
 			void			_DoFileQuit();
 
@@ -55,6 +57,7 @@ private:
 			BPath			fPathRight;
 			node_ref 		fLeftNodeRef;
 			node_ref 		fRightNodeRef;
+			BMessage*		fSettings;
 };
 
 #endif // DIFFWINDOW_H
