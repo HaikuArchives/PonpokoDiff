@@ -7,8 +7,8 @@
  *		Adrien Destugues (PulkoMandy)
  *
  */
-#ifndef DIRECTORYDATA_H__INCLUDED
-#define DIRECTORYDATA_H__INCLUDED
+#ifndef DIRECTORYDATA_H
+#define DIRECTORYDATA_H
 
 #include <vector>
 
@@ -25,14 +25,14 @@ public:
 			void		Load(const BPath& path);
 			void		Unload();
 
-			int			GetLineCount() const		{ return lines.size(); }
-	const Substring&	GetLineAt(int index) const	{ return lines[index]; }
+			int			GetLineCount() const { return fLines.size(); }
+	const Substring&	GetLineAt(int index) const { return fLines[index]; }
 
 private:
 	typedef std::vector<Substring>	SubstringVector;
 
-	SubstringVector		lines;
-	std::vector<BString> data;
+	SubstringVector		fLines;
+	std::vector<BString> fData;
 };
 
-#endif // LINESEPARATEDTEXT_H__INCLUDED
+#endif // DIRECTORYDATA_H

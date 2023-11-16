@@ -9,7 +9,7 @@
  *
  */
 
-#include "PonpokoDiffApp.h"
+#include "App.h"
 
 #include <AboutWindow.h>
 #include <Alert.h>
@@ -26,7 +26,7 @@
 
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
-#include "TextDiffWnd.h"
+#include "DiffWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Application"
@@ -35,30 +35,30 @@
 const char* kAppSignature = "application/x-vnd.Hironytic-PonpokoDiff";
 
 
-PonpokoDiffApp::PonpokoDiffApp()
+App::App()
 	:
 	BApplication("application/x-vnd.Hironytic-PonpokoDiff")
 {
-	textDiffWndCount = 0;
-	openFilesDialog = NULL;
+	fWindowCount = 0;
+	fOpenFilesPanel = NULL;
 }
 
 
-PonpokoDiffApp::~PonpokoDiffApp()
+App::~App()
 {
 }
 
 
 void
-PonpokoDiffApp::ReadyToRun()
+App::ReadyToRun()
 {
-	if (0 == textDiffWndCount)
-		doOpenFileDialog();
+	if (0 == fWindowCount)
+		OpenFilesPanel();
 }
 
 
 void
-PonpokoDiffApp::AboutRequested()
+App::AboutRequested()
 {
 	BAboutWindow* aboutwindow
 		= new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"), kAppSignature);
@@ -79,7 +79,7 @@ PonpokoDiffApp::AboutRequested()
 
 
 void
-PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
+App::ArgvReceived(int32 argc, char** argv)
 {
 	BMessage refsMsg;
 	bool isLabel = false;
@@ -95,7 +95,7 @@ PonpokoDiffApp::ArgvReceived(int32 argc, char** argv)
 
 
 void
-PonpokoDiffApp::RefsReceived(BMessage* message)
+App::RefsReceived(BMessage* message)
 {
 	BPath lastPath;
 	entry_ref ref;
@@ -107,8 +107,8 @@ PonpokoDiffApp::RefsReceived(BMessage* message)
 			continue;
 		}
 		if (lastPath.InitCheck() == B_OK && path.InitCheck() == B_OK) {
-			TextDiffWnd* wnd = NewTextDiffWnd();
-			wnd->ExecuteDiff(lastPath, path);
+			DiffWindow* window = NewDiffWindow();
+			window->ExecuteDiff(lastPath, path);
 			lastPath.Unset();
 		} else
 			lastPath = path;
@@ -118,23 +118,22 @@ PonpokoDiffApp::RefsReceived(BMessage* message)
 	if (lastPath.InitCheck() == B_OK) {
 		entry_ref lastRef;
 		BEntry(lastPath.Path()).GetRef(&lastRef);
-		BMessage msg(ID_OFD_LEFT_SELECTED);
+		BMessage msg(MSG_OFD_LEFT_SELECTED);
 		msg.AddRef("refs", &lastRef);
-		doOpenFileDialog();
-		openFilesDialog->MessageReceived(&msg);
+		OpenFilesPanel();
+		fOpenFilesPanel->MessageReceived(&msg);
 	}
 }
 
 
-TextDiffWnd*
-PonpokoDiffApp::NewTextDiffWnd()
+DiffWindow*
+App::NewDiffWindow()
 {
 	BAutolock locker(this);
 	if (locker.IsLocked()) {
-		BRect frameRect;
-		makeNewTextDiffWndRect(frameRect);
-		TextDiffWnd* newWindow = new TextDiffWnd(frameRect, B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
-		textDiffWndCount++;
+		DiffWindow* newWindow = new DiffWindow(BRect(0, 0 , 600, 400),
+			B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
+		fWindowCount++;
 		newWindow->Initialize();
 		return newWindow;
 	}
@@ -144,55 +143,36 @@ PonpokoDiffApp::NewTextDiffWnd()
 
 
 void
-PonpokoDiffApp::makeNewTextDiffWndRect(BRect& frameRect)
-{
-	BRect screenFrame;
-	{
-		BScreen screen;
-		screenFrame = screen.Frame();
-	}
-
-	float screenWidth = screenFrame.Width() + 1;
-	float screenHeight = screenFrame.Height() + 1;
-
-	frameRect.left = floor(screenWidth / 8);
-	frameRect.top = floor(screenHeight / 8);
-	frameRect.right = frameRect.left + floor(screenWidth / 2) - 1;
-	frameRect.bottom = frameRect.top + floor(screenHeight / 2) - 1;
-}
-
-
-void
-PonpokoDiffApp::TextDiffWndQuit(TextDiffWnd* /* wnd */)
+App::DiffWindowQuit(DiffWindow* /* window */)
 {
 	BAutolock locker(this);
 	if (locker.IsLocked()) {
-		textDiffWndCount--;
-		if (textDiffWndCount <= 0 && openFilesDialog == NULL)
+		fWindowCount--;
+		if (fWindowCount <= 0 && fOpenFilesPanel == NULL)
 			PostMessage(B_QUIT_REQUESTED);
 	}
 }
 
 
 void
-PonpokoDiffApp::OpenFilesDialogClosed()
+App::OpenFilesPanelClosed()
 {
 	BAutolock locker(this);
 	if (locker.IsLocked()) {
-		openFilesDialog = NULL;
-		if (textDiffWndCount <= 0)
+		fOpenFilesPanel = NULL;
+		if (fWindowCount <= 0)
 			PostMessage(B_QUIT_REQUESTED);
 	}
 }
 
 
 void
-PonpokoDiffApp::MessageReceived(BMessage* message)
+App::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
-		case ID_FILE_OPEN:
+		case MSG_FILE_OPEN:
 		{
-			doOpenFileDialog();
+			OpenFilesPanel();
 
 			BMessenger window;
 			if (message->FindMessenger("killme", &window) == B_OK)
@@ -208,28 +188,28 @@ PonpokoDiffApp::MessageReceived(BMessage* message)
 
 
 void
-PonpokoDiffApp::doOpenFileDialog()
+App::OpenFilesPanel()
 {
-	if (openFilesDialog != NULL) {
-		BAutolock locker(openFilesDialog);
+	if (fOpenFilesPanel != NULL) {
+		BAutolock locker(fOpenFilesPanel);
 		if (locker.IsLocked()) {
-			if (openFilesDialog->IsMinimized())
-				openFilesDialog->Minimize(false);
-			if (!openFilesDialog->IsActive())
-				openFilesDialog->Activate(true);
+			if (fOpenFilesPanel->IsMinimized())
+				fOpenFilesPanel->Minimize(false);
+			if (!fOpenFilesPanel->IsActive())
+				fOpenFilesPanel->Activate(true);
 			return;
 		}
 	}
 
-	openFilesDialog = new OpenFilesDialog(BPoint(100, 100));
-	openFilesDialog->Initialize();
+	fOpenFilesPanel = new OpenFilesDialog(BPoint(100, 100));
+	fOpenFilesPanel->Initialize();
 }
 
 
 int
 main(int /*argc*/, char** /*argv*/)
 {
-	PonpokoDiffApp app;
+	App app;
 	app.Run();
 	return 0;
 }

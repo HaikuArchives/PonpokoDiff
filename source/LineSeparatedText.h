@@ -6,8 +6,8 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef LINESEPARATEDTEXT_H__INCLUDED
-#define LINESEPARATEDTEXT_H__INCLUDED
+#ifndef LINESEPARATEDTEXT_H
+#define LINESEPARATEDTEXT_H
 
 #include <vector>
 
@@ -24,17 +24,17 @@ public:
 			void		Load(const BPath& path);
 			void		Unload();
 
-			int			GetLineCount() const { return lines.size(); }
-	const Substring&	GetLineAt(int index) const { return lines[index]; }
+			int			GetLineCount() const { return fLines.size(); }
+	const Substring&	GetLineAt(int index) const { return fLines[index]; }
 
 private:
-			void		splitBuffer(uint32 size);
+			void		_SplitBuffer(uint32 size);
 
 private:
 	typedef std::vector<Substring>	SubstringVector;
 
-			char*		loadedBuffer;
-	SubstringVector		lines;
+			char*		fLoadedBuffer;
+	SubstringVector		fLines;
 };
 
-#endif // LINESEPARATEDTEXT_H__INCLUDED
+#endif // LINESEPARATEDTEXT_H

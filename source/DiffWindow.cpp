@@ -8,9 +8,9 @@
  *
  */
 
-#include "TextDiffWnd.h"
+#include "App.h"
 #include "CommandIDs.h"
-#include "PonpokoDiffApp.h"
+#include "DiffWindow.h"
 
 #include <Alert.h>
 #include <Application.h>
@@ -33,7 +33,7 @@
 #define B_TRANSLATION_CONTEXT "TextDiffWindow"
 
 
-TextDiffWnd::TextDiffWnd(
+DiffWindow::DiffWindow(
 	BRect frame, const char* name, uint32 workspaces /* = B_CURRENT_WORKSPACE */)
 	:
 	BWindow(frame, name, B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, workspaces)
@@ -41,18 +41,18 @@ TextDiffWnd::TextDiffWnd(
 }
 
 
-TextDiffWnd::~TextDiffWnd()
+DiffWindow::~DiffWindow()
 {
 }
 
 
 void
-TextDiffWnd::Initialize()
+DiffWindow::Initialize()
 {
 	BMenuBar* menuBar = new BMenuBar("MainMenu");
-	createMainMenu(menuBar);
+	_CreateMainMenu(menuBar);
 
-	fDiffView = new TextDiffView("TextDiffView");
+	fDiffView = new DiffView("DiffView");
 	fDiffView->Initialize();
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
@@ -67,7 +67,7 @@ TextDiffWnd::Initialize()
 
 
 void
-TextDiffWnd::ExecuteDiff(const BPath pathLeft, const BPath pathRight)
+DiffWindow::ExecuteDiff(const BPath pathLeft, const BPath pathRight)
 {
 	fPathLeft = pathLeft;
 	fPathRight = pathRight;
@@ -77,56 +77,56 @@ TextDiffWnd::ExecuteDiff(const BPath pathLeft, const BPath pathRight)
 		fDiffView->UnlockLooper();
 	}
 
-	updateTitle();
-	startNodeMonitor();
+	_UpdateTitle();
+	_StartNodeMonitor();
 }
 
 
 void
-TextDiffWnd::Quit()
+DiffWindow::Quit()
 {
-	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
-	app->TextDiffWndQuit(this);
+	App* app = static_cast<App*>(be_app);
+	app->DiffWindowQuit(this);
 
 	BWindow::Quit();
 }
 
 
 void
-TextDiffWnd::MessageReceived(BMessage* message)
+DiffWindow::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
 		case B_NODE_MONITOR:
-			handleNodeMonitorEvent(message);
+			_HandleNodeMonitorEvent(message);
 			break;
 
-		case ID_FILE_QUIT:
-			doFileQuit();
+		case MSG_FILE_QUIT:
+			_DoFileQuit();
 			break;
 
-		case ID_FILE_LAUNCH:
+		case MSG_FILE_LAUNCH:
 		{
 			int32 pane;
 			if (message->FindInt32("pane", &pane) == B_OK) {
 				if (pane == LEFT)
-					openFile(fPathLeft);
+					_OpenFile(fPathLeft);
 				else if (pane == RIGHT)
-					openFile(fPathRight);
+					_OpenFile(fPathRight);
 			}
 		} break;
 
-		case ID_OPEN_LOCATION:
+		case MSG_OPEN_LOCATION:
 		{
 			int32 pane;
 			if (message->FindInt32("pane", &pane) == B_OK) {
 				if (pane == LEFT)
-					openLocation(fPathLeft);
+					_OpenLocation(fPathLeft);
 				else if (pane == RIGHT)
-					openLocation(fPathRight);
+					_OpenLocation(fPathRight);
 			}
 		} break;
 
-		case ID_FILE_DROPPED:
+		case MSG_FILE_DROPPED:
 		{
 			BString path;
 			if (message->FindString("leftpath", &path) == B_OK) {
@@ -137,25 +137,25 @@ TextDiffWnd::MessageReceived(BMessage* message)
 				fPathRight.SetTo(path.String());
 			}
 		} //intentional fall-through
-		case ID_FILE_RELOAD:
+		case MSG_FILE_RELOAD:
 		{
 			// Are the files still there?
 			BEntry entryLeft(fPathLeft.Path());
 			BEntry entryRight(fPathRight.Path());
 			if (!entryLeft.Exists()) {
-				askFileRemoved(fLeftNodeRef);
+				_AskFileRemoved(fLeftNodeRef);
 				break;
 			} else if (!entryRight.Exists()) {
-				askFileRemoved(fRightNodeRef);
+				_AskFileRemoved(fRightNodeRef);
 				break;
 			}
 
 			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
-			updateTitle();
-			startNodeMonitor();
+			_UpdateTitle();
+			_StartNodeMonitor();
 		} break;
 
-		case ID_FILE_SWITCH:
+		case MSG_FILE_SWITCH:
 		{
 			node_ref tempNode = fLeftNodeRef;
 			fLeftNodeRef = fRightNodeRef;
@@ -166,7 +166,7 @@ TextDiffWnd::MessageReceived(BMessage* message)
 			fPathRight = tempPath;
 
 			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
-			updateTitle();
+			_UpdateTitle();
 		} break;
 
 		default:
@@ -177,43 +177,43 @@ TextDiffWnd::MessageReceived(BMessage* message)
 
 
 void
-TextDiffWnd::createMainMenu(BMenuBar* menuBar)
+DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 {
 	BMenuItem* menuItem;
 
 	BMenu* fileMenu = new BMenu(B_TRANSLATE("File"));
 	menuBar->AddItem(fileMenu);
 	menuItem = new BMenuItem(B_TRANSLATE("Choose files" B_UTF8_ELLIPSIS),
-		new BMessage(ID_FILE_OPEN), 'O');
+		new BMessage(MSG_FILE_OPEN), 'O');
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
 
-	menuItem = new BMenuItem(B_TRANSLATE("Switch files"), new BMessage(ID_FILE_SWITCH), B_TAB);
+	menuItem = new BMenuItem(B_TRANSLATE("Switch files"), new BMessage(MSG_FILE_SWITCH), B_TAB);
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 
-	menuItem = new BMenuItem(B_TRANSLATE("Reload"), new BMessage(ID_FILE_RELOAD), 'R');
+	menuItem = new BMenuItem(B_TRANSLATE("Reload"), new BMessage(MSG_FILE_RELOAD), 'R');
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 
-	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(ID_FILE_CLOSE), 'W');
+	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W');
 	fileMenu->AddItem(menuItem);
 
 	fileMenu->AddSeparatorItem();
 
-	menuItem = new BMenuItem(B_TRANSLATE("About PonpokoDiff"), new BMessage(ID_FILE_ABOUT));
+	menuItem = new BMenuItem(B_TRANSLATE("About PonpokoDiff"), new BMessage(B_ABOUT_REQUESTED));
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
 
 	fileMenu->AddSeparatorItem();
 
-	menuItem = new BMenuItem(B_TRANSLATE("Quit"), new BMessage(ID_FILE_QUIT), 'Q');
+	menuItem = new BMenuItem(B_TRANSLATE("Quit"), new BMessage(MSG_FILE_QUIT), 'Q');
 	fileMenu->AddItem(menuItem);
 }
 
 
 void
-TextDiffWnd::startNodeMonitor()
+DiffWindow::_StartNodeMonitor()
 {
 	BEntry entry(fPathLeft.Path(), true);
 	if (entry.InitCheck() == B_OK)
@@ -229,7 +229,7 @@ TextDiffWnd::startNodeMonitor()
 
 
 void
-TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
+DiffWindow::_HandleNodeMonitorEvent(BMessage* message)
 {
 	int32 opcode = 0;
 	if (message->FindInt32("opcode", &opcode) != B_OK)
@@ -248,7 +248,7 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 
 			if (((fields & B_STAT_MODIFICATION_TIME)  != 0)
 				&& ((fields & B_STAT_ACCESS_TIME)  == 0))
-				askToReload(nref);
+				_AskToReload(nref);
 
 		} break;
 
@@ -279,8 +279,8 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 			} else
 				break;
 
-			updateTitle();
-			startNodeMonitor();
+			_UpdateTitle();
+			_StartNodeMonitor();
 		} break;
 
 		case B_ENTRY_REMOVED:
@@ -291,7 +291,7 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 				|| message->FindInt64("node", &nref.node) != B_OK)
 				break;
 
-			askFileRemoved(nref);
+			_AskFileRemoved(nref);
 		} break;
 
 		case B_DEVICE_UNMOUNTED:
@@ -302,18 +302,18 @@ TextDiffWnd::handleNodeMonitorEvent(BMessage* message)
 				break;
 
 			if (nref.device == fLeftNodeRef.device && nref.device == fRightNodeRef.device)
-				askDeviceRemoved(BOTH);
+				_AskDeviceRemoved(BOTH);
 			else if (nref.device == fLeftNodeRef.device)
-				askDeviceRemoved(LEFT);
+				_AskDeviceRemoved(LEFT);
 			else if (nref.device == fRightNodeRef.device)
-				askDeviceRemoved(RIGHT);
+				_AskDeviceRemoved(RIGHT);
 		} break;
 	}
 }
 
 
 void
-TextDiffWnd::askToReload(node_ref nref)
+DiffWindow::_AskToReload(node_ref nref)
 {
 	BString text;
 	if (nref == fLeftNodeRef) {
@@ -344,7 +344,7 @@ TextDiffWnd::askToReload(node_ref nref)
 
 
 void
-TextDiffWnd::askFileRemoved(node_ref nref)
+DiffWindow::_AskFileRemoved(node_ref nref)
 {
 	BString text;
 	if (nref == fLeftNodeRef) {
@@ -371,7 +371,7 @@ TextDiffWnd::askFileRemoved(node_ref nref)
 			watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
 			watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
 
-			BMessage message(ID_FILE_OPEN);
+			BMessage message(MSG_FILE_OPEN);
 			message.AddMessenger("killme", this);
 			be_app->PostMessage(&message);
 
@@ -384,7 +384,7 @@ TextDiffWnd::askFileRemoved(node_ref nref)
 
 
 void
-TextDiffWnd::askDeviceRemoved(pane_side side)
+DiffWindow::_AskDeviceRemoved(pane_side side)
 {
 	BString text;
 	if (side == BOTH) {
@@ -414,7 +414,7 @@ TextDiffWnd::askDeviceRemoved(pane_side side)
 			watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
 			watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
 
-			BMessage message(ID_FILE_OPEN);
+			BMessage message(MSG_FILE_OPEN);
 			message.AddMessenger("killme", this);
 			be_app->PostMessage(&message);
 
@@ -427,7 +427,7 @@ TextDiffWnd::askDeviceRemoved(pane_side side)
 
 
 void
-TextDiffWnd::openFile(BPath path)
+DiffWindow::_OpenFile(BPath path)
 {
 	entry_ref ref;
 	get_ref_for_path(path.Path(), &ref);
@@ -436,7 +436,7 @@ TextDiffWnd::openFile(BPath path)
 
 
 void
-TextDiffWnd::openLocation(BPath path)
+DiffWindow::_OpenLocation(BPath path)
 {
 	entry_ref ref;
 	path.GetParent(&path);
@@ -446,7 +446,7 @@ TextDiffWnd::openLocation(BPath path)
 
 
 void
-TextDiffWnd::updateTitle()
+DiffWindow::_UpdateTitle()
 {
 	BString title(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
 	title += " : ";
@@ -459,7 +459,7 @@ TextDiffWnd::updateTitle()
 
 
 void
-TextDiffWnd::doFileQuit()
+DiffWindow::_DoFileQuit()
 {
 	be_app->PostMessage(B_QUIT_REQUESTED);
 }

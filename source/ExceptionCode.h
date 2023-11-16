@@ -6,8 +6,8 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef EXCEPTIONCODE_H__INCLUDED
-#define EXCEPTIONCODE_H__INCLUDED
+#ifndef EXCEPTIONCODE_H
+#define EXCEPTIONCODE_H
 
 enum
 {
@@ -16,4 +16,4 @@ enum
 	EXCEPTION_FILE_OPEN		= 2,
 };
 
-#endif // EXCEPTIONCODE_H__INCLUDED
+#endif // EXCEPTIONCODE_H

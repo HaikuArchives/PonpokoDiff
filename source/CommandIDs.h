@@ -6,31 +6,30 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef COMMANDIDS_H__INCLUDED
-#define COMMANDIDS_H__INCLUDED
+#ifndef COMMANDIDS_H
+#define COMMANDIDS_H
 
 #include "AppDefs.h"
 
 
 enum
 {
-	ID_FILE_OPEN			= 'mOpn',
-	ID_FILE_RELOAD			= 'mRld',
-	ID_FILE_CLOSE			= B_QUIT_REQUESTED,
-	ID_FILE_ABOUT			= B_ABOUT_REQUESTED,
-	ID_FILE_QUIT			= 'mQit',
-	ID_FILE_DROPPED			= 'mDrp',
-	ID_FILE_LAUNCH			= 'mLnc',
-	ID_FILE_SWITCH			= 'mSwi',
-	ID_OPEN_LOCATION		= 'mLoc',
+	MSG_FILE_OPEN			= 'mOpn',
+	MSG_FILE_RELOAD			= 'mRld',
+	MSG_FILE_QUIT			= 'mQit',
+	MSG_FILE_DROPPED		= 'mDrp',
+	MSG_FILE_LAUNCH			= 'mLnc',
+	MSG_FILE_SWITCH			= 'mSwi',
 
-	ID_CANCEL				= '-Ccl',
+	MSG_OPEN_LOCATION		= 'mLoc',
 
-	ID_OFD_BROWSE_LEFT		= 'fBrL',
-	ID_OFD_BROWSE_RIGHT		= 'fBrR',
-	ID_OFD_DIFF_THEM		= 'fDif',
-	ID_OFD_LEFT_SELECTED	= 'fSlL',
-	ID_OFD_RIGHT_SELECTED	= 'fSlR',
+	MSG_CANCEL				= '-Ccl',
+
+	MSG_OFD_BROWSE_LEFT		= 'fBrL',
+	MSG_OFD_BROWSE_RIGHT	= 'fBrR',
+	MSG_OFD_DIFF_THEM		= 'fDif',
+	MSG_OFD_LEFT_SELECTED	= 'fSlL',
+	MSG_OFD_RIGHT_SELECTED	= 'fSlR',
 };
 
-#endif // COMMANDIDS_H__INCLUDED
+#endif // COMMANDIDS_H

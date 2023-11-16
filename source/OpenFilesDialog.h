@@ -6,8 +6,8 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef OPENFILESDIALOG_H__INCLUDED
-#define OPENFILESDIALOG_H__INCLUDED
+#ifndef OPENFILESDIALOG_H
+#define OPENFILESDIALOG_H
 
 #include <FilePanel.h>
 #include <Window.h>
@@ -26,19 +26,19 @@ public:
 
 private:
 	enum FileIndex {
-		LeftFile = 0,
-		RightFile,
+		LEFTFILE = 0,
+		RIGHTFILE,
 
 		FileMAX
 	};
 
 private:
-			void		doBrowseFile(OpenFilesDialog::FileIndex fileIndex);
-			void		doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message);
-			void		doDiffThem();
+			void		_BrowseFile(OpenFilesDialog::FileIndex fileIndex);
+			void		_FileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message);
+			void		_RunDiff();
 
 private:
 		BFilePanel*		filePanels[FileMAX];
 };
 
-#endif // OPENFILESDIALOG_H__INCLUDED
+#endif // OPENFILESDIALOG_H

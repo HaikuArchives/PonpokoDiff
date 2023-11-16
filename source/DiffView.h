@@ -6,8 +6,8 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef TEXTDIFFVIEW_H__INCLUDED
-#define TEXTDIFFVIEW_H__INCLUDED
+#ifndef TEXTDIFFVIEW_H
+#define TEXTDIFFVIEW_H
 
 
 #include <View.h>
@@ -20,10 +20,10 @@
 class BPath;
 
 
-class TextDiffView : public BView {
+class DiffView : public BView {
 public:
-						TextDiffView(const char* name);
-	virtual				~TextDiffView();
+						DiffView(const char* name);
+	virtual				~DiffView();
 
 	virtual	void		MessageReceived(BMessage* message);
 
@@ -34,15 +34,15 @@ private:
 	enum PaneIndex {
 		InvalidPane = -1,
 
-		LeftPane = 0,
-		RightPane,
+		LEFT_PANE = 0,
+		RIGHT_PANE,
 
 		PaneMAX
 	};
 
 private:
-			void		paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex);
-			void		makeFocusToPane(TextDiffView::PaneIndex paneIndex);
+			void		_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex);
+			void		_MakeFocusToPane(DiffView::PaneIndex fPaneIndex);
 
 private:
 	class DiffPaneView : public BView {
@@ -50,14 +50,14 @@ private:
 							DiffPaneView(const char* name);
 		virtual				~DiffPaneView();
 
-				void		SetTextDiffView(TextDiffView* textDiffView)
-								{ this->textDiffView = textDiffView; }
-				void		SetPaneIndex(TextDiffView::PaneIndex paneIndex)
-								{ this->paneIndex = paneIndex; }
+				void		SetDiffView(DiffView* fDiffView)
+								{ this->fDiffView = fDiffView; }
+				void		SetPaneIndex(DiffView::PaneIndex fPaneIndex)
+								{ this->fPaneIndex = fPaneIndex; }
 				void		DataChanged();
 
 	public:
-		virtual void		TargetedByScrollView(BScrollView* scroller);
+		virtual void		TargetedByScrollView(BScrollView* fScroller);
 		virtual	void		Draw(BRect updateRect);
 		virtual void		ScrollTo(BPoint point);
 		virtual void		MouseDown(BPoint where);
@@ -65,18 +65,18 @@ private:
 		virtual void		SetFont(const BFont* font, uint32 properties = B_FONT_ALL);
 
 	private:
-				void		recalcLayout();
-				void		adjustScrollBar();
-				float		getDataHeight();
-				void		drawText(const BFont& font, const Substring& text, float baseLine);
+				void		_RecalcLayout();
+				void		_AdjustScrollBar();
+				float		_GetDataHeight();
+				void		_DrawText(const BFont& font, const Substring& text, float baseLine);
 
 	private:
-		TextDiffView*		textDiffView;
-		TextDiffView::PaneIndex	paneIndex;
-		BScrollView*		scroller;
-		float				dataHeight;
-		float				tabUnit;
-		float				maxLineLength;
+		DiffView*			fDiffView;
+		DiffView::PaneIndex	fPaneIndex;
+		BScrollView*		fScroller;
+		float				fDataHeight;
+		float				fTabUnit;
+		float				fMaxLineLength;
 	};
 	friend class DiffPaneView;
 
@@ -87,9 +87,9 @@ private:
 	typedef std::vector<LineInfo> LineInfoVector;
 
 private:
-		LineSeparatedText	textData[PaneMAX];
-		LineInfoVector		lineInfos;
-		bool				isPanesVScrolling;
+		LineSeparatedText	fTextData[PaneMAX];
+		LineInfoVector		fLineInfos;
+		bool				fIsPanesVScrolling;
 };
 
-#endif // TEXTDIFFVIEW_H__INCLUDED
+#endif // TEXTDIFFVIEW_H

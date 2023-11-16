@@ -19,10 +19,10 @@
 #include <StringView.h>
 #include <TextControl.h>
 
+#include "App.h"
 #include "CommandIDs.h"
 #include "LocationInput.h"
-#include "PonpokoDiffApp.h"
-#include "TextDiffWnd.h"
+#include "DiffWindow.h"
 #include "TextFileFilter.h"
 
 
@@ -59,19 +59,19 @@ OpenFilesDialog::Initialize()
 	BStringView* leftLabel = new BStringView("leftlabel", B_TRANSLATE("Left file:"));
 	LocationInput* leftTextControl = new LocationInput("LeftTextControl", NULL);
 	BButton* leftBrowseButton = new BButton(
-		"LeftBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(ID_OFD_BROWSE_LEFT));
+		"LeftBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(MSG_OFD_BROWSE_LEFT));
 
 	BStringView* rightLabel = new BStringView("rightLabel", B_TRANSLATE("Right file:"));
 	LocationInput* rightTextControl = new LocationInput("RightTextControl", NULL);
 	BButton* rightBrowseButton = new BButton(
-		"RightBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(ID_OFD_BROWSE_RIGHT));
+		"RightBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(MSG_OFD_BROWSE_RIGHT));
 
 	BButton* diffThemButton
-		= new BButton("DiffButton", B_TRANSLATE("Diff"), new BMessage(ID_OFD_DIFF_THEM));
+		= new BButton("DiffButton", B_TRANSLATE("Diff"), new BMessage(MSG_OFD_DIFF_THEM));
 	diffThemButton->MakeDefault(true);
 
 	BButton* cancelButton
-		= new BButton("CancelButton", B_TRANSLATE("Cancel"), new BMessage(ID_CANCEL));
+		= new BButton("CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_CANCEL));
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_WINDOW_INSETS)
@@ -99,36 +99,36 @@ void
 OpenFilesDialog::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
-		case ID_CANCEL:
+		case MSG_CANCEL:
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 
-		case ID_OFD_BROWSE_LEFT:
-			doBrowseFile(LeftFile);
+		case MSG_OFD_BROWSE_LEFT:
+			_BrowseFile(LEFTFILE);
 			break;
 
-		case ID_OFD_BROWSE_RIGHT:
-			doBrowseFile(RightFile);
+		case MSG_OFD_BROWSE_RIGHT:
+			_BrowseFile(RIGHTFILE);
 			break;
 
-		case ID_OFD_LEFT_SELECTED:
+		case MSG_OFD_LEFT_SELECTED:
 		{
 			if (Lock()) {
-				doFileSelected(LeftFile, message);
+				_FileSelected(LEFTFILE, message);
 				Unlock();
 			}
 		} break;
 
-		case ID_OFD_RIGHT_SELECTED:
+		case MSG_OFD_RIGHT_SELECTED:
 		{
 			if (Lock()) {
-				doFileSelected(RightFile, message);
+				_FileSelected(RIGHTFILE, message);
 				Unlock();
 			}
 		} break;
 
-		case ID_OFD_DIFF_THEM:
-			doDiffThem();
+		case MSG_OFD_DIFF_THEM:
+			_RunDiff();
 			break;
 
 		default:
@@ -139,7 +139,7 @@ OpenFilesDialog::MessageReceived(BMessage* message)
 
 
 void
-OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
+OpenFilesDialog::_BrowseFile(OpenFilesDialog::FileIndex fileIndex)
 {
 	if (fileIndex < 0 || fileIndex >= FileMAX)
 		return;
@@ -150,15 +150,15 @@ OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 		title += B_TRANSLATE_SYSTEM_NAME("PonpokoDiff");
 		title += ": ";
 		switch (fileIndex) {
-			case LeftFile:
+			case LEFTFILE:
 			{
-				message = new BMessage(ID_OFD_LEFT_SELECTED);
+				message = new BMessage(MSG_OFD_LEFT_SELECTED);
 				title += B_TRANSLATE("Select left file");
 			} break;
 
-			case RightFile:
+			case RIGHTFILE:
 			{
-				message = new BMessage(ID_OFD_RIGHT_SELECTED);
+				message = new BMessage(MSG_OFD_RIGHT_SELECTED);
 				title += B_TRANSLATE("Select right file");
 			} break;
 
@@ -181,7 +181,7 @@ OpenFilesDialog::doBrowseFile(OpenFilesDialog::FileIndex fileIndex)
 
 
 void
-OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message)
+OpenFilesDialog::_FileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message)
 {
 	entry_ref ref;
 	if (B_OK != message->FindRef("refs", &ref))
@@ -190,11 +190,11 @@ OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* 
 	BPath path(&ref);
 	const char* viewName;
 	switch (fileIndex) {
-		case LeftFile:
+		case LEFTFILE:
 			viewName = "LeftTextControl";
 			break;
 
-		case RightFile:
+		case RIGHTFILE:
 			viewName = "RightTextControl";
 			break;
 
@@ -212,7 +212,7 @@ OpenFilesDialog::doFileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* 
 
 
 void
-OpenFilesDialog::doDiffThem()
+OpenFilesDialog::_RunDiff()
 {
 	const char* text = NULL;
 	BTextControl* textControl;
@@ -235,9 +235,9 @@ OpenFilesDialog::doDiffThem()
 
 	BPath rightPath(text);
 
-	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
-	TextDiffWnd* newDiffWnd = app->NewTextDiffWnd();
-	newDiffWnd->ExecuteDiff(leftPath, rightPath);
+	App* app = static_cast<App*>(be_app);
+	DiffWindow* window = app->NewDiffWindow();
+	window->ExecuteDiff(leftPath, rightPath);
 	PostMessage(B_QUIT_REQUESTED);
 }
 
@@ -245,8 +245,8 @@ OpenFilesDialog::doDiffThem()
 void
 OpenFilesDialog::Quit()
 {
-	PonpokoDiffApp* app = static_cast<PonpokoDiffApp*>(be_app);
-	app->OpenFilesDialogClosed();
+	App* app = static_cast<App*>(be_app);
+	app->OpenFilesPanelClosed();
 
 	BWindow::Quit();
 }

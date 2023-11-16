@@ -6,28 +6,28 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef EXCEPTION_H__INCLUDED
-#define EXCEPTION_H__INCLUDED
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
 
 #include <Path.h>
 
 
 class Exception {
 public:
-						Exception(int code) { this->code = code; }
+						Exception(int fCode) { this->fCode = fCode; }
 	virtual				~Exception() {}
 
-			int			GetCode() const { return code; }
+			int			GetCode() const { return fCode; }
 	virtual	void		Delete() { delete this; }
 
 private:
-			int			code;
+			int			fCode;
 };
 
 
 class MemoryException : public Exception {
 public:
-	static void			Throw() { throw &theOnlyInstance; }
+	static void			Throw() { throw &fTheOnlyInstance; }
 	virtual	void		Delete() { /* do nothing */ }
 
 private:
@@ -35,22 +35,22 @@ private:
 	virtual				~MemoryException() {}
 
 private:
-	static MemoryException	theOnlyInstance;
+	static MemoryException	fTheOnlyInstance;
 };
 
 
 class FileException : public Exception {
 public:
-						FileException(int code, const BPath& aPath, status_t aStatus = B_NO_ERROR)
-							: Exception(code), path(aPath), status(aStatus) {}
+						FileException(int fCode, const BPath& aPath, status_t aStatus = B_NO_ERROR)
+							: Exception(fCode), fPath(aPath), fStatus(aStatus) {}
 	virtual				~FileException() {}
 
-	const BPath&		GetPath() const { return path; }
-	status_t			GetStatus() const { return status; }
+	const BPath&		GetPath() const { return fPath; }
+	status_t			GetStatus() const { return fStatus; }
 
 private:
-	BPath				path;
-	status_t			status;
+	BPath				fPath;
+	status_t			fStatus;
 };
 
-#endif // EXCEPTION_H__INCLUDED
+#endif // EXCEPTION_H

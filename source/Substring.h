@@ -6,8 +6,8 @@
  * 		ICHIMIYA Hironori (Hiron)
  *
  */
-#ifndef SUBSTRING_H__INCLUDED
-#define SUBSTRING_H__INCLUDED
+#ifndef SUBSTRING_H
+#define SUBSTRING_H
 
 
 class Substring {
@@ -34,4 +34,4 @@ private:
 	char*			end;
 };
 
-#endif // SUBSTRING_H__INCLUDED
+#endif // SUBSTRING_H

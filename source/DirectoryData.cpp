@@ -10,6 +10,7 @@
 #include "DirectoryData.h"
 #include "Exception.h"
 #include "ExceptionCode.h"
+
 #include <Directory.h>
 #include <File.h>
 #include <Path.h>
@@ -43,16 +44,16 @@ DirectoryData::Load(const BPath& path)
 	while ((status = dir.GetNextEntry(&current)) != B_ENTRY_NOT_FOUND) {
 		BPath path;
 		current.GetPath(&path);
-		BString s(path.Path());
+		BString pathString(path.Path());
 
 		struct stat fileInfo;
 		current.GetStat(&fileInfo);
 
-		s.Append("\t");
-		s << fileInfo.st_size;
+		pathString.Append("\t");
+		pathString << fileInfo.st_size;
 
-		data.push_back(s);
-		lines.push_back(Substring(s));
+		fData.push_back(s);
+		fLines.push_back(Substring(pathString));
 	}
 
 	// splitBuffer(size32);
@@ -62,6 +63,6 @@ DirectoryData::Load(const BPath& path)
 void
 DirectoryData::Unload()
 {
-	lines.clear();
-	data.clear();
+	fLines.clear();
+	fData.clear();
 }

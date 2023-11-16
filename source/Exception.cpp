@@ -10,7 +10,7 @@
 #include "ExceptionCode.h"
 
 
-MemoryException MemoryException::theOnlyInstance;
+MemoryException MemoryException::fTheOnlyInstance;
 
 
 MemoryException::MemoryException()

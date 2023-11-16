@@ -47,7 +47,7 @@ public:
 						NPDiff();
 	virtual				~NPDiff();
 
-			void		Detect(const Sequences* sequences);
+			void			Detect(const Sequences* sequences);
 	const DiffOperation*	GetOperationAt(int index);
 
 private:

@@ -9,7 +9,7 @@
  *
  */
 
-#include "TextDiffView.h"
+#include "DiffView.h"
 
 #include <math.h>
 
@@ -50,21 +50,21 @@ static const rgb_color colorModified[] = {
 static const int tabChars = 4;
 
 
-TextDiffView::TextDiffView(const char* name)
+DiffView::DiffView(const char* name)
 	:
 	BView("name", B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
 {
-	isPanesVScrolling = false;
+	fIsPanesVScrolling = false;
 }
 
 
-TextDiffView::~TextDiffView()
+DiffView::~DiffView()
 {
 }
 
 
 void
-TextDiffView::MessageReceived(BMessage* message)
+DiffView::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
 		case B_SIMPLE_DATA:
@@ -83,10 +83,10 @@ TextDiffView::MessageReceived(BMessage* message)
 				// Dropped on the left or right side
 				BPoint dropPoint = message->DropPoint();
 				ConvertFromScreen(&dropPoint);
-				BView* leftPaneView = FindView("LeftPane");
+				BView* leftPaneView = FindView("LEFT_PANE");
 				if (leftPaneView != NULL) {
 					BRect rect = leftPaneView->Bounds();
-					BMessage msg(ID_FILE_DROPPED);
+					BMessage msg(MSG_FILE_DROPPED);
 					BPath path(&entry);
 					if (rect.Contains(dropPoint))
 						msg.AddString("leftpath", path.Path());
@@ -107,20 +107,20 @@ TextDiffView::MessageReceived(BMessage* message)
 
 
 void
-TextDiffView::Initialize()
+DiffView::Initialize()
 {
-	DiffPaneView* leftPaneView = new DiffPaneView("LeftPane");
-	leftPaneView->SetTextDiffView(this);
-	leftPaneView->SetPaneIndex(LeftPane);
+	DiffPaneView* leftPaneView = new DiffPaneView("LEFT_PANE");
+	leftPaneView->SetDiffView(this);
+	leftPaneView->SetPaneIndex(LEFT_PANE);
 
-	BScrollView* leftView = new BScrollView("LeftPaneScroller", leftPaneView,
+	BScrollView* leftView = new BScrollView("LEFT_PANEScroller", leftPaneView,
 		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, false, B_NO_BORDER);
 
-	DiffPaneView* rightPaneView = new DiffPaneView("RightPane");
-	rightPaneView->SetTextDiffView(this);
-	rightPaneView->SetPaneIndex(RightPane);
+	DiffPaneView* rightPaneView = new DiffPaneView("RIGHT_PANE");
+	rightPaneView->SetDiffView(this);
+	rightPaneView->SetPaneIndex(RIGHT_PANE);
 
-	BScrollView* rightView = new BScrollView("RightPaneScroller", rightPaneView,
+	BScrollView* rightView = new BScrollView("RIGHT_PANEScroller", rightPaneView,
 		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_NO_BORDER);
 
 	// Don't let the app server erase the view.
@@ -141,11 +141,11 @@ TextDiffView::Initialize()
 
 
 void
-TextDiffView::paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex)
+DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 {
-	if (isPanesVScrolling)
+	if (fIsPanesVScrolling)
 		return;
-	isPanesVScrolling = true;
+	fIsPanesVScrolling = true;
 
 	int index;
 	for (index = 0; index < PaneMAX; index++) {
@@ -154,11 +154,11 @@ TextDiffView::paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex)
 
 		const char* viewName;
 		switch (index) {
-			case LeftPane:
-				viewName = "LeftPane";
+			case LEFT_PANE:
+				viewName = "LEFT_PANE";
 				break;
-			case RightPane:
-				viewName = "RightPane";
+			case RIGHT_PANE:
+				viewName = "RIGHT_PANE";
 				break;
 			default:
 				viewName = NULL;
@@ -174,14 +174,14 @@ TextDiffView::paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex)
 		}
 	}
 
-	isPanesVScrolling = false;
+	fIsPanesVScrolling = false;
 }
 
 
 void
-TextDiffView::makeFocusToPane(TextDiffView::PaneIndex /* paneIndex */)
+DiffView::_MakeFocusToPane(DiffView::PaneIndex /* fPaneIndex */)
 {
-	BView* rightPaneView = FindView("RightPane");
+	BView* rightPaneView = FindView("RIGHT_PANE");
 	if (rightPaneView != NULL)
 		rightPaneView->MakeFocus();
 }
@@ -224,17 +224,17 @@ public:
 
 
 void
-TextDiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
+DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 {
-	textData[LeftPane].Unload();
-	textData[RightPane].Unload();
-	lineInfos.clear();
+	fTextData[LEFT_PANE].Unload();
+	fTextData[RIGHT_PANE].Unload();
+	fLineInfos.clear();
 
 	try {
-		textData[LeftPane].Load(pathLeft);
-		textData[RightPane].Load(pathRight);
+		fTextData[LEFT_PANE].Load(pathLeft);
+		fTextData[RIGHT_PANE].Load(pathRight);
 
-		LineSeparatedSequences seqs(&textData[LeftPane], &textData[RightPane]);
+		LineSeparatedSequences seqs(&fTextData[LEFT_PANE], &fTextData[RIGHT_PANE]);
 		NPDiff diffEngine;
 		diffEngine.Detect(&seqs);
 
@@ -250,52 +250,52 @@ TextDiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 			int count, maxCount;
 			switch (diffOperation->op) {
 				case DiffOperation::Inserted:
-					line.textIndex[LeftPane] = -1;
-					line.textIndex[RightPane] = diffOperation->from1;
+					line.textIndex[LEFT_PANE] = -1;
+					line.textIndex[RIGHT_PANE] = diffOperation->from1;
 					maxCount = diffOperation->count1;
 					for (count = 0; count < maxCount; count++) {
-						lineInfos.push_back(line);
-						line.textIndex[RightPane]++;
+						fLineInfos.push_back(line);
+						line.textIndex[RIGHT_PANE]++;
 					}
 					break;
 
 				case DiffOperation::Modified:
-					line.textIndex[LeftPane] = diffOperation->from0;
-					line.textIndex[RightPane] = diffOperation->from1;
+					line.textIndex[LEFT_PANE] = diffOperation->from0;
+					line.textIndex[RIGHT_PANE] = diffOperation->from1;
 					maxCount = (diffOperation->count0 > diffOperation->count1)
 						? diffOperation->count0
 						: diffOperation->count1;
 					for (count = 0; count < maxCount; count++) {
-						lineInfos.push_back(line);
+						fLineInfos.push_back(line);
 						if (count + 1 < diffOperation->count0)
-							line.textIndex[LeftPane]++;
+							line.textIndex[LEFT_PANE]++;
 						else
-							line.textIndex[LeftPane] = -1;
+							line.textIndex[LEFT_PANE] = -1;
 						if (count + 1 < diffOperation->count1)
-							line.textIndex[RightPane]++;
+							line.textIndex[RIGHT_PANE]++;
 						else
-							line.textIndex[RightPane] = -1;
+							line.textIndex[RIGHT_PANE] = -1;
 					}
 					break;
 
 				case DiffOperation::Deleted:
-					line.textIndex[LeftPane] = diffOperation->from0;
-					line.textIndex[RightPane] = -1;
+					line.textIndex[LEFT_PANE] = diffOperation->from0;
+					line.textIndex[RIGHT_PANE] = -1;
 					maxCount = diffOperation->count0;
 					for (count = 0; count < maxCount; count++) {
-						lineInfos.push_back(line);
-						line.textIndex[LeftPane]++;
+						fLineInfos.push_back(line);
+						line.textIndex[LEFT_PANE]++;
 					}
 					break;
 
 				case DiffOperation::NotChanged:
-					line.textIndex[LeftPane] = diffOperation->from0;
-					line.textIndex[RightPane] = diffOperation->from1;
+					line.textIndex[LEFT_PANE] = diffOperation->from0;
+					line.textIndex[RIGHT_PANE] = diffOperation->from1;
 					maxCount = diffOperation->count0;
 					for (count = 0; count < maxCount; count++) {
-						lineInfos.push_back(line);
-						line.textIndex[LeftPane]++;
-						line.textIndex[RightPane]++;
+						fLineInfos.push_back(line);
+						line.textIndex[LEFT_PANE]++;
+						line.textIndex[RIGHT_PANE]++;
 					}
 					break;
 			}
@@ -304,28 +304,28 @@ TextDiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 		ex->Delete();
 	}
 
-	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LeftPane"));
+	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LEFT_PANE"));
 	if (leftPaneView != NULL)
 		leftPaneView->DataChanged();
 
-	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RightPane"));
+	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RIGHT_PANE"));
 	if (rightPaneView != NULL)
 		rightPaneView->DataChanged();
 
-	makeFocusToPane(LeftPane);
+	_MakeFocusToPane(LEFT_PANE);
 }
 
 
-TextDiffView::DiffPaneView::DiffPaneView(const char* name)
+DiffView::DiffPaneView::DiffPaneView(const char* name)
 	:
 	BView(name, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
 {
-	textDiffView = NULL;
-	paneIndex = TextDiffView::InvalidPane;
-	scroller = NULL;
-	dataHeight = -1;
-	tabUnit = -1;
-	maxLineLength = 0;
+	fDiffView = NULL;
+	fPaneIndex = DiffView::InvalidPane;
+	fScroller = NULL;
+	fDataHeight = -1;
+	fTabUnit = -1;
+	fMaxLineLength = 0;
 
 	// Don't let the app server erase the view.
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
@@ -333,53 +333,53 @@ TextDiffView::DiffPaneView::DiffPaneView(const char* name)
 }
 
 
-TextDiffView::DiffPaneView::~DiffPaneView()
+DiffView::DiffPaneView::~DiffPaneView()
 {
 }
 
 
 void
-TextDiffView::DiffPaneView::DataChanged()
+DiffView::DiffPaneView::DataChanged()
 {
-	dataHeight = -1;
-	maxLineLength = 0;
+	fDataHeight = -1;
+	fMaxLineLength = 0;
 	ScrollTo(BPoint(0, 0));
 
 	Draw(Bounds()); // force update max line length
-	adjustScrollBar();
+	_AdjustScrollBar();
 }
 
 
 void
-TextDiffView::DiffPaneView::recalcLayout()
+DiffView::DiffPaneView::_RecalcLayout()
 {
-	dataHeight = -1;
+	fDataHeight = -1;
 
 	BRect bounds = Bounds();
 	float boundsHeight = bounds.Height() + 1;
-	float height = getDataHeight();
+	float height = _GetDataHeight();
 	if (height < boundsHeight)
 		height = boundsHeight;
 
 	if (bounds.bottom >= height)
 		ScrollTo(BPoint(bounds.left, height - boundsHeight));
 	else
-		adjustScrollBar();
+		_AdjustScrollBar();
 }
 
 
 void
-TextDiffView::DiffPaneView::adjustScrollBar()
+DiffView::DiffPaneView::_AdjustScrollBar()
 {
-	if (NULL == scroller)
+	if (NULL == fScroller)
 		return;
 
 	BRect bounds = Bounds();
 
-	BScrollBar* verticalBar = scroller->ScrollBar(B_VERTICAL);
+	BScrollBar* verticalBar = fScroller->ScrollBar(B_VERTICAL);
 	if (verticalBar != NULL) {
 		float boundsHeight = bounds.Height() + 1;
-		float height = getDataHeight();
+		float height = _GetDataHeight();
 		if (height < boundsHeight)
 			height = boundsHeight;
 		verticalBar->SetRange(0, height - boundsHeight);
@@ -393,13 +393,13 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 		verticalBar->SetSteps(lineHeight, boundsHeight);
 	}
 
-	BScrollBar* horizontalBar = scroller->ScrollBar(B_HORIZONTAL);
+	BScrollBar* horizontalBar = fScroller->ScrollBar(B_HORIZONTAL);
 	if (horizontalBar != NULL) {
 		float boundsWidth = bounds.Width();
-		float range = maxLineLength - boundsWidth;
+		float range = fMaxLineLength - boundsWidth;
 		if (range > 0) {
 			horizontalBar->SetRange(0, range);
-			horizontalBar->SetProportion((boundsWidth + 1) / (maxLineLength + 1));
+			horizontalBar->SetProportion((boundsWidth + 1) / (fMaxLineLength + 1));
 			horizontalBar->SetSteps(8, boundsWidth + 1);
 		} else {
 			horizontalBar->SetRange(0, 0);
@@ -410,10 +410,10 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 
 
 float
-TextDiffView::DiffPaneView::getDataHeight()
+DiffView::DiffPaneView::_GetDataHeight()
 {
-	if (dataHeight < 0) {
-		if (textDiffView != NULL) {
+	if (fDataHeight < 0) {
+		if (fDiffView != NULL) {
 			BFont font;
 			GetFont(&font);
 
@@ -421,25 +421,25 @@ TextDiffView::DiffPaneView::getDataHeight()
 			font.GetHeight(&fh);
 			float lineHeight = static_cast<float>(ceil(fh.ascent + fh.descent + fh.leading));
 
-			dataHeight = textDiffView->lineInfos.size() * lineHeight;
+			fDataHeight = fDiffView->fLineInfos.size() * lineHeight;
 		}
 	}
 
-	return dataHeight;
+	return fDataHeight;
 }
 
 
 void
-TextDiffView::DiffPaneView::TargetedByScrollView(BScrollView* scroller)
+DiffView::DiffPaneView::TargetedByScrollView(BScrollView* fScroller)
 {
-	this->scroller = scroller;
+	this->fScroller = fScroller;
 }
 
 
 void
-TextDiffView::DiffPaneView::Draw(BRect updateRect)
+DiffView::DiffPaneView::Draw(BRect updateRect)
 {
-	if (NULL == textDiffView || TextDiffView::InvalidPane == paneIndex)
+	if (NULL == fDiffView || DiffView::InvalidPane == fPaneIndex)
 		return;
 
 	SetLowUIColor(B_DOCUMENT_BACKGROUND_COLOR);
@@ -457,12 +457,12 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 	if (lineBegin < 0)
 		lineBegin = 0;
 	int lineEnd = static_cast<int>(floor((updateRect.bottom + 1) / lineHeight)) + 1;
-	if (static_cast<unsigned int>(lineEnd) > textDiffView->lineInfos.size())
-		lineEnd = textDiffView->lineInfos.size();
+	if (static_cast<unsigned int>(lineEnd) > fDiffView->fLineInfos.size())
+		lineEnd = fDiffView->fLineInfos.size();
 	int line;
 	for (line = lineBegin; line < lineEnd; line++) {
 		rgb_color oldLowColor = LowColor();
-		const LineInfo& linfo = textDiffView->lineInfos[line];
+		const LineInfo& linfo = fDiffView->fLineInfos[line];
 
 		rgb_color bkColor;
 		int brightness = BPrivate::perceptual_brightness(ui_color(B_DOCUMENT_TEXT_COLOR));
@@ -473,7 +473,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 		switch (linfo.op) {
 			case DiffOperation::Inserted:
 			{
-				if (paneIndex == TextDiffView::RightPane)
+				if (fPaneIndex == DiffView::RIGHT_PANE)
 					bkColor = colorInserted[theme];
 				else
 					bkColor = ui_color(B_PANEL_BACKGROUND_COLOR);
@@ -482,7 +482,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 
 			case DiffOperation::Deleted:
 			{
-				if (paneIndex == TextDiffView::LeftPane)
+				if (fPaneIndex == DiffView::LEFT_PANE)
 					bkColor = colorDeleted[theme];
 				else
 					bkColor = ui_color(B_PANEL_BACKGROUND_COLOR);
@@ -505,10 +505,10 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 				lineHeight * (line + 1) - 1), B_SOLID_LOW);
 		}
 
-		if (linfo.textIndex[paneIndex] >= 0) {
+		if (linfo.textIndex[fPaneIndex] >= 0) {
 			const Substring& paneText
-				= textDiffView->textData[paneIndex].GetLineAt(linfo.textIndex[paneIndex]);
-			drawText(font, paneText, lineHeight * line + fh.ascent);
+				= fDiffView->fTextData[fPaneIndex].GetLineAt(linfo.textIndex[fPaneIndex]);
+			_DrawText(font, paneText, lineHeight * line + fh.ascent);
 		}
 		SetLowColor(oldLowColor);
 	}
@@ -516,7 +516,7 @@ TextDiffView::DiffPaneView::Draw(BRect updateRect)
 
 
 void
-TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, float baseLine)
+DiffView::DiffPaneView::_DrawText(const BFont& font, const Substring& text, float baseLine)
 {
 	float left = 0;
 	const char* subTextBegin = text.Begin();
@@ -533,13 +533,13 @@ TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, f
 		}
 
 		if ('\t' == *ptr) {
-			if (tabUnit < 0) {
-				tabUnit = font.StringWidth(FONT_SAMPLE, FONT_SAMPLE_LENGTH) / FONT_SAMPLE_LENGTH
+			if (fTabUnit < 0) {
+				fTabUnit = font.StringWidth(FONT_SAMPLE, FONT_SAMPLE_LENGTH) / FONT_SAMPLE_LENGTH
 					* tabChars;
 			}
-			left = (floor(left / tabUnit) + 1) * tabUnit;
+			left = (floor(left / fTabUnit) + 1) * fTabUnit;
 		}
-		maxLineLength = std::max(maxLineLength, left);
+		fMaxLineLength = std::max(fMaxLineLength, left);
 	}
 
 	if (subTextBegin < end)
@@ -548,17 +548,17 @@ TextDiffView::DiffPaneView::drawText(const BFont& font, const Substring& text, f
 
 
 void
-TextDiffView::DiffPaneView::ScrollTo(BPoint point)
+DiffView::DiffPaneView::ScrollTo(BPoint point)
 {
 	BView::ScrollTo(point);
 
-	if (textDiffView != NULL)
-		textDiffView->paneVScrolled(point.y, paneIndex);
+	if (fDiffView != NULL)
+		fDiffView->_PaneVScrolled(point.y, fPaneIndex);
 }
 
 
 void
-TextDiffView::DiffPaneView::MouseDown(BPoint where)
+DiffView::DiffPaneView::MouseDown(BPoint where)
 {
 	BView::MouseDown(where);
 
@@ -574,34 +574,34 @@ TextDiffView::DiffPaneView::MouseDown(BPoint where)
 		if (buttons == B_PRIMARY_MOUSE_BUTTON) {
 			BMessage msg;
 			if (mods & B_CONTROL_KEY)
-				msg.what = ID_OPEN_LOCATION;
+				msg.what = MSG_OPEN_LOCATION;
 			else
-				msg.what = ID_FILE_LAUNCH;
-			msg.AddInt32("pane", paneIndex);
+				msg.what = MSG_FILE_LAUNCH;
+			msg.AddInt32("pane", fPaneIndex);
 			Window()->PostMessage(&msg);
 		}
 	}
 
-	if (textDiffView != NULL)
-		textDiffView->makeFocusToPane(paneIndex);
+	if (fDiffView != NULL)
+		fDiffView->_MakeFocusToPane(fPaneIndex);
 }
 
 
 void
-TextDiffView::DiffPaneView::FrameResized(float width, float height)
+DiffView::DiffPaneView::FrameResized(float width, float height)
 {
 	BView::FrameResized(width, height);
 
-	recalcLayout();
+	_RecalcLayout();
 }
 
 
 void
-TextDiffView::DiffPaneView::SetFont(const BFont* font, uint32 properties /* = B_FONT_ALL */)
+DiffView::DiffPaneView::SetFont(const BFont* font, uint32 properties /* = B_FONT_ALL */)
 {
 	BView::SetFont(font, properties);
 
-	tabUnit = -1;
+	fTabUnit = -1;
 
-	recalcLayout();
+	_RecalcLayout();
 }

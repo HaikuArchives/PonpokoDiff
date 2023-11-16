@@ -18,7 +18,7 @@
 
 LineSeparatedText::LineSeparatedText()
 {
-	loadedBuffer = NULL;
+	fLoadedBuffer = NULL;
 }
 
 
@@ -41,42 +41,42 @@ LineSeparatedText::Load(const BPath& path)
 	off_t size;
 	file.GetSize(&size);
 	uint32 size32 = static_cast<uint32>(size);
-	loadedBuffer = static_cast<char*>(malloc(size32));
-	if (NULL == loadedBuffer)
+	fLoadedBuffer = static_cast<char*>(malloc(size32));
+	if (NULL == fLoadedBuffer)
 		MemoryException::Throw();
-	file.Read(loadedBuffer, size32);
+	file.Read(fLoadedBuffer, size32);
 
-	splitBuffer(size32);
+	_SplitBuffer(size32);
 }
 
 
 void
 LineSeparatedText::Unload()
 {
-	if (loadedBuffer != NULL) {
-		free(loadedBuffer);
-		loadedBuffer = NULL;
+	if (fLoadedBuffer != NULL) {
+		free(fLoadedBuffer);
+		fLoadedBuffer = NULL;
 	}
-	lines.clear();
+	fLines.clear();
 }
 
 
 void
-LineSeparatedText::splitBuffer(uint32 size)
+LineSeparatedText::_SplitBuffer(uint32 size)
 {
-	char* ptr = loadedBuffer;
-	char* endBuffer = loadedBuffer + size;
+	char* ptr = fLoadedBuffer;
+	char* endBuffer = fLoadedBuffer + size;
 
 	char* strBegin = ptr;
 	for (; ptr < endBuffer; ptr++) {
 		if (*ptr == '\n') {
-			lines.push_back(Substring(strBegin, ptr + 1));
+			fLines.push_back(Substring(strBegin, ptr + 1));
 			strBegin = ptr + 1;
 		} else if (*ptr == '\r' && (ptr + 1 >= endBuffer || *(ptr + 1) != '\n')) {
-			lines.push_back(Substring(strBegin, ptr + 1));
+			fLines.push_back(Substring(strBegin, ptr + 1));
 			strBegin = ptr + 1;
 		}
 	}
 	if (strBegin < endBuffer)
-		lines.push_back(Substring(strBegin, endBuffer));
+		fLines.push_back(Substring(strBegin, endBuffer));
 }
