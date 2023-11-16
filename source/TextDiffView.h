@@ -22,17 +22,13 @@ class BPath;
 
 class TextDiffView : public BView {
 public:
-						TextDiffView(BRect frame, const char* name, uint32 resizingMode);
+						TextDiffView(const char* name);
 	virtual				~TextDiffView();
 
 	virtual	void		MessageReceived(BMessage* message);
 
 			void		Initialize();
 			void		ExecuteDiff(BPath pathLeft, BPath pathRight);
-
-public:
-	virtual	void		FrameResized(float width, float height);
-	virtual	void		Draw(BRect updateRect);
 
 private:
 	enum PaneIndex {
@@ -45,14 +41,13 @@ private:
 	};
 
 private:
-			void		recalcLayout();
 			void		paneVScrolled(float y, TextDiffView::PaneIndex fromPaneIndex);
 			void		makeFocusToPane(TextDiffView::PaneIndex paneIndex);
 
 private:
 	class DiffPaneView : public BView {
 	public:
-							DiffPaneView(BRect frame, const char* name, uint32 resizingMode);
+							DiffPaneView(const char* name);
 		virtual				~DiffPaneView();
 
 				void		SetTextDiffView(TextDiffView* textDiffView)

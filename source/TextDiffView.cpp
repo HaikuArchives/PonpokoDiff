@@ -19,8 +19,10 @@
 
 #include <ColorConversion.h>
 #include <ControlLook.h>
+#include <LayoutBuilder.h>
 #include <ScrollBar.h>
 #include <ScrollView.h>
+#include <SeparatorView.h>
 #include <Window.h>
 
 
@@ -47,13 +49,10 @@ static const rgb_color colorModified[] = {
 
 static const int tabChars = 4;
 
-#define PANE_SPLITTER_WIDTH 6
-#define HORIZONTAL_SCROLL_MINSTEPS 8
 
-
-TextDiffView::TextDiffView(BRect frame, const char* name, uint32 resizingMode)
+TextDiffView::TextDiffView(const char* name)
 	:
-	BView(frame, name, resizingMode, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE)
+	BView("name", B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
 {
 	isPanesVScrolling = false;
 }
@@ -110,30 +109,19 @@ TextDiffView::MessageReceived(BMessage* message)
 void
 TextDiffView::Initialize()
 {
-	BRect bounds = Bounds();
-	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
-		- PANE_SPLITTER_WIDTH) / 2);
-
-	BRect leftFrame = BRect(bounds.left, bounds.top, bounds.left + leftWidth - 1,
-		bounds.bottom - be_control_look->GetScrollBarWidth(B_HORIZONTAL));
-	DiffPaneView* leftPaneView = new DiffPaneView(leftFrame, "LeftPane", B_FOLLOW_ALL_SIDES);
+	DiffPaneView* leftPaneView = new DiffPaneView("LeftPane");
 	leftPaneView->SetTextDiffView(this);
 	leftPaneView->SetPaneIndex(LeftPane);
 
-	BScrollView* leftView = new BScrollView("LeftPaneScroller", leftPaneView, B_FOLLOW_NONE,
-		B_FRAME_EVENTS, true, false, B_NO_BORDER);
-	AddChild(leftView);
+	BScrollView* leftView = new BScrollView("LeftPaneScroller", leftPaneView,
+		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, false, B_NO_BORDER);
 
-	BRect rightFrame = BRect(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top,
-		bounds.right - be_control_look->GetScrollBarWidth(B_VERTICAL),
-		bounds.bottom - be_control_look->GetScrollBarWidth(B_HORIZONTAL));
-	DiffPaneView* rightPaneView = new DiffPaneView(rightFrame, "RightPane", B_FOLLOW_ALL_SIDES);
+	DiffPaneView* rightPaneView = new DiffPaneView("RightPane");
 	rightPaneView->SetTextDiffView(this);
 	rightPaneView->SetPaneIndex(RightPane);
 
-	BScrollView* rightView = new BScrollView("RightPaneScroller", rightPaneView, B_FOLLOW_NONE,
-		B_FRAME_EVENTS, true, true, B_NO_BORDER);
-	AddChild(rightView);
+	BScrollView* rightView = new BScrollView("RightPaneScroller", rightPaneView,
+		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_NO_BORDER);
 
 	// Don't let the app server erase the view.
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
@@ -141,77 +129,14 @@ TextDiffView::Initialize()
 	// The splitter in the middle will be drawn with the low color
 	SetLowUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	recalcLayout();
-}
+	BSeparatorView* separator = new BSeparatorView(B_VERTICAL);
+	separator->SetExplicitMinSize(BSize(2, B_SIZE_UNSET));
 
-
-void
-TextDiffView::FrameResized(float width, float height)
-{
-	BView::FrameResized(width, height);
-	recalcLayout();
-}
-
-
-void
-TextDiffView::recalcLayout()
-{
-	BRect bounds = Bounds();
-	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
-		- PANE_SPLITTER_WIDTH) / 2);
-	float rightWidth = (bounds.Width() + 1 - PANE_SPLITTER_WIDTH) - leftWidth;
-
-	BView* leftPaneView = FindView("LeftPaneScroller");
-	if (leftPaneView != NULL) {
-		leftPaneView->MoveTo(bounds.left, bounds.top);
-		leftPaneView->ResizeTo(leftWidth - 1, bounds.Height());
-	}
-
-	BView* rightPaneView = FindView("RightPaneScroller");
-	if (rightPaneView != NULL) {
-		rightPaneView->MoveTo(bounds.left + leftWidth + PANE_SPLITTER_WIDTH, bounds.top);
-		rightPaneView->ResizeTo(rightWidth - 1, bounds.Height());
-	}
-}
-
-
-void
-TextDiffView::Draw(BRect updateRect)
-{
-	rgb_color oldHighColor = HighColor();
-	float oldPenSize = PenSize();
-
-	BRect bounds = Bounds();
-	float leftWidth = floor((bounds.Width() + 1 - be_control_look->GetScrollBarWidth(B_HORIZONTAL)
-		- PANE_SPLITTER_WIDTH) / 2);
-
-	// Draw the body of the splitter
-	BRect paneRect = bounds;
-	bounds.left = leftWidth + 1;
-	bounds.right = leftWidth + PANE_SPLITTER_WIDTH - 2;
-	FillRect(paneRect, B_SOLID_LOW);
-
-	if (updateRect.left <= leftWidth + 1) {
-		SetPenSize(0);
-		SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_DARKEN_2_TINT));
-		StrokeLine(
-			BPoint(leftWidth, updateRect.top), BPoint(leftWidth, updateRect.bottom), B_SOLID_HIGH);
-		SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_LIGHTEN_1_TINT));
-		StrokeLine(BPoint(leftWidth + 1, updateRect.top), BPoint(leftWidth + 1, updateRect.bottom),
-			B_SOLID_HIGH);
-	}
-	if (updateRect.right >= leftWidth + PANE_SPLITTER_WIDTH - 2) {
-		SetPenSize(0);
-		SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_DARKEN_1_TINT));
-		StrokeLine(BPoint(leftWidth + PANE_SPLITTER_WIDTH - 2, updateRect.top),
-			BPoint(leftWidth + PANE_SPLITTER_WIDTH - 2, updateRect.bottom), B_SOLID_HIGH);
-		SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_DARKEN_2_TINT));
-		StrokeLine(BPoint(leftWidth + PANE_SPLITTER_WIDTH - 1, updateRect.top),
-			BPoint(leftWidth + PANE_SPLITTER_WIDTH - 1, updateRect.bottom), B_SOLID_HIGH);
-	}
-
-	SetPenSize(oldPenSize);
-	SetHighColor(oldHighColor);
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
+		.Add(leftView)
+		.Add(separator)
+		.Add(rightView)
+		.End();
 }
 
 
@@ -391,9 +316,9 @@ TextDiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 }
 
 
-TextDiffView::DiffPaneView::DiffPaneView(BRect frame, const char* name, uint32 resizingMode)
+TextDiffView::DiffPaneView::DiffPaneView(const char* name)
 	:
-	BView(frame, name, resizingMode, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE)
+	BView(name, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
 {
 	textDiffView = NULL;
 	paneIndex = TextDiffView::InvalidPane;
@@ -475,7 +400,7 @@ TextDiffView::DiffPaneView::adjustScrollBar()
 		if (range > 0) {
 			horizontalBar->SetRange(0, range);
 			horizontalBar->SetProportion((boundsWidth + 1) / (maxLineLength + 1));
-			horizontalBar->SetSteps(HORIZONTAL_SCROLL_MINSTEPS, boundsWidth + 1);
+			horizontalBar->SetSteps(8, boundsWidth + 1);
 		} else {
 			horizontalBar->SetRange(0, 0);
 			horizontalBar->SetProportion(1);

@@ -17,6 +17,7 @@
 #include <Autolock.h>
 #include <Catalog.h>
 #include <ControlLook.h>
+#include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Message.h>
@@ -48,18 +49,18 @@ TextDiffWnd::~TextDiffWnd()
 void
 TextDiffWnd::Initialize()
 {
-	BRect bounds = Bounds();
-
-	BMenuBar* menuBar = new BMenuBar(Bounds(), "MainMenu");
+	BMenuBar* menuBar = new BMenuBar("MainMenu");
 	createMainMenu(menuBar);
-	AddChild(menuBar);
 
-	// diff view
-	BRect menuBarFrame = menuBar->Frame();
-	BRect rect = BRect(bounds.left, menuBarFrame.bottom + 1, bounds.right, bounds.bottom);
-	fDiffView = new TextDiffView(rect, "TextDiffView", B_FOLLOW_ALL_SIDES);
+	fDiffView = new TextDiffView("TextDiffView");
 	fDiffView->Initialize();
-	AddChild(fDiffView);
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.Add(menuBar)
+		.AddGroup(B_VERTICAL)
+			.SetInsets(0, 0 ,-1, -1)
+			.Add(fDiffView)
+		.End();
 
 	Show();
 }
