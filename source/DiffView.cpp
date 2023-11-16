@@ -83,7 +83,7 @@ DiffView::MessageReceived(BMessage* message)
 				// Dropped on the left or right side
 				BPoint dropPoint = message->DropPoint();
 				ConvertFromScreen(&dropPoint);
-				BView* leftPaneView = FindView("LEFT_PANE");
+				BView* leftPaneView = FindView("LeftPane");
 				if (leftPaneView != NULL) {
 					BRect rect = leftPaneView->Bounds();
 					BMessage msg(MSG_FILE_DROPPED);
@@ -109,18 +109,18 @@ DiffView::MessageReceived(BMessage* message)
 void
 DiffView::Initialize()
 {
-	DiffPaneView* leftPaneView = new DiffPaneView("LEFT_PANE");
+	DiffPaneView* leftPaneView = new DiffPaneView("LeftPane");
 	leftPaneView->SetDiffView(this);
 	leftPaneView->SetPaneIndex(LEFT_PANE);
 
-	BScrollView* leftView = new BScrollView("LEFT_PANEScroller", leftPaneView,
+	BScrollView* leftView = new BScrollView("LeftPaneScroller", leftPaneView,
 		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, false, B_NO_BORDER);
 
-	DiffPaneView* rightPaneView = new DiffPaneView("RIGHT_PANE");
+	DiffPaneView* rightPaneView = new DiffPaneView("RightPane");
 	rightPaneView->SetDiffView(this);
 	rightPaneView->SetPaneIndex(RIGHT_PANE);
 
-	BScrollView* rightView = new BScrollView("RIGHT_PANEScroller", rightPaneView,
+	BScrollView* rightView = new BScrollView("RightPaneScroller", rightPaneView,
 		B_FRAME_EVENTS | B_SUPPORTS_LAYOUT, true, true, B_NO_BORDER);
 
 	// Don't let the app server erase the view.
@@ -149,16 +149,16 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 
 	int index;
 	for (index = 0; index < PaneMAX; index++) {
-		if (index == fromPaneIndex)
-			continue;
+		// if (index == fromPaneIndex)
+			// continue;
 
 		const char* viewName;
 		switch (index) {
 			case LEFT_PANE:
-				viewName = "LEFT_PANE";
+				viewName = "LeftPane";
 				break;
 			case RIGHT_PANE:
-				viewName = "RIGHT_PANE";
+				viewName = "RightPane";
 				break;
 			default:
 				viewName = NULL;
@@ -304,11 +304,11 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 		ex->Delete();
 	}
 
-	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LEFT_PANE"));
+	DiffPaneView* leftPaneView = dynamic_cast<DiffPaneView*>(FindView("LeftPane"));
 	if (leftPaneView != NULL)
 		leftPaneView->DataChanged();
 
-	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RIGHT_PANE"));
+	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RightPane"));
 	if (rightPaneView != NULL)
 		rightPaneView->DataChanged();
 
