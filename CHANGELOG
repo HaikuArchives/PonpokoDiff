@@ -1,3 +1,16 @@
+v0.4.0
+
+* Add "Switch files" (ALT+TAB) menu to switch left <-> right
+* Add "Open left/right file/loaction" menus, because double-clicking
+  and CTRL + double-clicking is not that dicoverable
+* CTRL + double-click into a pane to open its file's location
+* Show correctly proportioned horizontal scrollbars
+* Scroll views when mouse-wheeling over the left pane, too
+* Nicer separator between left and right pane
+* Improved color handling, esp for dark themes
+* Save window size and position
+* New and updated ranslations, thanks all translators for:
+
 v0.3.0
 
 * Offer to reload files when their contents changes

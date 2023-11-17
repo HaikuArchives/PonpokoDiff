@@ -209,7 +209,30 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 
-	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W');
+	fileMenu->AddSeparatorItem();
+
+	BMessage* launchLeft = new BMessage(MSG_FILE_LAUNCH);
+	launchLeft->AddInt32("pane", LEFT);
+	menuItem = new BMenuItem(B_TRANSLATE("Open left file"), launchLeft, '1');
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
+
+	BMessage* locationLeft = new BMessage(MSG_OPEN_LOCATION);
+	locationLeft->AddInt32("pane", LEFT);
+	menuItem = new BMenuItem(B_TRANSLATE("Show left file location"), locationLeft, '1', B_SHIFT_KEY);
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
+
+	BMessage* launchRight = new BMessage(MSG_FILE_LAUNCH);
+	launchRight->AddInt32("pane", RIGHT);
+	menuItem = new BMenuItem(B_TRANSLATE("Open right file"), launchRight, '2');
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
+
+	BMessage* locationRight = new BMessage(MSG_OPEN_LOCATION);
+	locationRight->AddInt32("pane", RIGHT);
+	menuItem = new BMenuItem(B_TRANSLATE("Show right file location"), locationRight, '2', B_SHIFT_KEY);
+	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 
 	fileMenu->AddSeparatorItem();
@@ -218,7 +241,8 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
 
-	fileMenu->AddSeparatorItem();
+	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W');
+	fileMenu->AddItem(menuItem);
 
 	menuItem = new BMenuItem(B_TRANSLATE("Quit"), new BMessage(MSG_FILE_QUIT), 'Q');
 	fileMenu->AddItem(menuItem);
