@@ -1,5 +1,6 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	3057495185
+1	English	application/x-vnd.Hironytic-PonpokoDiff	652485439
 Select files…	TextDiffWindow		Select files…
+Open right file	TextDiffWindow		Open right file
 Cancel	TextDiffWindow		Cancel
 Right file:	OpenFilesDialog		Right file:
 PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Select files
@@ -14,6 +15,7 @@ Switch files	TextDiffWindow		Switch files
 A file has disappeared	TextDiffWindow		A file has disappeared
 Diff	OpenFilesDialog		Diff
 Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
+Show right file location	TextDiffWindow		Show right file location
 Quit	TextDiffWindow		Quit
 The right file, '%filename%', has changed.	TextDiffWindow		The right file, '%filename%', has changed.
 The volume of the files that are being compared has disappeared.	TextDiffWindow		The volume of the files that are being compared has disappeared.
@@ -22,6 +24,8 @@ File	TextDiffWindow		File
 Select left file	OpenFilesDialog		Select left file
 Close	TextDiffWindow		Close
 A graphical file comparison utility.	Application		A graphical file comparison utility.
+Show left file location	TextDiffWindow		Show left file location
+Open left file	TextDiffWindow		Open left file
 The left file, '%filename%', has changed.	TextDiffWindow		The left file, '%filename%', has changed.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
 Cancel	OpenFilesDialog		Cancel
