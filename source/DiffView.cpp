@@ -178,15 +178,6 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 }
 
 
-void
-DiffView::_MakeFocusToPane(DiffView::PaneIndex /* fPaneIndex */)
-{
-	BView* rightPaneView = FindView("RightPane");
-	if (rightPaneView != NULL)
-		rightPaneView->MakeFocus();
-}
-
-
 class LineSeparatedSequences : public Sequences
 {
 private:
@@ -311,8 +302,6 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 	DiffPaneView* rightPaneView = dynamic_cast<DiffPaneView*>(FindView("RightPane"));
 	if (rightPaneView != NULL)
 		rightPaneView->DataChanged();
-
-	_MakeFocusToPane(LEFT_PANE);
 }
 
 
@@ -324,8 +313,8 @@ DiffView::DiffPaneView::DiffPaneView(const char* name)
 	fPaneIndex = DiffView::InvalidPane;
 	fScroller = NULL;
 	fDataHeight = -1;
+	fDataWidth = -1;
 	fTabUnit = -1;
-	fMaxLineLength = 0;
 
 	// Don't let the app server erase the view.
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
@@ -342,10 +331,9 @@ void
 DiffView::DiffPaneView::DataChanged()
 {
 	fDataHeight = -1;
-	fMaxLineLength = 0;
+	fDataWidth = -1;
 	ScrollTo(BPoint(0, 0));
 
-	Draw(Bounds()); // force update max line length
 	_AdjustScrollBar();
 }
 
@@ -396,10 +384,11 @@ DiffView::DiffPaneView::_AdjustScrollBar()
 	BScrollBar* horizontalBar = fScroller->ScrollBar(B_HORIZONTAL);
 	if (horizontalBar != NULL) {
 		float boundsWidth = bounds.Width();
-		float range = fMaxLineLength - boundsWidth;
+		float dataWidth = _GetDataWidth();
+		float range = dataWidth - boundsWidth;
 		if (range > 0) {
 			horizontalBar->SetRange(0, range);
-			horizontalBar->SetProportion((boundsWidth + 1) / (fMaxLineLength + 1));
+			horizontalBar->SetProportion((boundsWidth + 1) / (dataWidth + 1));
 			horizontalBar->SetSteps(8, boundsWidth + 1);
 		} else {
 			horizontalBar->SetRange(0, 0);
@@ -426,6 +415,49 @@ DiffView::DiffPaneView::_GetDataHeight()
 	}
 
 	return fDataHeight;
+}
+
+
+float
+DiffView::DiffPaneView::_GetDataWidth()
+{
+	if ((fDataWidth >= 0) || (fDiffView == NULL))
+		return fDataWidth;
+
+	int lineEnd = fDiffView->fLineInfos.size();
+	int line;
+	for (line = 0; line < lineEnd; line++) {
+		const LineInfo& linfo = fDiffView->fLineInfos[line];
+		if (linfo.textIndex[fPaneIndex] >= 0) {
+			const Substring& text
+				= fDiffView->fTextData[fPaneIndex].GetLineAt(linfo.textIndex[fPaneIndex]);
+			BFont font;
+			GetFont(&font);
+			float left = 0;
+			const char* subTextBegin = text.Begin();
+			const char* end = text.End();
+			const char* ptr;
+			for (ptr = subTextBegin; ptr < end; ptr++) {
+				if ('\t' == *ptr || '\r' == *ptr || '\n' == *ptr) {
+					int count = ptr - subTextBegin;
+					if (count > 0)
+						left += font.StringWidth(subTextBegin, ptr - subTextBegin);
+					subTextBegin = ptr + 1;
+				}
+
+				if ('\t' == *ptr) {
+					if (fTabUnit < 0) {
+						fTabUnit = font.StringWidth(FONT_SAMPLE, FONT_SAMPLE_LENGTH)
+							/ FONT_SAMPLE_LENGTH * tabChars;
+					}
+					left = (floor(left / fTabUnit) + 1) * fTabUnit;
+				}
+				fDataWidth = std::max(fDataWidth, left);
+			}
+		}
+	}
+
+	return fDataWidth;
 }
 
 
@@ -539,7 +571,6 @@ DiffView::DiffPaneView::_DrawText(const BFont& font, const Substring& text, floa
 			}
 			left = (floor(left / fTabUnit) + 1) * fTabUnit;
 		}
-		fMaxLineLength = std::max(fMaxLineLength, left);
 	}
 
 	if (subTextBegin < end)
@@ -581,9 +612,6 @@ DiffView::DiffPaneView::MouseDown(BPoint where)
 			Window()->PostMessage(&msg);
 		}
 	}
-
-	if (fDiffView != NULL)
-		fDiffView->_MakeFocusToPane(fPaneIndex);
 }
 
 

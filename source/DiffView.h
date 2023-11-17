@@ -42,7 +42,6 @@ private:
 
 private:
 			void		_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex);
-			void		_MakeFocusToPane(DiffView::PaneIndex fPaneIndex);
 
 private:
 	class DiffPaneView : public BView {
@@ -68,6 +67,7 @@ private:
 				void		_RecalcLayout();
 				void		_AdjustScrollBar();
 				float		_GetDataHeight();
+				float		_GetDataWidth();
 				void		_DrawText(const BFont& font, const Substring& text, float baseLine);
 
 	private:
@@ -75,8 +75,8 @@ private:
 		DiffView::PaneIndex	fPaneIndex;
 		BScrollView*		fScroller;
 		float				fDataHeight;
+		float				fDataWidth;
 		float				fTabUnit;
-		float				fMaxLineLength;
 	};
 	friend class DiffPaneView;
 
