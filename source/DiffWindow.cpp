@@ -35,19 +35,21 @@
 #define B_TRANSLATION_CONTEXT "TextDiffWindow"
 
 
-DiffWindow::DiffWindow()
+DiffWindow::DiffWindow(BMessage* settings, int32 windowcount)
 	:
 	BWindow(BRect(), B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"),
 	B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	_LoadSettings();
-
 	BRect frame;
-	if (fSettings->FindRect("window_frame", &frame) == B_OK) {
+	if (settings->FindRect("window_frame", &frame) == B_OK) {
+		ResizeTo(frame.Width(), frame.Height());
+		frame.OffsetBy(windowcount * 32, windowcount * 32); // Cascade new windows
 		BScreen screen(this);
-		if (frame.Intersects(screen.Frame())) {
+		if (frame.Intersects(screen.Frame()))
 			MoveTo(frame.LeftTop());
-			ResizeTo(frame.Width(), frame.Height());
+		else {
+			CenterOnScreen();
+			MoveBy(windowcount * 32, windowcount * 32); // Cascade new windows
 		}
 	}
 }
@@ -485,25 +487,6 @@ DiffWindow::_OpenLocation(BPath path)
 	path.GetParent(&path);
 	get_ref_for_path(path.Path(), &ref);
 	be_roster->Launch(&ref);
-}
-
-
-void
-DiffWindow::_LoadSettings()
-{
-	fSettings = new BMessage();
-
-	BPath path;
-	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) != B_OK)
-		return;
-
-	BString settingsFile(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
-	settingsFile << "_settings";
-	path.Append(settingsFile.String());
-	BFile file(path.Path(), B_READ_ONLY);
-
-	if (fSettings->Unflatten(&file) != B_OK)
-		fSettings->AddRect("window_frame", BRect(100, 75, 700, 575));
 }
 
 

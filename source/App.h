@@ -35,9 +35,11 @@ public:
 
 private:
 			void			_HelpWindow();
+			void			_LoadSettings();
 			void			_OpenFilesPanel();
 
 private:
+		BMessage*			fSettings;
 		int32				fWindowCount;
 		OpenFilesDialog*	fOpenFilesPanel;
 };

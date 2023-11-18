@@ -15,6 +15,7 @@
 #include <LayoutBuilder.h>
 #include <Path.h>
 #include <SeparatorView.h>
+#include <Screen.h>
 #include <String.h>
 #include <StringView.h>
 #include <TextControl.h>
@@ -30,12 +31,26 @@
 #define B_TRANSLATION_CONTEXT "OpenFilesDialog"
 
 
-OpenFilesDialog::OpenFilesDialog(BPoint topLeft)
+OpenFilesDialog::OpenFilesDialog(BMessage* settings)
 	:
-	BWindow(BRect(topLeft.x, topLeft.y, topLeft.x + 480, topLeft.y + 220),
+	BWindow(BRect(0, 0, 400, 0),
 		B_TRANSLATE("PonpokoDiff: Select files"), B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
+	_Initialize();
+
+	BRect frame;
+	if (settings->FindRect("window_frame", &frame) == B_OK) {
+		BScreen screen(this);
+		frame.OffsetBy(32, 32);
+		if (frame.Intersects(screen.Frame()))
+			MoveTo(frame.LeftTop());
+		else
+			CenterOnScreen();
+	}
+
+	Show();
+
 	int index;
 	for (index = 0; index < FileMAX; index++)
 		fFilePanels[index] = NULL;
@@ -53,7 +68,7 @@ OpenFilesDialog::~OpenFilesDialog()
 
 
 void
-OpenFilesDialog::Initialize()
+OpenFilesDialog::_Initialize()
 {
 
 	BStringView* leftLabel = new BStringView("leftlabel", B_TRANSLATE("Left file:"));
@@ -91,7 +106,6 @@ OpenFilesDialog::Initialize()
 			.AddGlue()
 		.End();
 
-	Show();
 }
 
 

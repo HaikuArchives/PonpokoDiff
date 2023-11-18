@@ -15,12 +15,9 @@
 
 class OpenFilesDialog : public BWindow {
 public:
-						OpenFilesDialog(BPoint topLeft);
+						OpenFilesDialog(BMessage* fSettings);
 	virtual				~OpenFilesDialog();
 
-			void		Initialize();
-
-public:
 	virtual	void		Quit();
 	virtual	void		MessageReceived(BMessage* message);
 
@@ -33,6 +30,7 @@ private:
 	};
 
 private:
+			void		_Initialize();
 			void		_BrowseFile(OpenFilesDialog::FileIndex fileIndex);
 			void		_FileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message);
 			void		_RunDiff();

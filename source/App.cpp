@@ -18,6 +18,7 @@
 #include <Catalog.h>
 #include <File.h>
 #include <Path.h>
+#include <PathFinder.h>
 #include <Roster.h>
 #include <Screen.h>
 #include <String.h>
@@ -41,6 +42,8 @@ App::App()
 {
 	fWindowCount = 0;
 	fOpenFilesPanel = NULL;
+
+	_LoadSettings();
 }
 
 
@@ -52,7 +55,7 @@ App::~App()
 void
 App::ReadyToRun()
 {
-	if (0 == fWindowCount)
+	if (fWindowCount == 0)
 		_OpenFilesPanel();
 }
 
@@ -141,7 +144,7 @@ App::NewDiffWindow()
 {
 	BAutolock locker(this);
 	if (locker.IsLocked()) {
-		DiffWindow* newWindow = new DiffWindow();
+		DiffWindow* newWindow = new DiffWindow(fSettings, fWindowCount);
 		fWindowCount++;
 		newWindow->Initialize();
 		return newWindow;
@@ -231,6 +234,25 @@ App::_HelpWindow()
 
 
 void
+App::_LoadSettings()
+{
+	fSettings = new BMessage();
+
+	BPath path;
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) != B_OK)
+		return;
+
+	BString settingsFile(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
+	settingsFile << "_settings";
+	path.Append(settingsFile.String());
+	BFile file(path.Path(), B_READ_ONLY);
+
+	if (fSettings->Unflatten(&file) != B_OK)
+		fSettings->AddRect("window_frame", BRect(100, 75, 700, 575));
+}
+
+
+void
 App::_OpenFilesPanel()
 {
 	if (fOpenFilesPanel != NULL) {
@@ -244,8 +266,7 @@ App::_OpenFilesPanel()
 		}
 	}
 
-	fOpenFilesPanel = new OpenFilesDialog(BPoint(100, 100));
-	fOpenFilesPanel->Initialize();
+	fOpenFilesPanel = new OpenFilesDialog(fSettings);
 }
 
 
