@@ -153,7 +153,8 @@ DiffWindow::MessageReceived(BMessage* message)
 			if (message->FindString("leftpath", &path) == B_OK) {
 				watch_node(&fLeftNodeRef, B_STOP_WATCHING, this); // stop watching old file
 				fPathLeft.SetTo(path.String());
-			} else if (message->FindString("rightpath", &path) == B_OK) {
+			}
+			if (message->FindString("rightpath", &path) == B_OK) {
 				watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
 				fPathRight.SetTo(path.String());
 			}

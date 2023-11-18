@@ -70,32 +70,45 @@ DiffView::MessageReceived(BMessage* message)
 		case B_SIMPLE_DATA:
 		{
 			if (message->WasDropped()) {
+				int validFileCount = 0;
+				BPath paths[2];
+				BEntry entry;
 				entry_ref ref;
-				if (message->FindRef("refs", &ref) != B_OK)
-					break;
-
-				// Only allow text files and catkeys
-				BEntry entry(&ref, true); // traverse links
-				TextFileFilter filter;
-				if (filter.IsValid(&ref, &entry) != true)
-					break;
-
-				// Dropped on the left or right side
-				BPoint dropPoint = message->DropPoint();
-				ConvertFromScreen(&dropPoint);
-				BView* leftPaneView = FindView("LeftPane");
-				if (leftPaneView != NULL) {
-					BRect rect = leftPaneView->Bounds();
-					BMessage msg(MSG_FILE_DROPPED);
-					BPath path(&entry);
-					if (rect.Contains(dropPoint))
-						msg.AddString("leftpath", path.Path());
-					else
-						msg.AddString("rightpath", path.Path());
-
-					Window()->PostMessage(&msg);
+				for (int refCount = 0; message->FindRef("refs", refCount, &ref)
+					== B_NO_ERROR; refCount++) {
+					// Only allow text files and catkeys
+					entry.SetTo(&ref, true); // traverse links
+					TextFileFilter filter;
+					if (filter.IsValid(&ref, &entry)) {
+						paths[validFileCount].SetTo(&entry);
+						validFileCount++;
+					}
+					// Only grab the first two valid files
+					if (validFileCount == 2)
+						break;
 				}
+				if (validFileCount == 0)
+					break;
 
+				BMessage msg(MSG_FILE_DROPPED);
+				if (validFileCount == 2) {
+					msg.AddString("leftpath", paths[0].Path());
+					msg.AddString("rightpath", paths[1].Path());
+				} else {
+					// Dropped on the left or right side
+					BPoint dropPoint = message->DropPoint();
+					ConvertFromScreen(&dropPoint);
+					BView* leftPaneView = FindView("LeftPane");
+
+					if (leftPaneView != NULL) {
+						BRect rect = leftPaneView->Bounds();
+						if (rect.Contains(dropPoint))
+							msg.AddString("leftpath", paths[0].Path());
+						else
+							msg.AddString("rightpath", paths[0].Path());
+					}
+				}
+				Window()->PostMessage(&msg);
 			}
 		} break;
 
@@ -333,7 +346,7 @@ DiffView::DiffPaneView::DataChanged()
 	fDataHeight = -1;
 	fDataWidth = -1;
 	ScrollTo(BPoint(0, 0));
-
+	Invalidate();
 	_AdjustScrollBar();
 }
 
