@@ -22,6 +22,7 @@ enum
 	MSG_FILE_SWITCH			= 'mSwi',
 
 	MSG_OPEN_LOCATION		= 'mLoc',
+	MSG_HELP				= 'mhlp',
 
 	MSG_CANCEL				= '-Ccl',
 

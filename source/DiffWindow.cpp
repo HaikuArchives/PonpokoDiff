@@ -237,9 +237,15 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 
 	fileMenu->AddSeparatorItem();
 
+	menuItem = new BMenuItem(B_TRANSLATE("Help"), new BMessage(MSG_HELP), 'H');
+	menuItem->SetTarget(be_app_messenger);
+	fileMenu->AddItem(menuItem);
+
 	menuItem = new BMenuItem(B_TRANSLATE("About PonpokoDiff"), new BMessage(B_ABOUT_REQUESTED));
 	menuItem->SetTarget(be_app_messenger);
 	fileMenu->AddItem(menuItem);
+
+	fileMenu->AddSeparatorItem();
 
 	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W');
 	fileMenu->AddItem(menuItem);

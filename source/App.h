@@ -34,7 +34,8 @@ public:
 	virtual	void			MessageReceived(BMessage* message);
 
 private:
-			void			OpenFilesPanel();
+			void			_HelpWindow();
+			void			_OpenFilesPanel();
 
 private:
 		int32				fWindowCount;

@@ -53,7 +53,7 @@ void
 App::ReadyToRun()
 {
 	if (0 == fWindowCount)
-		OpenFilesPanel();
+		_OpenFilesPanel();
 }
 
 
@@ -74,6 +74,16 @@ App::AboutRequested()
 	aboutwindow->AddCopyright(2007, "ICHIMIYA Hironori (Hiron)");
 	aboutwindow->AddAuthors(authors);
 	aboutwindow->AddDescription(B_TRANSLATE("A graphical file comparison utility."));
+
+	// Approximate nice looking window size
+	font_height fh;
+	BFont font;
+	font.GetHeight(&fh);
+	float height = static_cast<float>(ceil(fh.ascent + fh.descent + fh.leading));
+	float width = font.StringWidth("Adrien Destugues (PulkoMandy)");
+
+	aboutwindow->ResizeTo(width * 2, height * 21);
+
 	aboutwindow->Show();
 }
 
@@ -114,13 +124,13 @@ App::RefsReceived(BMessage* message)
 			lastPath = path;
 	}
 
-	// If there's a stray ref (odd amount), then populate an open dialog
+	// If there's a stray ref (odd number), then populate an open dialog
 	if (lastPath.InitCheck() == B_OK) {
 		entry_ref lastRef;
 		BEntry(lastPath.Path()).GetRef(&lastRef);
 		BMessage msg(MSG_OFD_LEFT_SELECTED);
 		msg.AddRef("refs", &lastRef);
-		OpenFilesPanel();
+		_OpenFilesPanel();
 		fOpenFilesPanel->MessageReceived(&msg);
 	}
 }
@@ -171,12 +181,17 @@ App::MessageReceived(BMessage* message)
 	switch (message->what) {
 		case MSG_FILE_OPEN:
 		{
-			OpenFilesPanel();
+			_OpenFilesPanel();
 
 			BMessenger window;
 			if (message->FindMessenger("killme", &window) == B_OK)
 				window.SendMessage(new BMessage(B_QUIT_REQUESTED));
 
+		} break;
+
+		case MSG_HELP:
+		{
+			_HelpWindow();
 		} break;
 
 		default:
@@ -187,7 +202,36 @@ App::MessageReceived(BMessage* message)
 
 
 void
-App::OpenFilesPanel()
+App::_HelpWindow()
+{
+	BAboutWindow* helpWindow
+		= new BAboutWindow(B_TRANSLATE("Help"), kAppSignature);
+	helpWindow->SetVersion(B_TRANSLATE(
+		"Only a few notes on the non-obvious" B_UTF8_ELLIPSIS));
+
+	helpWindow->AddDescription(B_TRANSLATE(
+		"Yellow indicates changed lines.\n"
+		"Red indicates removed lines.\n"
+		"Green indicates added lines.\n\n"
+		"Double-click to open the left/right file with its preferred application.\n"
+		"Hold CTRL while double-clicking to show the left/right file's location.\n\n"
+		"You can drag'n'drop files directly on the left/right side of the window."));
+
+	// Approximate nice looking window size
+	font_height fh;
+	BFont font;
+	font.GetHeight(&fh);
+	float height = static_cast<float>(ceil(fh.ascent + fh.descent + fh.leading));
+	float width = font.StringWidth(
+		"You can drag'n'drop files directly on the left/right side of the window.");
+
+	helpWindow->ResizeTo(width, height * 21);
+	helpWindow->Show();
+}
+
+
+void
+App::_OpenFilesPanel()
 {
 	if (fOpenFilesPanel != NULL) {
 		BAutolock locker(fOpenFilesPanel);
