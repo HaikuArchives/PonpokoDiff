@@ -42,6 +42,7 @@ App::App()
 {
 	fWindowCount = 0;
 	fOpenFilesPanel = NULL;
+	fSettings = NULL;
 
 	_LoadSettings();
 }
@@ -56,7 +57,7 @@ void
 App::ReadyToRun()
 {
 	if (fWindowCount == 0)
-		_OpenFilesPanel();
+		_OpenFilesPanel(fSettings);
 }
 
 
@@ -133,7 +134,7 @@ App::RefsReceived(BMessage* message)
 		BEntry(lastPath.Path()).GetRef(&lastRef);
 		BMessage msg(MSG_OFD_LEFT_SELECTED);
 		msg.AddRef("refs", &lastRef);
-		_OpenFilesPanel();
+		_OpenFilesPanel(fSettings);
 		fOpenFilesPanel->MessageReceived(&msg);
 	}
 }
@@ -184,7 +185,7 @@ App::MessageReceived(BMessage* message)
 	switch (message->what) {
 		case MSG_FILE_OPEN:
 		{
-			_OpenFilesPanel();
+			_OpenFilesPanel(message);
 
 			BMessenger window;
 			if (message->FindMessenger("killme", &window) == B_OK)
@@ -253,7 +254,7 @@ App::_LoadSettings()
 
 
 void
-App::_OpenFilesPanel()
+App::_OpenFilesPanel(BMessage* message)
 {
 	if (fOpenFilesPanel != NULL) {
 		BAutolock locker(fOpenFilesPanel);
@@ -265,8 +266,7 @@ App::_OpenFilesPanel()
 			return;
 		}
 	}
-
-	fOpenFilesPanel = new OpenFilesDialog(fSettings);
+	fOpenFilesPanel = new OpenFilesDialog(message);
 }
 
 

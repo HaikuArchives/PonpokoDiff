@@ -141,6 +141,12 @@ DiffWindow::MessageReceived(BMessage* message)
 			}
 		} break;
 
+		case MSG_FILE_OPEN:
+		{
+			message->AddRect("window_frame", Frame());
+			be_app->PostMessage(message);
+		} break;
+
 		case MSG_FILE_DROPPED:
 		{
 			BString path;
@@ -200,7 +206,7 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 	menuBar->AddItem(fileMenu);
 	menuItem = new BMenuItem(B_TRANSLATE("Select files" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_FILE_OPEN), 'O');
-	menuItem->SetTarget(be_app_messenger);
+	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 
 	menuItem = new BMenuItem(B_TRANSLATE("Switch files"), new BMessage(MSG_FILE_SWITCH), B_TAB);
@@ -417,6 +423,7 @@ DiffWindow::_AskFileRemoved(node_ref nref)
 			watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
 
 			BMessage message(MSG_FILE_OPEN);
+			message.AddRect("window_frame", Frame());
 			message.AddMessenger("killme", this);
 			be_app->PostMessage(&message);
 
@@ -460,6 +467,7 @@ DiffWindow::_AskDeviceRemoved(pane_side side)
 			watch_node(&fRightNodeRef, B_STOP_WATCHING, this); // stop watching old file
 
 			BMessage message(MSG_FILE_OPEN);
+			message.AddRect("window_frame", Frame());
 			message.AddMessenger("killme", this);
 			be_app->PostMessage(&message);
 

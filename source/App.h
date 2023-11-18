@@ -36,7 +36,7 @@ public:
 private:
 			void			_HelpWindow();
 			void			_LoadSettings();
-			void			_OpenFilesPanel();
+			void			_OpenFilesPanel(BMessage* message);
 
 private:
 		BMessage*			fSettings;
