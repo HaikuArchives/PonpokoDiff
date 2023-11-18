@@ -1,9 +1,11 @@
-v0.4.0
+v0.4
 
-* Support dropping two files anywhere on the window to diff them
+
+* Support dropping two files anywhere on the main window to diff them
+* Same for the "Select files..." dialog.
 * Add "Switch files" (ALT+TAB) menu to switch left <-> right
 * Add "Open left/right file/loaction" menus, because double-clicking
-  and CTRL + double-clicking is not that dicoverable
+  and CTRL + double-clicking is not that discoverable
 * CTRL + double-click into a pane to open its file's location
 * Add a Help window describing the non-obvious features
 * Show correctly proportioned horizontal scrollbars
@@ -11,9 +13,9 @@ v0.4.0
 * Nicer separator between left and right pane
 * Improved color handling, esp for dark themes
 * Save window size and position, cascade new windows
-* New and updated ranslations, thanks all translators for:
+* New and updated translations, thanks all translators for:
 
-v0.3.0
+v0.3
 
 * Offer to reload files when their contents changes
 * Keep track of renamed or moved files
@@ -31,12 +33,12 @@ v0.3.0
   Catalan, Dutch, French, Friaulian, German, Italian,
   Norwegian, Sardinian, Latin American Spanish, Turkish
 
-v0.2.0
+v0.2
 
 * Accept drag & drop in open files dialog
 * Accept files via command line arguments
 * Fix flickering
 
-v0.1.0
+v0.1
 
 * Initial release
