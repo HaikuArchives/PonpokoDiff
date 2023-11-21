@@ -1,4 +1,4 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	3505841889
+1	English	application/x-vnd.Hironytic-PonpokoDiff	758930349
 Select files…	TextDiffWindow		Select files…
 Open right file	TextDiffWindow		Open right file
 Cancel	TextDiffWindow		Cancel
@@ -7,6 +7,7 @@ PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Select files
 The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
 The file '%s' does not exist!\n	Application		The file '%s' does not exist!\n
 Help	Application		Help
+Browse…	OpenFilesDialog	Button label	Browse…
 Help	TextDiffWindow		Help
 Do you want to reload the files and diff them again?	TextDiffWindow		Do you want to reload the files and diff them again?
 Reload	TextDiffWindow		Reload
@@ -17,7 +18,7 @@ Switch files	TextDiffWindow		Switch files
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.
 The file '%s' isn't a text file!\n	Application		The file '%s' isn't a text file!\n
 A file has disappeared	TextDiffWindow		A file has disappeared
-Diff	OpenFilesDialog		Diff
+Diff	OpenFilesDialog	Button label	Diff
 Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
 Show right file location	TextDiffWindow		Show right file location
 Quit	TextDiffWindow		Quit
@@ -33,11 +34,10 @@ Only a few notes on the non-obvious…	Application		Only a few notes on the non-
 Show left file location	TextDiffWindow		Show left file location
 The left file, '%filename%', has changed.	TextDiffWindow		The left file, '%filename%', has changed.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
-Cancel	OpenFilesDialog		Cancel
 Diff new files	TextDiffWindow		Diff new files
 Select right file	OpenFilesDialog		Select right file
 Ignore	TextDiffWindow		Ignore
-Browse…	OpenFilesDialog		Browse…
 About PonpokoDiff	TextDiffWindow		About PonpokoDiff
 The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+Cancel	OpenFilesDialog	Button label	Cancel
 The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		The volume of the right file, '%filename%', has disappeared.

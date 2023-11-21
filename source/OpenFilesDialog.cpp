@@ -69,25 +69,25 @@ OpenFilesDialog::~OpenFilesDialog()
 void
 OpenFilesDialog::_Initialize()
 {
-	BStringView* leftLabel = new BStringView("leftlabel",
-		B_TRANSLATE("Left file:"));
+	BStringView* leftLabel = new BStringView("leftlabel", B_TRANSLATE("Left file:"));
 	fLeftLocation = new LocationInput("LeftTextControl", NULL);
 	BButton* leftBrowseButton = new BButton("LeftBrowse",
-		B_TRANSLATE("Browse" B_UTF8_ELLIPSIS),
+		B_TRANSLATE_COMMENT("Browse" B_UTF8_ELLIPSIS, "Button label"),
 		new BMessage(MSG_OFD_BROWSE_LEFT));
 
-	BStringView* rightLabel = new BStringView("rightLabel",
-	B_TRANSLATE("Right file:"));
+	BStringView* rightLabel = new BStringView("rightLabel", B_TRANSLATE("Right file:"));
 	fRightLocation = new LocationInput("RightTextControl", NULL);
 	BButton* rightBrowseButton = new BButton("RightBrowse",
-		B_TRANSLATE("Browse" B_UTF8_ELLIPSIS),
+		B_TRANSLATE_COMMENT("Browse" B_UTF8_ELLIPSIS, "Button label"),
 		new BMessage(MSG_OFD_BROWSE_RIGHT));
 
-	BButton* diffButton = new BButton("DiffButton", B_TRANSLATE("Diff"),
+	BButton* diffButton = new BButton("DiffButton",
+		B_TRANSLATE_COMMENT("Diff", "Button label"),
 		new BMessage(MSG_OFD_DIFF_THEM));
 	diffButton->MakeDefault(true);
 
-	BButton* cancelButton = new BButton("CancelButton", B_TRANSLATE("Cancel"),
+	BButton* cancelButton = new BButton("CancelButton",
+		B_TRANSLATE_COMMENT("Cancel", "Button label"),
 		new BMessage(MSG_CANCEL));
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
@@ -107,7 +107,6 @@ OpenFilesDialog::_Initialize()
 			.Add(diffButton)
 			.AddGlue()
 		.End();
-
 }
 
 

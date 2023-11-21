@@ -1,32 +1,41 @@
-1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	758930349
 A file has changed	TextDiffWindow		Un'isceda est mudada
-A file has disappeared	TextDiffWindow		A file has disappeared
+A file has disappeared	TextDiffWindow		Un'isceda est isparèssida
 About PonpokoDiff	TextDiffWindow		A subra de PonpokoDiff
 Cancel	TextDiffWindow		Annudda
 Close	TextDiffWindow		Serra
-Diff new files	TextDiffWindow		Diff new files
-Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
+Diff new files	TextDiffWindow		Cumpara sa diferentzia intra iscedas noas
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Cheres cumparare sa diferentzia intra duas iscedas noas, o inniorare ebbìa?
 Do you want to reload the files and diff them again?	TextDiffWindow		Cheres torrare a carrigare is iscedas pro nde otènnere su diff torra?
 File	TextDiffWindow		Isceda
-Ignore	TextDiffWindow		Ignore
-Open…	TextDiffWindow		Aberi…
-Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
+Help	TextDiffWindow		Help
+Ignore	TextDiffWindow		Inniora
+Open left file	TextDiffWindow		Open left file
+Open right file	TextDiffWindow		Open right file
+Probably it was unmounted.	TextDiffWindow		Probàbbilmente est istadu ismontadu.
 Quit	TextDiffWindow		Essi
 Reload	TextDiffWindow		Carriga torra
+Select files…	TextDiffWindow		Select files…
+Show left file location	TextDiffWindow		Show left file location
+Show right file location	TextDiffWindow		Show right file location
+Switch files	TextDiffWindow		Switch files
 The left file, '%filename%', has changed.	TextDiffWindow		S'isceda a manca, '%filename%', est mudada.
-The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		S'isceda a manca, \"%filename%\", est isparèssida. Probàbbilmente est istada bogada o mòvida a un'àteru volùmene.
 The right file, '%filename%', has changed.	TextDiffWindow		S'isceda a dereta, '%filename%', est mudada.
-The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
-The volume of the files that are being compared has disappeared.	TextDiffWindow		The volume of the files that are being compared has disappeared.
-The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
-The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		The volume of the right file, '%filename%', has disappeared.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		S'isceda a dereta, \"%filename%\", est isparèssida. Probàbbilmente est istada bogada o mòvida a un'àteru volùmene.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Su volùmene de is iscedas a comparare est isparèssidu.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Su volùmene de s'isceda a manca, \"%filename%\", est isparèssidu
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Su volùmene de s'isceda a dereta, \"%filename%\", est isparèssidu.
 A graphical file comparison utility.	Application		Un'aina pro comparare is iscedas de manera gràfica.
-The file '%s' does not exist!\n	Application		The file '%s' does not exist!\n
-Browse…	OpenFilesDialog		Iscartafollia…
-Cancel	OpenFilesDialog		Annudda
-Diff	OpenFilesDialog		Diff
+Help	Application		Help
+Only a few notes on the non-obvious…	Application		Only a few notes on the non-obvious…
+The file '%s' does not exist!\n	Application		S'isceda \"%s\" no esistet!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.
+Browse…	OpenFilesDialog	Button label	Iscartafollia…
+Cancel	OpenFilesDialog	Button label	Annudda
+Diff	OpenFilesDialog	Button label	Diff
 Left file:	OpenFilesDialog		Isceda a manca:
-PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Aberi is iscedas
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Select files
 Right file:	OpenFilesDialog		Isceda a dereta:
 Select left file	OpenFilesDialog		Issèbera s'isceda a manca
 Select right file	OpenFilesDialog		Issèbera s'isceda a dereta

@@ -1,33 +1,42 @@
-1	Italian	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+1	Italian	application/x-vnd.Hironytic-PonpokoDiff	758930349
 A file has changed	TextDiffWindow		Un file è cambiato
 A file has disappeared	TextDiffWindow		È scomparso un file
 About PonpokoDiff	TextDiffWindow		Informazioni su PonpokoDiff
 Cancel	TextDiffWindow		Annulla
 Close	TextDiffWindow		Chiudi
-Diff new files	TextDiffWindow		Trova le differenze tra i file nuovi
-Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
+Diff new files	TextDiffWindow		Compara le differenze tra nuovi file
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Vuoi comparare la differenza di due nuovi file, o semplicemente ignorare?
 Do you want to reload the files and diff them again?	TextDiffWindow		Vuoi ricaricare i file per riaggiornarne le differenze?
 File	TextDiffWindow		File
+Help	TextDiffWindow		Help
 Ignore	TextDiffWindow		Ignora
-Open…	TextDiffWindow		Apri…
-Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
+Open left file	TextDiffWindow		Open left file
+Open right file	TextDiffWindow		Open right file
+Probably it was unmounted.	TextDiffWindow		Probabilmente è stato smontato
 Quit	TextDiffWindow		Esci
 Reload	TextDiffWindow		Ricarica
+Select files…	TextDiffWindow		Select files…
+Show left file location	TextDiffWindow		Show left file location
+Show right file location	TextDiffWindow		Show right file location
+Switch files	TextDiffWindow		Switch files
 The left file, '%filename%', has changed.	TextDiffWindow		Il file sinistro, '%filename%', è cambiato.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Il file a sinistra, \"%filename%\", è scomparso. Probabilmente è stato cancellato o spostato su un altro volume.
-The right file, '%filename%', has changed.	TextDiffWindow		Il file destro, '%filename%', è cambiato.
+The right file, '%filename%', has changed.	TextDiffWindow		Il file a destra, \"%filename%\", è cambiato.
 The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Il file a destra, \"%filename%\", è scomparso. Probabilmente è stato cancellato o spostato su un altro volume.
-The volume of the files that are being compared has disappeared.	TextDiffWindow		The volume of the files that are being compared has disappeared.
-The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		The volume of the left file, '%filename%', has disappeared.
-The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		The volume of the right file, '%filename%', has disappeared.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Il volume dei file da comparare è scomparso.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Il volume del file a sinistra, \"%filename%\", è scomparso.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Il volume del file a destra, \"%filename%\", è scomparso.
 A graphical file comparison utility.	Application		Uno strumento grafico per comparare i file.
+Help	Application		Help
+Only a few notes on the non-obvious…	Application		Only a few notes on the non-obvious…
 The file '%s' does not exist!\n	Application		Il file \"%s\" non esiste!\n
-Browse…	OpenFilesDialog		Sfoglia…
-Cancel	OpenFilesDialog		Annulla
-Diff	OpenFilesDialog		Diff
-Left file:	OpenFilesDialog		File sinistro:
-PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Apri file
-Right file:	OpenFilesDialog		File destro:
-Select left file	OpenFilesDialog		Seleziona il file sinistro
-Select right file	OpenFilesDialog		Seleziona il file destro
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.
+Browse…	OpenFilesDialog	Button label	Sfoglia…
+Cancel	OpenFilesDialog	Button label	Annulla
+Diff	OpenFilesDialog	Button label	Diff
+Left file:	OpenFilesDialog		File a sinistra:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Select files
+Right file:	OpenFilesDialog		File a destra:
+Select left file	OpenFilesDialog		Seleziona il file a sinistra
+Select right file	OpenFilesDialog		Seleziona il file a destra
 PonpokoDiff	System name		PonpokoDiff

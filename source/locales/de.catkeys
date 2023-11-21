@@ -1,33 +1,42 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	3855386910
-Cancel	TextDiffWindow		Abbrechen
-The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Die Partition der linken Datei, '%filename%', ist verschwunden.
-Right file:	OpenFilesDialog		Rechte Datei:
-The file '%s' does not exist!\n	Application		Die Datei '%s' existiert nicht!\n
-Do you want to reload the files and diff them again?	TextDiffWindow		Sollen die Dateien neu geladen und verglichen werden?
-Reload	TextDiffWindow		Neu laden
+1	German	application/x-vnd.Hironytic-PonpokoDiff	758930349
 A file has changed	TextDiffWindow		Eine Datei wurde verändert
-Left file:	OpenFilesDialog		Linke Datei
-Choose files…	TextDiffWindow		Dateien wählen…
-Do you want to diff two new files, or just ignore this?	TextDiffWindow		Sollen zwei neue Dateien verglichen oder das Problem ignoriert werden?
-PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Dateien öffnen
 A file has disappeared	TextDiffWindow		Datei verschwunden.
-Probably it was unmounted.	TextDiffWindow		Sie wurde wahrscheinlich ausgehängt.
-Diff	OpenFilesDialog		Vergleichen
-Quit	TextDiffWindow		Beenden
-The right file, '%filename%', has changed.	TextDiffWindow		Die rechte Datei, '%filename%', wurde verändert.
-The volume of the files that are being compared has disappeared.	TextDiffWindow		Die Partition der gerade verglichenen Dateien ist verschwunden.
-PonpokoDiff	System name		PonpokoDiff
-File	TextDiffWindow		Datei
-Select left file	OpenFilesDialog		Linke Datei wählen
+About PonpokoDiff	TextDiffWindow		Über PonpokoDiff
+Cancel	TextDiffWindow		Abbrechen
 Close	TextDiffWindow		Schließen
-A graphical file comparison utility.	Application		Ein Werkzeug für den grafische Dateivergleich.
+Diff new files	TextDiffWindow		Neue Dateien vergleichen
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Sollen zwei neue Dateien verglichen oder das Problem ignoriert werden?
+Do you want to reload the files and diff them again?	TextDiffWindow		Sollen die Dateien neu geladen und verglichen werden?
+File	TextDiffWindow		Datei
+Help	TextDiffWindow		Hilfe
+Ignore	TextDiffWindow		Ignorieren
+Open left file	TextDiffWindow		Linke Datei öffnen
+Open right file	TextDiffWindow		Rechte Datei öffnen
+Probably it was unmounted.	TextDiffWindow		Sie wurde wahrscheinlich ausgehängt.
+Quit	TextDiffWindow		Beenden
+Reload	TextDiffWindow		Neu laden
+Select files…	TextDiffWindow		Dateien wählen…
+Show left file location	TextDiffWindow		Ordner der linken Datei öffnen
+Show right file location	TextDiffWindow		Ordner der rechten Datei öffnen
+Switch files	TextDiffWindow		Dateien tauschen
 The left file, '%filename%', has changed.	TextDiffWindow		Die linke Datei, '%filename%', wurde verändert.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Die linke Datei, '%filename%', ist verschwunden. Sie wurde wahrscheinlich entfernt oder auf eine andere Partition verschoben.
-Cancel	OpenFilesDialog		Abbrechen
-Diff new files	TextDiffWindow		Neue Dateien vergleichen
-Select right file	OpenFilesDialog		Rechte Datei wählen
-Ignore	TextDiffWindow		Ignorieren
-Browse…	OpenFilesDialog		Auswählen…
-About PonpokoDiff	TextDiffWindow		Über PonpokoDiff
+The right file, '%filename%', has changed.	TextDiffWindow		Die rechte Datei, '%filename%', wurde verändert.
 The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Die rechte Datei, '%filename%', ist verschwunden. Sie wurde wahrscheinlich entfernt oder auf eine andere Partition verschoben.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Die Partition der gerade verglichenen Dateien ist verschwunden.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Die Partition der linken Datei, '%filename%', ist verschwunden.
 The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Die Partition der rechten Datei, '%filename%', ist verschwunden.
+A graphical file comparison utility.	Application		Ein Werkzeug für den grafische Dateivergleich.
+Help	Application		Hilfe
+Only a few notes on the non-obvious…	Application		Ein paar Anmerkungen zu versteckten Features…
+The file '%s' does not exist!\n	Application		Die Datei '%s' existiert nicht!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Gelb kennzeichnet geänderte Zeilen.\nRot kennzeichnet entfernte Zeilen.\nGrün kennzeichnet hinzugekommene Zeilen\n\nEin Doppelklick öffnet die linke/rechte Datei in der bevorzugten Anwendung.\nBei gedrückter STRG-Taste öffnet ein Doppelklick den Ordner der linken/rechten Datei.\n\nDateien können direkt auf die linke/rechte Fensterseite gezogen werden.
+Browse…	OpenFilesDialog	Button label	Auswählen…
+Cancel	OpenFilesDialog	Button label	Abbrechen
+Diff	OpenFilesDialog	Button label	Vergleichen
+Left file:	OpenFilesDialog		Linke Datei
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Dateien wählen
+Right file:	OpenFilesDialog		Rechte Datei:
+Select left file	OpenFilesDialog		Linke Datei wählen
+Select right file	OpenFilesDialog		Rechte Datei wählen
+PonpokoDiff	System name		PonpokoDiff

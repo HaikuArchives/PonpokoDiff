@@ -1,4 +1,4 @@
-1	Dutch	application/x-vnd.Hironytic-PonpokoDiff	1181836520
+1	Dutch	application/x-vnd.Hironytic-PonpokoDiff	758930349
 A file has changed	TextDiffWindow		Een bestand is veranderd
 A file has disappeared	TextDiffWindow		Een bestand is verdwenen
 About PonpokoDiff	TextDiffWindow		Over PonpokoDiff
@@ -8,11 +8,17 @@ Diff new files	TextDiffWindow		Vergelijk nieuwe bestanden
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Wil je twee nieuwe bestanden vergelijken, of dit negeren?
 Do you want to reload the files and diff them again?	TextDiffWindow		Will je de bestanden herladen en opnieuw vergelijken?
 File	TextDiffWindow		Bestand
+Help	TextDiffWindow		Help
 Ignore	TextDiffWindow		Negeren
-Open…	TextDiffWindow		Open…
+Open left file	TextDiffWindow		Open links bestand
+Open right file	TextDiffWindow		Open rechts bestand
 Probably it was unmounted.	TextDiffWindow		Volume is waarschijnlijk onttrokken.
 Quit	TextDiffWindow		Afsluiten
 Reload	TextDiffWindow		Herladen
+Select files…	TextDiffWindow		Selecteer bestanden…
+Show left file location	TextDiffWindow		Toon pad van links bestand
+Show right file location	TextDiffWindow		Toon pad van rechts bestand
+Switch files	TextDiffWindow		Wissel bestanden
 The left file, '%filename%', has changed.	TextDiffWindow		Het links bestand, '%filename%', is veranderd.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Het links bestand, '%filename%', is verdwenen. Waarschijnlijk is dit verwijderd of verplaatst naar een ander volume.
 The right file, '%filename%', has changed.	TextDiffWindow		Het rechts bestand, '%filename%', is veranderd.
@@ -21,12 +27,15 @@ The volume of the files that are being compared has disappeared.	TextDiffWindow	
 The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Het volume van het links bestand, '%filename%',is verdwenen.
 The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Het volume van het rechts bestand, '%filename%', is verdwenen.
 A graphical file comparison utility.	Application		Een graphische bestands vergelijking toepassing.
+Help	Application		Help
+Only a few notes on the non-obvious…	Application		Enkel wat notas voor het niet vanzelfsprekende...
 The file '%s' does not exist!\n	Application		Het bestand '%s' bestaat niet!\n
-Browse…	OpenFilesDialog		Blader...
-Cancel	OpenFilesDialog		Annuleer
-Diff	OpenFilesDialog		Vergelijk
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Geel duidt gewijzigde lijnen aan.\nRood duidt verwijderde lijnen aan.\nGroen duidt toegevoegde lijnen aan.\n\nDubbelklik om het linkse of rechtse bestand te openen met de voorkeur toepassing.\nHoudt CTRL ingedrukt bij het dubbelklikken om het pad weer te geven van het bestand (links/rechts).\n\nJe kan bestanden links of rechts droppen in het venster.
+Browse…	OpenFilesDialog	Button label	Blader...
+Cancel	OpenFilesDialog	Button label	Annuleer
+Diff	OpenFilesDialog	Button label	Vergelijk
 Left file:	OpenFilesDialog		Links bestand:
-PonpokoDiff: Open files	OpenFilesDialog		PonpokoDiff: Open bestanden
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Selecteer bestanden
 Right file:	OpenFilesDialog		Rechts bestand:
 Select left file	OpenFilesDialog		Selecteer links bestand
 Select right file	OpenFilesDialog		Selecteer rechts bestand
