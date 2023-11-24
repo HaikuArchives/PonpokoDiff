@@ -324,7 +324,7 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 
 DiffView::DiffPaneView::DiffPaneView(const char* name)
 	:
-	BView(name, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
+	BView(BRect(), name, B_FOLLOW_ALL, B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE)
 {
 	fDiffView = NULL;
 	fPaneIndex = DiffView::InvalidPane;
