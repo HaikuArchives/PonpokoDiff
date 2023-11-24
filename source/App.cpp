@@ -147,7 +147,6 @@ App::NewDiffWindow()
 	if (locker.IsLocked()) {
 		DiffWindow* newWindow = new DiffWindow(fSettings, fWindowCount);
 		fWindowCount++;
-		newWindow->Initialize();
 		return newWindow;
 	}
 

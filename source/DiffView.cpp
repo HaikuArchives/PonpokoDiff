@@ -25,6 +25,7 @@
 #include <SeparatorView.h>
 #include <Window.h>
 
+#include <cstdio>
 
 static const char FONT_SAMPLE[] = " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const int FONT_SAMPLE_LENGTH = sizeof(FONT_SAMPLE) - 1;
@@ -55,6 +56,8 @@ DiffView::DiffView(const char* name)
 	BView("name", B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
 {
 	fIsPanesVScrolling = false;
+
+	_Initialize();
 }
 
 
@@ -120,7 +123,7 @@ DiffView::MessageReceived(BMessage* message)
 
 
 void
-DiffView::Initialize()
+DiffView::_Initialize()
 {
 	DiffPaneView* leftPaneView = new DiffPaneView("LeftPane");
 	leftPaneView->SetDiffView(this);
@@ -181,6 +184,7 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 		if (viewName != NULL) {
 			BView* pane = FindView(viewName);
 			if (pane != NULL) {
+printf("_PaneVScrolled(), y = %f\n", y);
 				BRect bounds = pane->Bounds();
 				pane->ScrollTo(bounds.left, y);
 			}

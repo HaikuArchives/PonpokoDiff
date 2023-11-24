@@ -27,7 +27,6 @@ public:
 
 	virtual	void		MessageReceived(BMessage* message);
 
-			void		Initialize();
 			void		ExecuteDiff(BPath pathLeft, BPath pathRight);
 
 private:
@@ -41,6 +40,7 @@ private:
 	};
 
 private:
+			void		_Initialize();
 			void		_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex);
 
 private:

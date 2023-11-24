@@ -29,7 +29,6 @@ public:
 							DiffWindow(BMessage* settings, int32 windowCount);
 	virtual					~DiffWindow();
 
-			void			Initialize();
 			void			ExecuteDiff(const BPath pathLeft, const BPath pathRight);
 
 public:

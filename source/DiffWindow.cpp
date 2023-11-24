@@ -40,6 +40,18 @@ DiffWindow::DiffWindow(BMessage* settings, int32 windowcount)
 	BWindow(BRect(), B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"),
 	B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS)
 {
+	BMenuBar* menuBar = new BMenuBar("MainMenu");
+	_CreateMainMenu(menuBar);
+
+	fDiffView = new DiffView("DiffView");
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.Add(menuBar)
+		.AddGroup(B_VERTICAL)
+			.SetInsets(0, 0 ,-1, -1)
+			.Add(fDiffView)
+		.End();
+
 	BRect frame;
 	if (settings->FindRect("window_frame", &frame) == B_OK) {
 		ResizeTo(frame.Width(), frame.Height());
@@ -52,32 +64,14 @@ DiffWindow::DiffWindow(BMessage* settings, int32 windowcount)
 			MoveBy(windowcount * 32, windowcount * 32); // Cascade new windows
 		}
 	}
+
+	Show();
 }
 
 
 DiffWindow::~DiffWindow()
 {
 	_SaveSettings();
-}
-
-
-void
-DiffWindow::Initialize()
-{
-	BMenuBar* menuBar = new BMenuBar("MainMenu");
-	_CreateMainMenu(menuBar);
-
-	fDiffView = new DiffView("DiffView");
-	fDiffView->Initialize();
-
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
-		.Add(menuBar)
-		.AddGroup(B_VERTICAL)
-			.SetInsets(0, 0 ,-1, -1)
-			.Add(fDiffView)
-		.End();
-
-	Show();
 }
 
 
