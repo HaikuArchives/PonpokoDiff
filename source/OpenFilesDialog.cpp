@@ -22,7 +22,6 @@
 
 #include "App.h"
 #include "CommandIDs.h"
-#include "LocationInput.h"
 #include "DiffWindow.h"
 #include "TextFileFilter.h"
 
@@ -70,39 +69,42 @@ OpenFilesDialog::~OpenFilesDialog()
 void
 OpenFilesDialog::_Initialize()
 {
+	BStringView* leftLabel = new BStringView("leftlabel",
+		B_TRANSLATE("Left file:"));
+	fLeftLocation = new LocationInput("LeftTextControl", NULL);
+	BButton* leftBrowseButton = new BButton("LeftBrowse",
+		B_TRANSLATE("Browse" B_UTF8_ELLIPSIS),
+		new BMessage(MSG_OFD_BROWSE_LEFT));
 
-	BStringView* leftLabel = new BStringView("leftlabel", B_TRANSLATE("Left file:"));
-	LocationInput* leftTextControl = new LocationInput("LeftTextControl", NULL);
-	BButton* leftBrowseButton = new BButton(
-		"LeftBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(MSG_OFD_BROWSE_LEFT));
+	BStringView* rightLabel = new BStringView("rightLabel",
+	B_TRANSLATE("Right file:"));
+	fRightLocation = new LocationInput("RightTextControl", NULL);
+	BButton* rightBrowseButton = new BButton("RightBrowse",
+		B_TRANSLATE("Browse" B_UTF8_ELLIPSIS),
+		new BMessage(MSG_OFD_BROWSE_RIGHT));
 
-	BStringView* rightLabel = new BStringView("rightLabel", B_TRANSLATE("Right file:"));
-	LocationInput* rightTextControl = new LocationInput("RightTextControl", NULL);
-	BButton* rightBrowseButton = new BButton(
-		"RightBrowse", B_TRANSLATE("Browse" B_UTF8_ELLIPSIS), new BMessage(MSG_OFD_BROWSE_RIGHT));
+	BButton* diffButton = new BButton("DiffButton", B_TRANSLATE("Diff"),
+		new BMessage(MSG_OFD_DIFF_THEM));
+	diffButton->MakeDefault(true);
 
-	BButton* diffThemButton
-		= new BButton("DiffButton", B_TRANSLATE("Diff"), new BMessage(MSG_OFD_DIFF_THEM));
-	diffThemButton->MakeDefault(true);
-
-	BButton* cancelButton
-		= new BButton("CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_CANCEL));
+	BButton* cancelButton = new BButton("CancelButton", B_TRANSLATE("Cancel"),
+		new BMessage(MSG_CANCEL));
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_WINDOW_INSETS)
 		.AddGrid(B_USE_SMALL_SPACING)
 			.Add(leftLabel, 0, 0)
-			.Add(leftTextControl, 1, 0)
+			.Add(fLeftLocation, 1, 0)
 			.Add(leftBrowseButton, 2, 0)
 			.Add(rightLabel, 0, 1)
-			.Add(rightTextControl, 1, 1)
+			.Add(fRightLocation, 1, 1)
 			.Add(rightBrowseButton, 2, 1)
 		.End()
 		.Add(new BSeparatorView(B_HORIZONTAL))
 		.AddGroup(B_HORIZONTAL)
 			.AddGlue()
 			.Add(cancelButton)
-			.Add(diffThemButton)
+			.Add(diffButton)
 			.AddGlue()
 		.End();
 
@@ -113,6 +115,50 @@ void
 OpenFilesDialog::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
+		case B_SIMPLE_DATA:
+		{
+			if (message->WasDropped()) {
+				int validFileCount = 0;
+				BPath paths[2];
+				BEntry entry;
+				entry_ref ref;
+				for (int refCount = 0; message->FindRef("refs", refCount, &ref)
+					== B_NO_ERROR; refCount++) {
+					// Only allow text files and catkeys
+					entry.SetTo(&ref, true); // traverse links
+					TextFileFilter filter;
+					if (filter.IsValid(&ref, &entry)) {
+						paths[validFileCount].SetTo(&entry);
+						validFileCount++;
+					}
+					// Only grab the first two valid files
+					if (validFileCount == 2)
+						break;
+				}
+				// only invalid if there wasn't a valid file before
+				BString text = fLeftLocation->Text();
+				if (text == "")
+					fLeftLocation->MarkAsInvalid(true);
+
+				text = fRightLocation->Text();
+				if (text == "")
+					fRightLocation->MarkAsInvalid(true);
+
+				// no valid files
+				if (validFileCount == 0)
+					break;
+
+				fLeftLocation->SetText(paths[0].Path());
+				fLeftLocation->MarkAsInvalid(false);
+
+				if (validFileCount == 2) {
+					fRightLocation->SetText(paths[1].Path());
+					fRightLocation->MarkAsInvalid(false);
+				} else if (text == "")
+					fRightLocation->MarkAsInvalid(true);
+			}
+		} break;
+
 		case MSG_CANCEL:
 			PostMessage(B_QUIT_REQUESTED);
 			break;
@@ -180,8 +226,8 @@ OpenFilesDialog::_BrowseFile(OpenFilesDialog::FileIndex fileIndex)
 				message = NULL;
 				break;
 		}
-		fFilePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL,
-			new TextFileFilter(), false, true);
+		fFilePanels[fileIndex] = new BFilePanel(B_OPEN_PANEL, NULL, NULL,
+			B_FILE_NODE, false, NULL, new TextFileFilter(), false, true);
 		fFilePanels[fileIndex]->SetTarget(BMessenger(this));
 		fFilePanels[fileIndex]->SetMessage(message);
 		delete message;
@@ -195,7 +241,8 @@ OpenFilesDialog::_BrowseFile(OpenFilesDialog::FileIndex fileIndex)
 
 
 void
-OpenFilesDialog::_FileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message)
+OpenFilesDialog::_FileSelected(OpenFilesDialog::FileIndex fileIndex,
+	BMessage* message)
 {
 	entry_ref ref;
 	if (B_OK != message->FindRef("refs", &ref))
@@ -220,7 +267,8 @@ OpenFilesDialog::_FileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* m
 	BTextControl* textControl = dynamic_cast<BTextControl*>(FindView(viewName));
 	if (textControl != NULL) {
 		textControl->SetText(path.Path());
-		textControl->MarkAsInvalid(false); // in case it was invalid from a file drop before
+		// in case it was invalid from a file drop before
+		textControl->MarkAsInvalid(false);
 	}
 }
 

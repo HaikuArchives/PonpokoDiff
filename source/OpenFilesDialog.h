@@ -4,10 +4,13 @@
  *
  * Authors:
  * 		ICHIMIYA Hironori (Hiron)
+ *		Humdinger
  *
  */
 #ifndef OPENFILESDIALOG_H
 #define OPENFILESDIALOG_H
+
+#include "LocationInput.h"
 
 #include <FilePanel.h>
 #include <Window.h>
@@ -32,11 +35,14 @@ private:
 private:
 			void		_Initialize();
 			void		_BrowseFile(OpenFilesDialog::FileIndex fileIndex);
-			void		_FileSelected(OpenFilesDialog::FileIndex fileIndex, BMessage* message);
+			void		_FileSelected(OpenFilesDialog::FileIndex fileIndex,
+							BMessage* message);
 			void		_RunDiff();
 
 private:
 		BFilePanel*		fFilePanels[FileMAX];
+		LocationInput*	fLeftLocation;
+		LocationInput*	fRightLocation;
 };
 
 #endif // OPENFILESDIALOG_H

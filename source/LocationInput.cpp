@@ -43,7 +43,10 @@ LocationInput::MessageReceived(BMessage* message)
 			if (filter.IsValid(&ref, &entry))
 				MarkAsInvalid(false);
 			else {
-				MarkAsInvalid(true);
+				BString text = Text();
+				// only invalid if there wasn't a valid file before
+				if (text == "")
+					MarkAsInvalid(true);
 				break;
 			}
 
