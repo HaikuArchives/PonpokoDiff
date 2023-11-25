@@ -28,6 +28,7 @@
 #include "CommandIDs.h"
 #include "OpenFilesDialog.h"
 #include "DiffWindow.h"
+#include "TextFileFilter.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Application"
@@ -118,6 +119,11 @@ App::RefsReceived(BMessage* message)
 		BEntry entry(&ref);
 		if (!entry.Exists()) {
 			printf(B_TRANSLATE("The file '%s' does not exist!\n"), path.Path());
+			continue;
+		}
+		TextFileFilter filter;
+		if (!filter.IsValid(&ref, &entry)) {
+			printf(B_TRANSLATE("The file '%s' isn't a text file!\n"), path.Path());
 			continue;
 		}
 		if (lastPath.InitCheck() == B_OK && path.InitCheck() == B_OK) {

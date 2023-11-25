@@ -1,4 +1,4 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	511569613
+1	English	application/x-vnd.Hironytic-PonpokoDiff	3505841889
 Select files…	TextDiffWindow		Select files…
 Open right file	TextDiffWindow		Open right file
 Cancel	TextDiffWindow		Cancel
@@ -15,6 +15,7 @@ Left file:	OpenFilesDialog		Left file:
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Do you want to diff two new files, or just ignore this?
 Switch files	TextDiffWindow		Switch files
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.
+The file '%s' isn't a text file!\n	Application		The file '%s' isn't a text file!\n
 A file has disappeared	TextDiffWindow		A file has disappeared
 Diff	OpenFilesDialog		Diff
 Probably it was unmounted.	TextDiffWindow		Probably it was unmounted.
@@ -27,9 +28,9 @@ File	TextDiffWindow		File
 Select left file	OpenFilesDialog		Select left file
 Close	TextDiffWindow		Close
 A graphical file comparison utility.	Application		A graphical file comparison utility.
-Show left file location	TextDiffWindow		Show left file location
 Open left file	TextDiffWindow		Open left file
 Only a few notes on the non-obvious…	Application		Only a few notes on the non-obvious…
+Show left file location	TextDiffWindow		Show left file location
 The left file, '%filename%', has changed.	TextDiffWindow		The left file, '%filename%', has changed.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.
 Cancel	OpenFilesDialog		Cancel

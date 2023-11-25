@@ -184,7 +184,6 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 		if (viewName != NULL) {
 			BView* pane = FindView(viewName);
 			if (pane != NULL) {
-printf("_PaneVScrolled(), y = %f\n", y);
 				BRect bounds = pane->Bounds();
 				pane->ScrollTo(bounds.left, y);
 			}
