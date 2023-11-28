@@ -1,4 +1,4 @@
-1	Dutch	application/x-vnd.Hironytic-PonpokoDiff	758930349
+1	Dutch	application/x-vnd.Hironytic-PonpokoDiff	3753202625
 A file has changed	TextDiffWindow		Een bestand is veranderd
 A file has disappeared	TextDiffWindow		Een bestand is verdwenen
 About PonpokoDiff	TextDiffWindow		Over PonpokoDiff
@@ -30,10 +30,11 @@ A graphical file comparison utility.	Application		Een graphische bestands vergel
 Help	Application		Help
 Only a few notes on the non-obvious…	Application		Enkel wat notas voor het niet vanzelfsprekende...
 The file '%s' does not exist!\n	Application		Het bestand '%s' bestaat niet!\n
+The file '%s' isn't a text file!\n	Application		Het bestand '%s' is geen tekst bestand!\n
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Geel duidt gewijzigde lijnen aan.\nRood duidt verwijderde lijnen aan.\nGroen duidt toegevoegde lijnen aan.\n\nDubbelklik om het linkse of rechtse bestand te openen met de voorkeur toepassing.\nHoudt CTRL ingedrukt bij het dubbelklikken om het pad weer te geven van het bestand (links/rechts).\n\nJe kan bestanden links of rechts droppen in het venster.
 Browse…	OpenFilesDialog	Button label	Blader...
 Cancel	OpenFilesDialog	Button label	Annuleer
-Diff	OpenFilesDialog	Button label	Vergelijk
+Diff	OpenFilesDialog	Button label	Diff
 Left file:	OpenFilesDialog		Links bestand:
 PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Selecteer bestanden
 Right file:	OpenFilesDialog		Rechts bestand:

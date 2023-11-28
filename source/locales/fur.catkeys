@@ -1,4 +1,4 @@
-1	Friulian	application/x-vnd.Hironytic-PonpokoDiff	758930349
+1	Friulian	application/x-vnd.Hironytic-PonpokoDiff	3753202625
 A file has changed	TextDiffWindow		Al è stât modificât un file
 A file has disappeared	TextDiffWindow		Un file al è sparît
 About PonpokoDiff	TextDiffWindow		Informazions su PonpokoDiff
@@ -8,16 +8,16 @@ Diff new files	TextDiffWindow		Confronte i gnûfs files
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Desideristu confrontâ i doi gnûfs files o ignorâ cheste richieste?
 Do you want to reload the files and diff them again?	TextDiffWindow		Desideristu tornâ a cjariâ i files e paragonâju?
 File	TextDiffWindow		File
-Help	TextDiffWindow		Help
+Help	TextDiffWindow		Jutori
 Ignore	TextDiffWindow		Ignore
-Open left file	TextDiffWindow		Open left file
-Open right file	TextDiffWindow		Open right file
+Open left file	TextDiffWindow		Vierç file di çampe
+Open right file	TextDiffWindow		Vierç file di diestre
 Probably it was unmounted.	TextDiffWindow		Al è probabil che al sedi stât dismontât.
 Quit	TextDiffWindow		Jes
 Reload	TextDiffWindow		Torne cjame
 Select files…	TextDiffWindow		Selezione i files…
-Show left file location	TextDiffWindow		Show left file location
-Show right file location	TextDiffWindow		Show right file location
+Show left file location	TextDiffWindow		Mostre posizion dal file di çampe
+Show right file location	TextDiffWindow		Mostre posizion dal file di diestre
 Switch files	TextDiffWindow		Cambie i files
 The left file, '%filename%', has changed.	TextDiffWindow		Il file di çampe, '%filename%', al è stât modificât.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Il file di çampe, '%filename%', al è sparît. Al è probabil che al sedi stât eliminât o che al sedi stât spostât suntun altri volum.
@@ -27,10 +27,11 @@ The volume of the files that are being compared has disappeared.	TextDiffWindow	
 The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Il volum dal file di çampe, '%filename%', al è sparît.
 The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Il volum dal file di diestre, '%filename%', al è sparît.
 A graphical file comparison utility.	Application		Une utilitât di comparazion grafiche dai files.
-Help	Application		Help
-Only a few notes on the non-obvious…	Application		Only a few notes on the non-obvious…
+Help	Application		Jutori
+Only a few notes on the non-obvious…	Application		Dome cualchi note su ce che nol è evident…
 The file '%s' does not exist!\n	Application		Il file '%s' nol esist!\n
-Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.
+The file '%s' isn't a text file!\n	Application		Il file '%s' nol è un file di test!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Zâl al indiche lis riis cambiadis.\nRos al indiche lis riis gjavadis.\nVert al indiche lis riis zontadis.\n\nDopli-clic par vierzi il file di çampe/diestre cu la sô aplicazion preferide.\nTen fracât CTRL intant che tu fasis dopli-clic par mostrâ la posizion dal file di çampe/diestre.\n\nTu puedis strissinâ e molâ i files te part di çampe/diestre dal barcon.
 Browse…	OpenFilesDialog	Button label	Esplore…
 Cancel	OpenFilesDialog	Button label	Anule
 Diff	OpenFilesDialog	Button label	Diff

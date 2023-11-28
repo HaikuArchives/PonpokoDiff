@@ -1,4 +1,4 @@
-1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	758930349
+1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	3753202625
 A file has changed	TextDiffWindow		Un'isceda est mudada
 A file has disappeared	TextDiffWindow		Un'isceda est isparèssida
 About PonpokoDiff	TextDiffWindow		A subra de PonpokoDiff
@@ -8,17 +8,17 @@ Diff new files	TextDiffWindow		Cumpara sa diferentzia intra iscedas noas
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Cheres cumparare sa diferentzia intra duas iscedas noas, o inniorare ebbìa?
 Do you want to reload the files and diff them again?	TextDiffWindow		Cheres torrare a carrigare is iscedas pro nde otènnere su diff torra?
 File	TextDiffWindow		Isceda
-Help	TextDiffWindow		Help
+Help	TextDiffWindow		Agiudare
 Ignore	TextDiffWindow		Inniora
-Open left file	TextDiffWindow		Open left file
-Open right file	TextDiffWindow		Open right file
+Open left file	TextDiffWindow		Aberi s'isceda a manca
+Open right file	TextDiffWindow		Aberi s'isceda a dereta
 Probably it was unmounted.	TextDiffWindow		Probàbbilmente est istadu ismontadu.
 Quit	TextDiffWindow		Essi
 Reload	TextDiffWindow		Carriga torra
-Select files…	TextDiffWindow		Select files…
-Show left file location	TextDiffWindow		Show left file location
-Show right file location	TextDiffWindow		Show right file location
-Switch files	TextDiffWindow		Switch files
+Select files…	TextDiffWindow		Iscèbera is iscedas…
+Show left file location	TextDiffWindow		Mustra su logu de s'isceda a manca
+Show right file location	TextDiffWindow		Mustra su logu de s'isceda a dereta
+Switch files	TextDiffWindow		Cuncambia is iscedas
 The left file, '%filename%', has changed.	TextDiffWindow		S'isceda a manca, '%filename%', est mudada.
 The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		S'isceda a manca, \"%filename%\", est isparèssida. Probàbbilmente est istada bogada o mòvida a un'àteru volùmene.
 The right file, '%filename%', has changed.	TextDiffWindow		S'isceda a dereta, '%filename%', est mudada.
@@ -27,15 +27,16 @@ The volume of the files that are being compared has disappeared.	TextDiffWindow	
 The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Su volùmene de s'isceda a manca, \"%filename%\", est isparèssidu
 The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Su volùmene de s'isceda a dereta, \"%filename%\", est isparèssidu.
 A graphical file comparison utility.	Application		Un'aina pro comparare is iscedas de manera gràfica.
-Help	Application		Help
+Help	Application		Agiudu
 Only a few notes on the non-obvious…	Application		Only a few notes on the non-obvious…
 The file '%s' does not exist!\n	Application		S'isceda \"%s\" no esistet!\n
+The file '%s' isn't a text file!\n	Application		S'isceda /"%s/" no est un'isceda de testu!\n
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.
 Browse…	OpenFilesDialog	Button label	Iscartafollia…
 Cancel	OpenFilesDialog	Button label	Annudda
 Diff	OpenFilesDialog	Button label	Diff
 Left file:	OpenFilesDialog		Isceda a manca:
-PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Select files
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Iscèbera is iscedas
 Right file:	OpenFilesDialog		Isceda a dereta:
 Select left file	OpenFilesDialog		Issèbera s'isceda a manca
 Select right file	OpenFilesDialog		Issèbera s'isceda a dereta
