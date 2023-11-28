@@ -1,8 +1,7 @@
 v0.4
 
-
 * Support dropping two files anywhere on the main window to diff them
-* Same for the "Select files..." dialog.
+* Same for the "Select files..." dialog
 * Add "Switch files" (ALT+TAB) menu to switch left <-> right
 * Add "Open left/right file/loaction" menus, because double-clicking
   and CTRL + double-clicking is not that discoverable
@@ -13,7 +12,7 @@ v0.4
 * Nicer separator between left and right pane
 * Improved color handling, esp for dark themes
 * Save window size and position, cascade new windows
-* New and updated translations, thanks all translators for:
+* Updated translations, thanks all translators!
 
 v0.3
 

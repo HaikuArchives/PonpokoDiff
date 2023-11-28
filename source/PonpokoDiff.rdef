@@ -3,7 +3,7 @@ resource app_signature "application/x-vnd.Hironytic-PonpokoDiff";
 
 resource app_version {
 	major  = 0,
-	middle = 3,
+	middle = 4,
 	minor  = 0,
 
 	variety = B_APPV_FINAL,
@@ -17,7 +17,6 @@ resource app_flags B_MULTIPLE_LAUNCH;
 
 resource file_types message
 {
-	"types" = "text/plain",
 	"types" = "text",
 	"types" = "locale/x-vnd.Be.locale-catalog.plaintext"
 };
