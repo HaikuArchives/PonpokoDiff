@@ -79,7 +79,7 @@ DiffView::MessageReceived(BMessage* message)
 				entry_ref ref;
 				for (int refCount = 0; message->FindRef("refs", refCount, &ref)
 					== B_NO_ERROR; refCount++) {
-					// Only allow text files and catkeys
+					// Only allow text files, XML and catkeys
 					entry.SetTo(&ref, true); // traverse links
 					TextFileFilter filter;
 					if (filter.IsValid(&ref, &entry)) {

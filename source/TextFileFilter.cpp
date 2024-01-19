@@ -36,11 +36,14 @@ TextFileFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat
 bool
 TextFileFilter::IsValid(const entry_ref* ref, const BEntry* entry)
 {
-	// allow text and linked text files and catkeys
+	// allow text, xml and linked text files and catkeys
 	char mimeType[B_MIME_TYPE_LENGTH];
 	BNode traversedNode(entry); // create a new node from the link-traversed BEntry
 	BNodeInfo(&traversedNode).GetType(mimeType);
 	if (strncmp("text/", mimeType, 5) == 0)
+		return true;
+
+	if (strncmp("application/xhtml+xml", mimeType, 21) == 0)
 		return true;
 
 	if (strncmp("locale/x-vnd.Be.locale-catalog.plaintext", mimeType, 40) == 0)
