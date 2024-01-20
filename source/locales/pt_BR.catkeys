@@ -1,0 +1,43 @@
+1	Portuguese (Brazil)	application/x-vnd.Hironytic-PonpokoDiff	3753202625
+A file has changed	TextDiffWindow		Um arquivo foi modificado
+A file has disappeared	TextDiffWindow		Um arquivo desapareceu
+About PonpokoDiff	TextDiffWindow		Sobre PonpokoDiff
+Cancel	TextDiffWindow		Cancelar
+Close	TextDiffWindow		Fechar
+Diff new files	TextDiffWindow		Comparar novos arquivos
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Você deseja comparar dois novos arquivos, ou apenas ignorar isto?
+Do you want to reload the files and diff them again?	TextDiffWindow		Você deseja recarregar os arquivos e compará-los novamente?
+File	TextDiffWindow		Arquivo
+Help	TextDiffWindow		Ajuda
+Ignore	TextDiffWindow		Ignorar
+Open left file	TextDiffWindow		Abrir arquivo esquerdo
+Open right file	TextDiffWindow		Abrir arquivo direito
+Probably it was unmounted.	TextDiffWindow		Provavelmente foi desmontado.
+Quit	TextDiffWindow		Sair
+Reload	TextDiffWindow		Recarregar
+Select files…	TextDiffWindow		Selecionar arquivos...
+Show left file location	TextDiffWindow		Mostrar localização do arquivo esquerdo
+Show right file location	TextDiffWindow		Mostrar localização do arquivo direito
+Switch files	TextDiffWindow		Trocar arquivos
+The left file, '%filename%', has changed.	TextDiffWindow		O arquivo esquerdo, '%filename%', foi modificado.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		O arquivo esquerdo, '%filename%', desapareceu. Provavelmente foi apagado ou movido para outro volume.
+The right file, '%filename%', has changed.	TextDiffWindow		O arquivo direito, '%filename%', foi modificado.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		O arquivo direito, '%filename%', desapareceu. Provavelmente foi apagado ou movido para outro volume.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		O volume dos arquivos que estão sendo comparados desapareceu.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		O volume do arquivo esquerdo, '%filename%', desapareceu.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		O volume do arquivo direito, '%filename%', desapareceu.
+A graphical file comparison utility.	Application		Um utilitário de comparação gráfica de arquivos.
+Help	Application		Ajuda
+Only a few notes on the non-obvious…	Application		Algumas anotações sobre o não-óvio...
+The file '%s' does not exist!\n	Application		O arquivo '%s' não existe!\n
+The file '%s' isn't a text file!\n	Application		O arquivo '%s' não é um arquivo de texto!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Amarelo indica linhas modificadas.\nVermelho indica linhas removidas..\nVerde indica linhas adicionadas.\n\nDuplo-clique para abrir o arquivo esquerdo/direito no aplicativo preferido do formato.\nSegure CTRL enquanto faz o duplo-clique para exibir a localização do arquivo esquerdo/direito.\n\nVocê pode arrastar e soltar arquivos diretamente no lado esquerdo/direito da janela.
+Browse…	OpenFilesDialog	Button label	Navegar…
+Cancel	OpenFilesDialog	Button label	Cancelar
+Diff	OpenFilesDialog	Button label	Comparar
+Left file:	OpenFilesDialog		Arquivo esquerdo:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Selecionar arquivos
+Right file:	OpenFilesDialog		Arquivo direito:
+Select left file	OpenFilesDialog		Selecionar arquivo esquerdo
+Select right file	OpenFilesDialog		Selecionar arquivo direito
+PonpokoDiff	System name		PonpokoDiff

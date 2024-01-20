@@ -30,7 +30,7 @@ A graphical file comparison utility.	Application		Una herramienta gráfica de co
 Help	Application		Ayuda
 Only a few notes on the non-obvious…	Application		Algunas notas sobre lo que no es obvio...
 The file '%s' does not exist!\n	Application		¡El archivo '%s' no existe!
-The file '%s' isn't a text file!\n	Application		The file '%s' isn't a text file!\n
+The file '%s' isn't a text file!\n	Application		El archivo '%s' no es un archivo de texto.\n
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		El amarillo indica líneas modificadas.\nEl rojo indica líneas eliminadas.\nEl verde indica líneas agregadas.\n\nDoble click para abrir el archivo izquierdo/derecho con tu aplicación preferida.\nManten presionada la tecla CTRL mientras haces doble click para mostrar la ubicación del archivo izquierdo/derecho .\n\nPuedes arrastrar y soltar archivos directamente en el lado izquierdo/derecho de la ventana.
 Browse…	OpenFilesDialog	Button label	Navegar…
 Cancel	OpenFilesDialog	Button label	Cancelar

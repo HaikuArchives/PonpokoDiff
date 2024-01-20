@@ -30,7 +30,7 @@ A graphical file comparison utility.	Application		Grafiksel bir dosya karşıla�
 Help	Application		Yardım
 Only a few notes on the non-obvious…	Application		İlk bakışta gözünüze çarpmayacak birkaç şey hakkında…
 The file '%s' does not exist!\n	Application		'%s' dosyası yok!\n
-The file '%s' isn't a text file!\n	Application		The file '%s' isn't a text file!\n
+The file '%s' isn't a text file!\n	Application		'%s' dosyası bir metin dosyası değil!\n
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Sarı, değiştirilen satırları belirtir.\nKırmızı, kaldırılan satırları belirtir.\nYeşil, eklenen satırları belirtir.\n\nSol/Sağ dosyayı yeğlenen uygulamasıyla açmak için sağ tıklayın.\nDosyaların konumunu göstermek için çift tıklarken Kontrol düğmesini basılı tutun.\n\nPencerenin her iki tarafına da dosyalar sürükleyip bırakabilirsiniz.
 Browse…	OpenFilesDialog	Button label	Göz at…
 Cancel	OpenFilesDialog	Button label	Vazgeç

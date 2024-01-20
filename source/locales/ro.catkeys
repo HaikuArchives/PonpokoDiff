@@ -1,0 +1,43 @@
+1	Romanian	application/x-vnd.Hironytic-PonpokoDiff	3753202625
+A file has changed	TextDiffWindow		Fișier a fost modificat
+A file has disappeared	TextDiffWindow		Fișier a dispărut
+About PonpokoDiff	TextDiffWindow		Despre PonpokoDiff
+Cancel	TextDiffWindow		Renunță
+Close	TextDiffWindow		Închide
+Diff new files	TextDiffWindow		Diff fișiere noi
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Doriți într-adevăr să comparați fișiere noi?
+Do you want to reload the files and diff them again?	TextDiffWindow		Doriți să reîncărcați fișierele și să le comparați din nou?
+File	TextDiffWindow		Fișier
+Help	TextDiffWindow		Ajutor
+Ignore	TextDiffWindow		Ignoră
+Open left file	TextDiffWindow		Deschide fișierul stânga
+Open right file	TextDiffWindow		Deschide fișierul dreapta
+Probably it was unmounted.	TextDiffWindow		Probabil acesta a fost demontat.
+Quit	TextDiffWindow		Terminare
+Reload	TextDiffWindow		Reîncărcare
+Select files…	TextDiffWindow		Selectați fișiere…
+Show left file location	TextDiffWindow		Arată locația fișierului stânga
+Show right file location	TextDiffWindow		Arată locația fișierului dreapta
+Switch files	TextDiffWindow		Schimbă fișiere între ele
+The left file, '%filename%', has changed.	TextDiffWindow		Fișierul stâng '%filename%' a fost modificat.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Fișierul stâng '%filename%' a dispărut. Probabil a fost șters sau mutat în alt volum.
+The right file, '%filename%', has changed.	TextDiffWindow		Fișierul dreapta '%filename%' a fost modificat.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Fișierul dreapta '%filename%' a dispărut. Probabil a fost șters sau mutat în alt volum.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Volumul fișierelor in comparație a dispărut.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Volumul fișierului stânga '%filename%' a dispărut.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Volumul fișierului dreapta '%filename%' a dispărut.
+A graphical file comparison utility.	Application		O ulitită grafică de comparație a fișierelor.
+Help	Application		Ajutor
+Only a few notes on the non-obvious…	Application		Doar câteva note despre lucruri neevidente…
+The file '%s' does not exist!\n	Application		Fișierul '%s' nu există!\n
+The file '%s' isn't a text file!\n	Application		Fișierul '%s' nu are conținut textual!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Liniile modificate sunt evidențiate cu galben.\nLiniile înlăturate sunt evidențiate cu roșu.\nLiniile adăugate sunt evidențiate cu verde.\n\nFaceți dublu-click pentru a deschide fișierul din stânga/dreapta cu aplicația preferată.\nȚineți apăsat CTRL și faceți dublu-click pentru a arăta locația fișierelor stânga/dreapta.\n\nPuteți trage fișiere direct în partea stânga/dreapta a ferestrei.
+Browse…	OpenFilesDialog	Button label	Caută…
+Cancel	OpenFilesDialog	Button label	Renunță
+Diff	OpenFilesDialog	Button label	Diff
+Left file:	OpenFilesDialog		Fișierul din stângă:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Selectați fișierele
+Right file:	OpenFilesDialog		Fișierul din dreaptă:
+Select left file	OpenFilesDialog		Selectați fișierul din stângă
+Select right file	OpenFilesDialog		Selectați fișierul din dreaptă
+PonpokoDiff	System name		PonpokoDiff
