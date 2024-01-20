@@ -1,3 +1,13 @@
+v0.4.1
+
+* Accept XML files (MIME: application/xhtml+xml)
+* Updated translations
+* New translations:
+  + Spanish (es), thanks cafeina!
+  + Portuguese (Brazil) (pt_BR), thanks Andrei Bosco B. Torres!
+  + Romanian (ro), thanks al-popa!
+  + Russian (ru), thanks al-popa!
+
 v0.4
 
 * Support dropping two files anywhere on the main window to diff them
