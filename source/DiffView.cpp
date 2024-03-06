@@ -250,6 +250,7 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 	fTextData[RIGHT_PANE].Unload();
 	fLineInfos.clear();
 
+	fIdentical = true;
 	try {
 		fTextData[LEFT_PANE].Load(pathLeft);
 		fTextData[RIGHT_PANE].Load(pathRight);
@@ -277,6 +278,7 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 						fLineInfos.push_back(line);
 						line.textIndex[RIGHT_PANE]++;
 					}
+					fIdentical = false;
 					break;
 
 				case DiffOperation::Modified:
@@ -296,6 +298,7 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 						else
 							line.textIndex[RIGHT_PANE] = -1;
 					}
+					fIdentical = false;
 					break;
 
 				case DiffOperation::Deleted:
@@ -306,6 +309,7 @@ DiffView::ExecuteDiff(BPath pathLeft, BPath pathRight)
 						fLineInfos.push_back(line);
 						line.textIndex[LEFT_PANE]++;
 					}
+					fIdentical = false;
 					break;
 
 				case DiffOperation::NotChanged:

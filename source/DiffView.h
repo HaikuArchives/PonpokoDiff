@@ -28,6 +28,7 @@ public:
 	virtual	void		MessageReceived(BMessage* message);
 
 			void		ExecuteDiff(BPath pathLeft, BPath pathRight);
+			bool		isIdentical() { return fIdentical; };
 
 private:
 	enum PaneIndex {
@@ -90,6 +91,7 @@ private:
 		LineSeparatedText	fTextData[PaneMAX];
 		LineInfoVector		fLineInfos;
 		bool				fIsPanesScrolling;
+		bool				fIdentical;
 };
 
 #endif // TEXTDIFFVIEW_H

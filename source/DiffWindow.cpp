@@ -519,8 +519,14 @@ DiffWindow::_UpdateTitle()
 	BString title(B_TRANSLATE_SYSTEM_NAME("PonpokoDiff"));
 	title += " : ";
 	title += fPathLeft.Leaf();
-	title += " ◄ | ► ";
+	title += " ◄ ";
+	if (fDiffView->isIdentical())
+		title += B_TRANSLATE("(identical)");
+	else
+		title += "|";
+	title += " ► ";
 	title += fPathRight.Leaf();
+
 
 	SetTitle(title.String());
 }

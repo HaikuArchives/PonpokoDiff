@@ -1,4 +1,4 @@
-1	English	application/x-vnd.Hironytic-PonpokoDiff	3753202625
+1	English	application/x-vnd.Hironytic-PonpokoDiff	219459752
 Select files…	TextDiffWindow		Select files…
 Open right file	TextDiffWindow		Open right file
 Cancel	TextDiffWindow		Cancel
@@ -27,6 +27,7 @@ The volume of the files that are being compared has disappeared.	TextDiffWindow	
 PonpokoDiff	System name		PonpokoDiff
 File	TextDiffWindow		File
 Select left file	OpenFilesDialog		Select left file
+(identical)	TextDiffWindow		(identical)
 Close	TextDiffWindow		Close
 A graphical file comparison utility.	Application		A graphical file comparison utility.
 Open left file	TextDiffWindow		Open left file
