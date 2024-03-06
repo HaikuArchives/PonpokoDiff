@@ -384,6 +384,7 @@ DiffWindow::_AskToReload(node_ref nref)
 
 		case 1:
 			fDiffView->ExecuteDiff(fPathLeft, fPathRight);
+			_UpdateTitle();
 			break;
 	}
 }
