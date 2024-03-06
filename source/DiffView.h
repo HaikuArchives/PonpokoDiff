@@ -41,7 +41,7 @@ private:
 
 private:
 			void		_Initialize();
-			void		_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex);
+			void		_PaneScrolled(float x, float y, DiffView::PaneIndex fromPaneIndex);
 
 private:
 	class DiffPaneView : public BView {
@@ -89,7 +89,7 @@ private:
 private:
 		LineSeparatedText	fTextData[PaneMAX];
 		LineInfoVector		fLineInfos;
-		bool				fIsPanesVScrolling;
+		bool				fIsPanesScrolling;
 };
 
 #endif // TEXTDIFFVIEW_H

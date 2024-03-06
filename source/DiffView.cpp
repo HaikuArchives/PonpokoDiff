@@ -68,7 +68,7 @@ DiffView::DiffView(const char* name)
 	:
 	BView("name", B_WILL_DRAW | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_SUPPORTS_LAYOUT)
 {
-	fIsPanesVScrolling = false;
+	fIsPanesScrolling = false;
 
 	_Initialize();
 }
@@ -173,11 +173,11 @@ DiffView::_Initialize()
 
 
 void
-DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
+DiffView::_PaneScrolled(float x, float y, DiffView::PaneIndex fromPaneIndex)
 {
-	if (fIsPanesVScrolling)
+	if (fIsPanesScrolling)
 		return;
-	fIsPanesVScrolling = true;
+	fIsPanesScrolling = true;
 
 	int index;
 	for (index = 0; index < PaneMAX; index++) {
@@ -198,12 +198,12 @@ DiffView::_PaneVScrolled(float y, DiffView::PaneIndex fromPaneIndex)
 			BView* pane = FindView(viewName);
 			if (pane != NULL) {
 				BRect bounds = pane->Bounds();
-				pane->ScrollTo(bounds.left, y);
+				pane->ScrollTo(x, y);
 			}
 		}
 	}
 
-	fIsPanesVScrolling = false;
+	fIsPanesScrolling = false;
 }
 
 
@@ -613,7 +613,7 @@ DiffView::DiffPaneView::ScrollTo(BPoint point)
 	BView::ScrollTo(point);
 
 	if (fDiffView != NULL)
-		fDiffView->_PaneVScrolled(point.y, fPaneIndex);
+		fDiffView->_PaneScrolled(point.x, point.y, fPaneIndex);
 }
 
 
