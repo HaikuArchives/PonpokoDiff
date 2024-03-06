@@ -17,7 +17,6 @@
 #include "Exception.h"
 #include "TextFileFilter.h"
 
-#include <ColorConversion.h>
 #include <ControlLook.h>
 #include <LayoutBuilder.h>
 #include <ScrollBar.h>
@@ -29,6 +28,7 @@
 
 static const char FONT_SAMPLE[] = " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const int FONT_SAMPLE_LENGTH = sizeof(FONT_SAMPLE) - 1;
+static const int TAB_CHARS = 4;
 
 enum system_theme {
 	LIGHT = 0,
@@ -48,7 +48,20 @@ static const rgb_color colorModified[] = {
 	{110, 110, 0, 255}
 };
 
-static const int tabChars = 4;
+// Added until beta5, when functions like IsLight() become available
+static inline uint8
+perceptual_brightness(rgb_color color)
+{
+	// From http://alienryderflex.com/hsp.html
+	// Useful in particular to decide if the color is "light" or "dark"
+	// by checking if the perceptual brightness is > 127.
+	int r = color.red;
+	int g = color.green;
+	int b = color.blue;
+
+	return (uint8)roundf(sqrtf(
+		0.299f * r * r + 0.587f * g * g + 0.114 * b * b));
+}
 
 
 DiffView::DiffView(const char* name)
@@ -464,7 +477,7 @@ DiffView::DiffPaneView::_GetDataWidth()
 				if ('\t' == *ptr) {
 					if (fTabUnit < 0) {
 						fTabUnit = font.StringWidth(FONT_SAMPLE, FONT_SAMPLE_LENGTH)
-							/ FONT_SAMPLE_LENGTH * tabChars;
+							/ FONT_SAMPLE_LENGTH * TAB_CHARS;
 					}
 					left = (floor(left / fTabUnit) + 1) * fTabUnit;
 				}
@@ -513,7 +526,7 @@ DiffView::DiffPaneView::Draw(BRect updateRect)
 		const LineInfo& linfo = fDiffView->fLineInfos[line];
 
 		rgb_color bkColor;
-		int brightness = BPrivate::perceptual_brightness(ui_color(B_DOCUMENT_TEXT_COLOR));
+		int brightness = perceptual_brightness(ui_color(B_DOCUMENT_TEXT_COLOR));
 		system_theme theme;
 		theme = brightness > 127 ? DARK : LIGHT;
 
@@ -583,7 +596,7 @@ DiffView::DiffPaneView::_DrawText(const BFont& font, const Substring& text, floa
 		if ('\t' == *ptr) {
 			if (fTabUnit < 0) {
 				fTabUnit = font.StringWidth(FONT_SAMPLE, FONT_SAMPLE_LENGTH) / FONT_SAMPLE_LENGTH
-					* tabChars;
+					* TAB_CHARS;
 			}
 			left = (floor(left / fTabUnit) + 1) * fTabUnit;
 		}
