@@ -1,3 +1,12 @@
+v0.5
+
+* Synchronize horizontal scrolling as well (was only vertically before)
+* Add "(identical)" to window title, when files are identical
+* Updated translations
+* New translations:
+  + Indonesian (id), thanks	mazbrili!
+  + Japanese (ja), thanks Murai Takashi, Il Felice!
+
 v0.4.1
 
 * Accept XML files (MIME: application/xhtml+xml)
