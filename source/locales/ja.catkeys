@@ -1,0 +1,44 @@
+1	Japanese	application/x-vnd.Hironytic-PonpokoDiff	219459752
+(identical)	TextDiffWindow		（ファイル内容一致してます）
+A file has changed	TextDiffWindow		ファイルが変更されました
+A file has disappeared	TextDiffWindow		ファイルが消えました
+About PonpokoDiff	TextDiffWindow		PonpokoDiffについて
+Cancel	TextDiffWindow		キャンセル
+Close	TextDiffWindow		閉じる
+Diff new files	TextDiffWindow		新しいファイルの差分
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		新しい2つのファイルの差分を取りますか、または無視しますか?
+Do you want to reload the files and diff them again?	TextDiffWindow		ファイルを読み直してもう一度差分を取りますか?
+File	TextDiffWindow		ファイル
+Help	TextDiffWindow		ヘルプ
+Ignore	TextDiffWindow		無視
+Open left file	TextDiffWindow		左側のファイルを開く
+Open right file	TextDiffWindow		右側のファイルを開く
+Probably it was unmounted.	TextDiffWindow		おそらくそれはマウント解除された。
+Quit	TextDiffWindow		終了
+Reload	TextDiffWindow		リロード
+Select files…	TextDiffWindow		ファイル選択…
+Show left file location	TextDiffWindow		左側ファイルの場所を表示
+Show right file location	TextDiffWindow		右側ファイルの場所を表示
+Switch files	TextDiffWindow		ファイルをスイッチ
+The left file, '%filename%', has changed.	TextDiffWindow		左側のファイル, '%filename%', は変更された。
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		左側のファイル, '%filename%', は消えました。おそらく削除されたか他のボリュームに移動されました。
+The right file, '%filename%', has changed.	TextDiffWindow		右側のファイル, '%filename%', は変更されました。
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		右側のファイル, '%filename%', 左側のファイル, '%filename%', は消えました。おそらく削除されたか他のボリュームに移動されました。
+The volume of the files that are being compared has disappeared.	TextDiffWindow		比較中のファイルのボリュームが消えました。
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		左側のファイル, '%filename%', は消えました。
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		右側のファイル, '%filename%', は消えました。
+A graphical file comparison utility.	Application		グラフィカルにファイルを比較するユーティリティ
+Help	Application		ヘルプ
+Only a few notes on the non-obvious…	Application		明白でない点についてのわずかなメモ…
+The file '%s' does not exist!\n	Application		ファイル '%s' は存在しません!\n
+The file '%s' isn't a text file!\n	Application		ファイル '%s' はテキストファイルではありません!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		黄色は変更された行を示す。\n赤は削除された行を示す。\n緑は追加された行を示す。\n\n左/右側のファイルを既定アプリケーションで開くにはダブルクリックしてください。\nHold CTRL キーを押したままダブルクリックすると、左/右側のファイルの場所が表示されます。\n\nウィンドウの左/右側に直接ファイルをドラッグアンドドロップできます。
+Browse…	OpenFilesDialog	Button label	ブラウズ…
+Cancel	OpenFilesDialog	Button label	キャンセル
+Diff	OpenFilesDialog	Button label	差分
+Left file:	OpenFilesDialog		左側のファイル:
+PonpokoDiff: Select files	OpenFilesDialog		ファイル選択
+Right file:	OpenFilesDialog		右側のファイル:
+Select left file	OpenFilesDialog		左側のファイルを選択
+Select right file	OpenFilesDialog		右側のファイルを選択
+PonpokoDiff	System name		PonpokoDiff

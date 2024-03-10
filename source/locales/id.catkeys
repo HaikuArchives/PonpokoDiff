@@ -1,0 +1,44 @@
+1	Indonesian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+(identical)	TextDiffWindow		(identik)
+A file has changed	TextDiffWindow		Satu berkas sudah berubah
+A file has disappeared	TextDiffWindow		Satu berkas menghilang
+About PonpokoDiff	TextDiffWindow		Tentang PonpokoDiff
+Cancel	TextDiffWindow		Batal
+Close	TextDiffWindow		Tutup
+Diff new files	TextDiffWindow		Beda-kan berkas baru
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Apa anda ingin mem-beda-kan 2 berkas baru, atau hanya abaikan ini?
+Do you want to reload the files and diff them again?	TextDiffWindow		Apa anda ingin muat-ulang berkas dan bedakan lagi?
+File	TextDiffWindow		Berkas
+Help	TextDiffWindow		Tolong
+Ignore	TextDiffWindow		Abaikan
+Open left file	TextDiffWindow		Buka berkas kiri
+Open right file	TextDiffWindow		Buka berkas kanan
+Probably it was unmounted.	TextDiffWindow		Mungkin itu sudah dilepaskan
+Quit	TextDiffWindow		Keluar
+Reload	TextDiffWindow		Muat-ulang
+Select files…	TextDiffWindow		Pilih berkas…
+Show left file location	TextDiffWindow		Tampilkan lokasi berkas kiri
+Show right file location	TextDiffWindow		Tampilkan lokasi berkas kanan
+Switch files	TextDiffWindow		Tukar berkas
+The left file, '%filename%', has changed.	TextDiffWindow		Berkas kiri, '%filename%', sudah berubah.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Berkas kiri, '%filename%', sudah hilang. Mungkin sudah dihapus atau dipindah ke volume yang lain.
+The right file, '%filename%', has changed.	TextDiffWindow		Berkas kanan, '%filename%', telah berubah.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Berkas kanan, '%filename%', sudah hilang. Mungkin sudah dihapus atau dipindah ke volume yang lain.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		volume yang berkasnya akan dibandingkan telah menghilang.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Volume berkas kiri, '%filename%', telah hilang.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Volume berkas kanna, '%filename%', telah hilang.
+A graphical file comparison utility.	Application		Utilitas perbandingan file grafis.
+Help	Application		Tolong
+Only a few notes on the non-obvious…	Application		Hanya beberapa catatan tentang hal yang tidak jelas…
+The file '%s' does not exist!\n	Application		Berkas '%s' tidak ada!\n
+The file '%s' isn't a text file!\n	Application		Berkas '%s' bukan berkas teks!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Kuning menunjukkan baris yang diubah.\nMerah menunjukkan baris yang dihapus.\nHijau menunjukkan baris yang ditambahkan.\n\nKlik dua kali untuk membuka file kiri/kanan dengan aplikasi pilihannya.\nTahan CTRL sambil mengklik dua kali untuk menampilkan lokasi file kiri/kanan .\n\nAnda dapat menarik dan melepas file langsung di sisi kiri/kanan jendela.
+Browse…	OpenFilesDialog	Button label	Jelajahi…
+Cancel	OpenFilesDialog	Button label	Cancel
+Diff	OpenFilesDialog	Button label	Beda
+Left file:	OpenFilesDialog		Berkas kiri:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Pilih berkas
+Right file:	OpenFilesDialog		Berkas kanan:
+Select left file	OpenFilesDialog		Pilih berkas kiri
+Select right file	OpenFilesDialog		Pilih berkas kanan
+PonpokoDiff	System name		PonpokoDiff

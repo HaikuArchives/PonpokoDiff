@@ -1,4 +1,5 @@
-1	Italian	application/x-vnd.Hironytic-PonpokoDiff	3753202625
+1	Italian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+(identical)	TextDiffWindow		(identico)
 A file has changed	TextDiffWindow		Un file è cambiato
 A file has disappeared	TextDiffWindow		È scomparso un file
 About PonpokoDiff	TextDiffWindow		Informazioni su PonpokoDiff
@@ -31,7 +32,7 @@ Help	Application		Aiuto
 Only a few notes on the non-obvious…	Application		Solo poche note su ciò che non è ovvio…
 The file '%s' does not exist!\n	Application		Il file \"%s\" non esiste!\n
 The file '%s' isn't a text file!\n	Application		Il file \"%s\" non è un file di testo!\n
-Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Il giallo indica le linee modificate.\nIl rosso indica le linee rimosse.\nIl verde indicate le linee aggiunte.\n\nFai doppio clic per aprire il file a sinistra o destra con la relativa applicazione preferita.\nTieni premuto CTRL mentre fai il doppio clic per mostrare la posizione del file a sinistra o destra.\n\nPuoi trascinare direttamente i file sui lati sinistro e destro della finestra.
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Il giallo indica le linee modificate.\nIl rosso indica le linee rimosse.\nIl verde indica le linee aggiunte.\n\nFare doppio clic per aprire il file sinistro o destro con la relativa applicazione preferita.\nTenere premuto CTRL mentre si fa il doppio clic per mostrare la posizione del file sinistro o destro.\n\nSi può trascinare direttamente il file sul lato sinistro o destro della finestra.
 Browse…	OpenFilesDialog	Button label	Sfoglia…
 Cancel	OpenFilesDialog	Button label	Annulla
 Diff	OpenFilesDialog	Button label	Diff
