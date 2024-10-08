@@ -35,6 +35,7 @@ SRCS = \
 	Exception.cpp \
 	LineSeparatedText.cpp \
 	LocationInput.cpp \
+	IconMenuItem.cpp \
 	NPDiff.cpp \
 	OpenFilesDialog.cpp \
 	Substring.cpp \

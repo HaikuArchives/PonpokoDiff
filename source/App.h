@@ -13,6 +13,9 @@
 
 #include <Application.h>
 
+extern const char *kAppSignature;
+
+
 class DiffWindow;
 class OpenFilesDialog;
 

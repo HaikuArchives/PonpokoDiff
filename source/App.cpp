@@ -39,7 +39,7 @@ const char* kAppSignature = "application/x-vnd.Hironytic-PonpokoDiff";
 
 App::App()
 	:
-	BApplication("application/x-vnd.Hironytic-PonpokoDiff")
+	BApplication(kAppSignature)
 {
 	fWindowCount = 0;
 	fOpenFilesPanel = NULL;

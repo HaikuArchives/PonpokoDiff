@@ -11,6 +11,7 @@
 #include "App.h"
 #include "CommandIDs.h"
 #include "DiffWindow.h"
+#include "IconMenuItem.h"
 
 #include <Alert.h>
 #include <Application.h>
@@ -202,6 +203,27 @@ void
 DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 {
 	BMenuItem* menuItem;
+	BMenu* appMenu = new BMenu(B_TRANSLATE(""));
+
+	menuItem = new BMenuItem(B_TRANSLATE("Help"), new BMessage(MSG_HELP), 'H');
+	menuItem->SetTarget(be_app_messenger);
+	appMenu->AddItem(menuItem);
+
+	menuItem = new BMenuItem(B_TRANSLATE("About PonpokoDiff"), new BMessage(B_ABOUT_REQUESTED));
+	menuItem->SetTarget(be_app_messenger);
+	appMenu->AddItem(menuItem);
+
+	appMenu->AddSeparatorItem();
+
+	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W');
+	appMenu->AddItem(menuItem);
+
+	menuItem = new BMenuItem(B_TRANSLATE("Quit"), new BMessage(MSG_FILE_QUIT), 'Q');
+	appMenu->AddItem(menuItem);
+
+	IconMenuItem* iconMenu;
+	iconMenu = new IconMenuItem(appMenu, NULL, kAppSignature, B_MINI_ICON);
+	menuBar->AddItem(iconMenu);
 
 	BMenu* fileMenu = new BMenu(B_TRANSLATE("File"));
 	menuBar->AddItem(fileMenu);
@@ -210,10 +232,13 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 
-	menuItem = new BMenuItem(B_TRANSLATE("Close and select files" B_UTF8_ELLIPSIS),
+	menuItem = new BMenuItem(B_TRANSLATE_COMMENT("Close and select files" B_UTF8_ELLIPSIS,
+		"Closes the current window, while opening the selection dialog."),
 		new BMessage(MSG_FILE_NEW), 'N');
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
+
+	fileMenu->AddSeparatorItem();
 
 	menuItem = new BMenuItem(B_TRANSLATE("Switch files"), new BMessage(MSG_FILE_SWITCH), B_TAB);
 	menuItem->SetTarget(this);
@@ -247,24 +272,6 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 	locationRight->AddInt32("pane", RIGHT);
 	menuItem = new BMenuItem(B_TRANSLATE("Show right file location"), locationRight, '2', B_SHIFT_KEY);
 	menuItem->SetTarget(this);
-	fileMenu->AddItem(menuItem);
-
-	fileMenu->AddSeparatorItem();
-
-	menuItem = new BMenuItem(B_TRANSLATE("Help"), new BMessage(MSG_HELP), 'H');
-	menuItem->SetTarget(be_app_messenger);
-	fileMenu->AddItem(menuItem);
-
-	menuItem = new BMenuItem(B_TRANSLATE("About PonpokoDiff"), new BMessage(B_ABOUT_REQUESTED));
-	menuItem->SetTarget(be_app_messenger);
-	fileMenu->AddItem(menuItem);
-
-	fileMenu->AddSeparatorItem();
-
-	menuItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W');
-	fileMenu->AddItem(menuItem);
-
-	menuItem = new BMenuItem(B_TRANSLATE("Quit"), new BMessage(MSG_FILE_QUIT), 'Q');
 	fileMenu->AddItem(menuItem);
 }
 
