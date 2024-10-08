@@ -135,6 +135,12 @@ DiffWindow::MessageReceived(BMessage* message)
 			}
 		} break;
 
+		case MSG_FILE_NEW:
+		{
+			message->what = MSG_FILE_OPEN;
+			message->AddMessenger("killme", BMessenger(this));
+		} // intentional fall-tru
+
 		case MSG_FILE_OPEN:
 		{
 			message->AddRect("window_frame", Frame());
@@ -201,6 +207,11 @@ DiffWindow::_CreateMainMenu(BMenuBar* menuBar)
 	menuBar->AddItem(fileMenu);
 	menuItem = new BMenuItem(B_TRANSLATE("Select files" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_FILE_OPEN), 'O');
+	menuItem->SetTarget(this);
+	fileMenu->AddItem(menuItem);
+
+	menuItem = new BMenuItem(B_TRANSLATE("Close and select files" B_UTF8_ELLIPSIS),
+		new BMessage(MSG_FILE_NEW), 'N');
 	menuItem->SetTarget(this);
 	fileMenu->AddItem(menuItem);
 

@@ -15,6 +15,7 @@
 enum
 {
 	MSG_FILE_OPEN			= 'mOpn',
+	MSG_FILE_NEW			= 'mNew',
 	MSG_FILE_RELOAD			= 'mRld',
 	MSG_FILE_QUIT			= 'mQit',
 	MSG_FILE_DROPPED		= 'mDrp',
