@@ -196,10 +196,8 @@ DiffView::_PaneScrolled(float x, float y, DiffView::PaneIndex fromPaneIndex)
 
 		if (viewName != NULL) {
 			BView* pane = FindView(viewName);
-			if (pane != NULL) {
-				BRect bounds = pane->Bounds();
+			if (pane != NULL)
 				pane->ScrollTo(x, y);
-			}
 		}
 	}
 
