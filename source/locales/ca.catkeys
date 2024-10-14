@@ -1,10 +1,11 @@
-1	Catalan	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Catalan	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(idèntic)
 A file has changed	TextDiffWindow		Ha canviat un fitxer.
 A file has disappeared	TextDiffWindow		Ha desaparegut un fitxer.
 About PonpokoDiff	TextDiffWindow		Quant al PonpokoDiff
 Cancel	TextDiffWindow		Cancel·la
 Close	TextDiffWindow		Tanca
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Tanca i selecciona fitxers...
 Diff new files	TextDiffWindow		Diferències de fitxers nous
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Voleu diferenciar dos fitxers nous o simplement ignorar-ho?
 Do you want to reload the files and diff them again?	TextDiffWindow		Voleu tornar a carregar els fitxers i veure'n les diferències?

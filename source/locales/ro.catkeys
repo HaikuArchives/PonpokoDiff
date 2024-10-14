@@ -1,10 +1,11 @@
-1	Romanian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Romanian	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(identice)
 A file has changed	TextDiffWindow		Fișier a fost modificat
 A file has disappeared	TextDiffWindow		Fișier a dispărut
 About PonpokoDiff	TextDiffWindow		Despre PonpokoDiff
 Cancel	TextDiffWindow		Renunță
 Close	TextDiffWindow		Închide
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Închide și selectează fișiere…
 Diff new files	TextDiffWindow		Diff fișiere noi
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Doriți într-adevăr să comparați fișiere noi?
 Do you want to reload the files and diff them again?	TextDiffWindow		Doriți să reîncărcați fișierele și să le comparați din nou?

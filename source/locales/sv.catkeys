@@ -1,0 +1,45 @@
+1	Swedish	application/x-vnd.Hironytic-PonpokoDiff	839239864
+(identical)	TextDiffWindow		(identisk)
+A file has changed	TextDiffWindow		En fil har ändrats
+A file has disappeared	TextDiffWindow		En fil har försvunnit
+About PonpokoDiff	TextDiffWindow		Om PonpokoDiff
+Cancel	TextDiffWindow		Avbryt
+Close	TextDiffWindow		Stäng
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Stäng och välj filer…
+Diff new files	TextDiffWindow		Diff nya filer
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Vill du diffa två nya filer, eller bara ignorera detta?
+Do you want to reload the files and diff them again?	TextDiffWindow		Vill du ladda om filerna och ändra dem igen?
+File	TextDiffWindow		Fil
+Help	TextDiffWindow		Hjälp
+Ignore	TextDiffWindow		Ignorera
+Open left file	TextDiffWindow		Öppna vänster fil
+Open right file	TextDiffWindow		Öppna höger fil
+Probably it was unmounted.	TextDiffWindow		Förmodligen var den omonterad.
+Quit	TextDiffWindow		Stäng
+Reload	TextDiffWindow		Ladda om
+Select files…	TextDiffWindow		Välj filer…
+Show left file location	TextDiffWindow		Visa vänster filplats
+Show right file location	TextDiffWindow		Visa rätt filplats
+Switch files	TextDiffWindow		Byt filer
+The left file, '%filename%', has changed.	TextDiffWindow		Den vänstra filen, '%filename%', har ändrats.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Den vänstra filen, '%filename%', har försvunnit. Förmodligen har den tagits bort eller flyttats till en annan volym.
+The right file, '%filename%', has changed.	TextDiffWindow		Den högra filen, '%filename%', har ändrats.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Den högra filen, '%filename%', har försvunnit. Förmodligen har den tagits bort eller flyttats till en annan volym.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Volymen på filerna som jämförs har försvunnit.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Volymen för den vänstra filen, '%filename%', har försvunnit.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Volymen för den högra filen, '%filename%', har försvunnit.
+A graphical file comparison utility.	Application		Ett verktyg för grafisk filjämförelse.
+Help	Application		Hjälp
+Only a few notes on the non-obvious…	Application		Bara några få anteckningar om det icke-uppenbara...
+The file '%s' does not exist!\n	Application		Filen '%s' finns inte!\n
+The file '%s' isn't a text file!\n	Application		Filen '%s' är inte en textfil!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Gult indikerar ändrade linjer.\nRött indikerar borttagna linjer.\nGrönt indikerar tillagda linjer.\n\nDubbelklicka för att öppna vänster/höger fil med önskad applikation.\nHåll ned CTRL medan du dubbelklickar för att visa vänster/höger fils plats .\n\nDu kan dra och släppa filer direkt på vänster/höger sida av fönstret.
+Browse…	OpenFilesDialog	Button label	Bläddra…
+Cancel	OpenFilesDialog	Button label	Avbryt
+Diff	OpenFilesDialog	Button label	Diff
+Left file:	OpenFilesDialog		Vänster fil:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Välj filer
+Right file:	OpenFilesDialog		Höger fil:
+Select left file	OpenFilesDialog		Välj vänster fil
+Select right file	OpenFilesDialog		Välj rätt fil
+PonpokoDiff	System name		PonpokoDiff

@@ -1,10 +1,11 @@
-1	Turkish	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Turkish	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(birbirine eş)
 A file has changed	TextDiffWindow		Bir dosya değiştirildi
 A file has disappeared	TextDiffWindow		Bir dosya kayboldu
 About PonpokoDiff	TextDiffWindow		PonpokoDiff hakkında
 Cancel	TextDiffWindow		Vazgeç
 Close	TextDiffWindow		Kapat
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Kapat ve dosyalar seç…
 Diff new files	TextDiffWindow		Yeni dosyaların farkını al
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		İki yeni dosyanın farkını mı almak veya bunu yok mu saymak istiyorsunuz?
 Do you want to reload the files and diff them again?	TextDiffWindow		Dosyaları yeniden yükleyip yeniden farklarını almak istiyor musunuz?
@@ -20,18 +21,18 @@ Select files…	TextDiffWindow		Dosyalar seç…
 Show left file location	TextDiffWindow		Soldaki dosyanın konumunu göster
 Show right file location	TextDiffWindow		Sağdaki dosyanın konumunu göster
 Switch files	TextDiffWindow		Dosyaları birbirleriyle değiştir
-The left file, '%filename%', has changed.	TextDiffWindow		Soldaki dosya, '%filename%', değiştirildi.
-The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Soldaki dosya, '%filename%', kayboldu. Büyük olasılıkla silinmiş veya başka bir bölüme taşınmış olabilir.
-The right file, '%filename%', has changed.	TextDiffWindow		Sağdaki dosya, '%filename%', değiştirildi.
-The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Sağdaki dosya, '%filename%', kayboldu. Büyük olasılıkla silinmiş veya başka bir bölüme taşınmış olabilir.
+The left file, '%filename%', has changed.	TextDiffWindow		Soldaki “%filename%” dosyası değiştirildi.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Soldaki “%filename%” dosyası kayboldu. Büyük olasılıkla silinmiş veya başka bir bölüme taşınmış olabilir.
+The right file, '%filename%', has changed.	TextDiffWindow		Sağdaki “%filename%” dosyası değiştirildi.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Sağdaki “%filename%” dosyası kayboldu. Büyük olasılıkla silinmiş veya başka bir bölüme taşınmış olabilir.
 The volume of the files that are being compared has disappeared.	TextDiffWindow		Karşılaştırılan dosyaların bulunduğu disk bölümü kayboldu.
-The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Soldaki '%filename%' dosyasının olduğu disk bölümü kayboldu.
-The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Sağdaki '%filename%' dosyasının olduğu disk bölümü kayboldu.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Soldaki “%filename%” dosyasının olduğu disk bölümü kayboldu.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Sağdaki “%filename%” dosyasının olduğu disk bölümü kayboldu.
 A graphical file comparison utility.	Application		Grafiksel bir dosya karşılaştırma izlencesi.
 Help	Application		Yardım
 Only a few notes on the non-obvious…	Application		İlk bakışta gözünüze çarpmayacak birkaç şey hakkında…
-The file '%s' does not exist!\n	Application		'%s' dosyası yok!\n
-The file '%s' isn't a text file!\n	Application		'%s' dosyası bir metin dosyası değil!\n
+The file '%s' does not exist!\n	Application		“%s” dosyası yok!\n
+The file '%s' isn't a text file!\n	Application		“%s” dosyası bir metin dosyası değil!\n
 Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Sarı, değiştirilen satırları belirtir.\nKırmızı, kaldırılan satırları belirtir.\nYeşil, eklenen satırları belirtir.\n\nSol/Sağ dosyayı yeğlenen uygulamasıyla açmak için sağ tıklayın.\nDosyaların konumunu göstermek için çift tıklarken Kontrol düğmesini basılı tutun.\n\nPencerenin her iki tarafına da dosyalar sürükleyip bırakabilirsiniz.
 Browse…	OpenFilesDialog	Button label	Göz at…
 Cancel	OpenFilesDialog	Button label	Vazgeç

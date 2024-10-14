@@ -1,10 +1,11 @@
-1	Indonesian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Indonesian	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(identik)
 A file has changed	TextDiffWindow		Satu berkas sudah berubah
 A file has disappeared	TextDiffWindow		Satu berkas menghilang
 About PonpokoDiff	TextDiffWindow		Tentang PonpokoDiff
 Cancel	TextDiffWindow		Batal
 Close	TextDiffWindow		Tutup
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Tutup dan pilih berkas…
 Diff new files	TextDiffWindow		Beda-kan berkas baru
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Apa anda ingin mem-beda-kan 2 berkas baru, atau hanya abaikan ini?
 Do you want to reload the files and diff them again?	TextDiffWindow		Apa anda ingin muat-ulang berkas dan bedakan lagi?

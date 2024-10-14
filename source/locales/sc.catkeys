@@ -1,10 +1,11 @@
-1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Sardinian	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(chepare)
 A file has changed	TextDiffWindow		Un'isceda est mudada
 A file has disappeared	TextDiffWindow		Un'isceda est isparèssida
 About PonpokoDiff	TextDiffWindow		A subra de PonpokoDiff
 Cancel	TextDiffWindow		Annudda
 Close	TextDiffWindow		Serra
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Close and select files…
 Diff new files	TextDiffWindow		Cumpara sa diferentzia intra iscedas noas
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Cheres cumparare sa diferentzia intra duas iscedas noas, o inniorare ebbìa?
 Do you want to reload the files and diff them again?	TextDiffWindow		Cheres torrare a carrigare is iscedas pro nde otènnere su diff torra?

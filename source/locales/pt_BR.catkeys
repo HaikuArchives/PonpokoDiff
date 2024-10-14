@@ -1,10 +1,11 @@
-1	Portuguese (Brazil)	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Portuguese (Brazil)	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(idêntico)
 A file has changed	TextDiffWindow		Um arquivo foi modificado
 A file has disappeared	TextDiffWindow		Um arquivo desapareceu
 About PonpokoDiff	TextDiffWindow		Sobre PonpokoDiff
 Cancel	TextDiffWindow		Cancelar
 Close	TextDiffWindow		Fechar
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Fechar e selecionar arquivos...
 Diff new files	TextDiffWindow		Comparar novos arquivos
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Você deseja comparar dois novos arquivos, ou apenas ignorar isto?
 Do you want to reload the files and diff them again?	TextDiffWindow		Você deseja recarregar os arquivos e compará-los novamente?

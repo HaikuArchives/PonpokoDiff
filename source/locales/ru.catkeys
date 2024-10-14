@@ -1,10 +1,11 @@
-1	Russian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Russian	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(идентичны)
 A file has changed	TextDiffWindow		Файл был изменён
 A file has disappeared	TextDiffWindow		Файл был удалён
 About PonpokoDiff	TextDiffWindow		О PonpokoDiff
 Cancel	TextDiffWindow		Отменить
 Close	TextDiffWindow		Закрыть
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Закрыть и выберите файлы ..
 Diff new files	TextDiffWindow		Сравнить новые файлы
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Вы действительно хотите сравнить два новых файла?
 Do you want to reload the files and diff them again?	TextDiffWindow		Вы хотите перезагрузить файлы и сравнить их снова?

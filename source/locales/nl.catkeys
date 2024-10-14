@@ -1,10 +1,11 @@
-1	Dutch	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Dutch	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(identiek)
 A file has changed	TextDiffWindow		Een bestand is veranderd
 A file has disappeared	TextDiffWindow		Een bestand is verdwenen
 About PonpokoDiff	TextDiffWindow		Over PonpokoDiff
 Cancel	TextDiffWindow		Annuleer
 Close	TextDiffWindow		Sluiten
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Sluit en selecteer bestanden ...
 Diff new files	TextDiffWindow		Vergelijk nieuwe bestanden
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Wil je twee nieuwe bestanden vergelijken, of dit negeren?
 Do you want to reload the files and diff them again?	TextDiffWindow		Will je de bestanden herladen en opnieuw vergelijken?

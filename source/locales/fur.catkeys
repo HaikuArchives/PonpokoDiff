@@ -1,10 +1,11 @@
-1	Friulian	application/x-vnd.Hironytic-PonpokoDiff	219459752
-(identical)	TextDiffWindow		(identical)
+1	Friulian	application/x-vnd.Hironytic-PonpokoDiff	839239864
+(identical)	TextDiffWindow		(identic)
 A file has changed	TextDiffWindow		Al è stât modificât un file
 A file has disappeared	TextDiffWindow		Un file al è sparît
 About PonpokoDiff	TextDiffWindow		Informazions su PonpokoDiff
 Cancel	TextDiffWindow		Anule
 Close	TextDiffWindow		Siere
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Siere e selezione i files…
 Diff new files	TextDiffWindow		Confronte i gnûfs files
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Desideristu confrontâ i doi gnûfs files o ignorâ cheste richieste?
 Do you want to reload the files and diff them again?	TextDiffWindow		Desideristu tornâ a cjariâ i files e paragonâju?

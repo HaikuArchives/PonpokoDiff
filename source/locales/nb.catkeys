@@ -1,10 +1,11 @@
-1	Norwegian	application/x-vnd.Hironytic-PonpokoDiff	219459752
+1	Norwegian	application/x-vnd.Hironytic-PonpokoDiff	839239864
 (identical)	TextDiffWindow		(identiske)
 A file has changed	TextDiffWindow		En fil er endret
 A file has disappeared	TextDiffWindow		En fil har forsvunnet
 About PonpokoDiff	TextDiffWindow		Om PonpokoDiff
 Cancel	TextDiffWindow		Avbryt
 Close	TextDiffWindow		Lukk
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Lukk og velg filer…
 Diff new files	TextDiffWindow		Diff nye filer
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		Vil du sammenligne to nye filer, eller bare ignorere dette?
 Do you want to reload the files and diff them again?	TextDiffWindow		Vil du laste inn filene på nytt og sammenligne dem igjen?
