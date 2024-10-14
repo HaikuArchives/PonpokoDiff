@@ -1,3 +1,9 @@
+v0.5.1
+
+* Add "Close and select files…" menu
+* Move app related items from "File" into a new app-icon menu
+* New translation: Swedish, thanks Fredrik Modéen
+
 v0.5
 
 * Synchronize horizontal scrolling as well (was only vertically before)
