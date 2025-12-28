@@ -350,6 +350,8 @@ DiffView::DiffPaneView::DiffPaneView(const char* name)
 	// Don't let the app server erase the view.
 	// We do all drawing ourselves, so it is not necessary and only causes flickering
 	SetViewColor(B_TRANSPARENT_COLOR);
+	SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
+
 }
 
 
@@ -522,16 +524,16 @@ DiffView::DiffPaneView::Draw(BRect updateRect)
 	int lineEnd = static_cast<int>(floor((updateRect.bottom + 1) / lineHeight)) + 1;
 	if (static_cast<unsigned int>(lineEnd) > fDiffView->fLineInfos.size())
 		lineEnd = fDiffView->fLineInfos.size();
+
+	int brightness = perceptual_brightness(ui_color(B_DOCUMENT_TEXT_COLOR));
+	system_theme theme;
+	theme = brightness > 127 ? DARK : LIGHT;
 	int line;
 	for (line = lineBegin; line < lineEnd; line++) {
 		rgb_color oldLowColor = LowColor();
 		const LineInfo& linfo = fDiffView->fLineInfos[line];
 
 		rgb_color bkColor;
-		int brightness = perceptual_brightness(ui_color(B_DOCUMENT_TEXT_COLOR));
-		system_theme theme;
-		theme = brightness > 127 ? DARK : LIGHT;
-
 		bool isDrawBackground = false;
 		switch (linfo.op) {
 			case DiffOperation::Inserted:
