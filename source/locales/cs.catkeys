@@ -1,0 +1,45 @@
+1	Czech	application/x-vnd.Hironytic-PonpokoDiff	839239864
+(identical)	TextDiffWindow		(identické)
+A file has changed	TextDiffWindow		Soubor se změnil
+A file has disappeared	TextDiffWindow		Soubor zmizel
+About PonpokoDiff	TextDiffWindow		O aplikaci PonpokoDiff
+Cancel	TextDiffWindow		Zrušit
+Close	TextDiffWindow		Zavřít
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Zavřít a vybrat soubory…
+Diff new files	TextDiffWindow		Rozdíl mezi novými soubory
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Chcete porovnat dva nové soubory, nebo to prostě ignorovat?
+Do you want to reload the files and diff them again?	TextDiffWindow		Chcete znovu načíst soubory a znovu je porovnat?
+File	TextDiffWindow		Soubor
+Help	TextDiffWindow		Pomoc
+Ignore	TextDiffWindow		Ignorovat
+Open left file	TextDiffWindow		Otevřete levý soubor
+Open right file	TextDiffWindow		Otevřete pravý soubor
+Probably it was unmounted.	TextDiffWindow		Pravděpodobně byl vysunut.
+Quit	TextDiffWindow		Ukončit
+Reload	TextDiffWindow		Znovu načíst
+Select files…	TextDiffWindow		Vyberte soubory…
+Show left file location	TextDiffWindow		Zobrazit levé umístění souboru
+Show right file location	TextDiffWindow		Zobrazit správné umístění souboru
+Switch files	TextDiffWindow		Přepínání souborů
+The left file, '%filename%', has changed.	TextDiffWindow		Levý soubor, '%filename%', se změnil.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Levý soubor, '%filename%', zmizel. Pravděpodobně byl smazán nebo přesunut do jiného svazku.
+The right file, '%filename%', has changed.	TextDiffWindow		Pravý soubor, '%filename%', se změnil.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Pravý soubor, '%filename%', zmizel. Pravděpodobně byl smazán nebo přesunut do jiného svazku.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Objem porovnávaných souborů zmizel.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Svazek levého souboru, '%filename%', zmizel.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Svazek pravého souboru, '%filename%', zmizel.
+A graphical file comparison utility.	Application		Grafický nástroj pro porovnání souborů.
+Help	Application		Pomoc
+Only a few notes on the non-obvious…	Application		Jen několik poznámek k nesrozumitelným…
+The file '%s' does not exist!\n	Application		Soubor '%s' neexistuje!\n
+The file '%s' isn't a text file!\n	Application		Soubor '%s' není textový soubor!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Žlutá označuje změněné řádky.\nČervená označuje odstraněné řádky.\nZelená označuje přidané řádky.\n\nDvojitým kliknutím otevřete levý/pravý soubor s jeho preferovanou aplikací.\nPodržením klávesy CTRL a dvojitým kliknutím zobrazíte umístění souboru vlevo/vpravo.\n\nSoubory můžete přetahovat přímo na levou/pravou stranu okna.
+Browse…	OpenFilesDialog	Button label	Prohlížet…
+Cancel	OpenFilesDialog	Button label	Zrušit
+Diff	OpenFilesDialog	Button label	Diff
+Left file:	OpenFilesDialog		Levý soubor:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Vyberte soubory
+Right file:	OpenFilesDialog		Pravý soubor:
+Select left file	OpenFilesDialog		Vyberte levý soubor
+Select right file	OpenFilesDialog		Vyberte pravý soubor
+PonpokoDiff	System name		PonpokoDiff

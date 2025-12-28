@@ -5,7 +5,7 @@ A file has disappeared	TextDiffWindow		ファイルが消えました
 About PonpokoDiff	TextDiffWindow		PonpokoDiffについて
 Cancel	TextDiffWindow		キャンセル
 Close	TextDiffWindow		閉じる
-Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Close and select files…
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	閉じてファイルを選択...
 Diff new files	TextDiffWindow		新しいファイルの差分
 Do you want to diff two new files, or just ignore this?	TextDiffWindow		新しい2つのファイルの差分を取りますか、または無視しますか?
 Do you want to reload the files and diff them again?	TextDiffWindow		ファイルを読み直してもう一度差分を取りますか?

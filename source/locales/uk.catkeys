@@ -1,0 +1,45 @@
+1	Ukrainian	application/x-vnd.Hironytic-PonpokoDiff	839239864
+(identical)	TextDiffWindow		(ідентичні)
+A file has changed	TextDiffWindow		Файл змінився
+A file has disappeared	TextDiffWindow		Файл зник
+About PonpokoDiff	TextDiffWindow		Про PonpokoDiff
+Cancel	TextDiffWindow		Відміна
+Close	TextDiffWindow		Закрити
+Close and select files…	TextDiffWindow	Closes the current window, while opening the selection dialog.	Закрити та вибрати файли…
+Diff new files	TextDiffWindow		Різниця в нових файлах
+Do you want to diff two new files, or just ignore this?	TextDiffWindow		Ви хочете порівняти два нові файли чи просто проігнорувати це?
+Do you want to reload the files and diff them again?	TextDiffWindow		Ви хочете перезавантажити файли та знову їх порівняти?
+File	TextDiffWindow		Файл
+Help	TextDiffWindow		Допомога
+Ignore	TextDiffWindow		Ігнорувати
+Open left file	TextDiffWindow		Відкрити лівий файл
+Open right file	TextDiffWindow		Відкрити правий файл
+Probably it was unmounted.	TextDiffWindow		Ймовірно, його демонтували.
+Quit	TextDiffWindow		Вийти
+Reload	TextDiffWindow		Перезавантажити
+Select files…	TextDiffWindow		Вибрати файли…
+Show left file location	TextDiffWindow		Показати розташування файлу зліва
+Show right file location	TextDiffWindow		Показати розташування файлу зправа
+Switch files	TextDiffWindow		Перемикання файлів
+The left file, '%filename%', has changed.	TextDiffWindow		The left file, '%filename%', has changed.
+The left file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Лівий файл, '%filename%', зник. Ймовірно, його було видалено або переміщено на інший том.
+The right file, '%filename%', has changed.	TextDiffWindow		Правий файл, '%filename%', змінився.
+The right file, '%filename%', has disappeared. Probably it was deleted or moved to another volume.	TextDiffWindow		Правий файл, '%filename%', зник. Ймовірно, його було видалено або переміщено на інший том.
+The volume of the files that are being compared has disappeared.	TextDiffWindow		Том з файлами, що порівнюються, зник.
+The volume of the left file, '%filename%', has disappeared.	TextDiffWindow		Том лівого файлу «%filename%» зник.
+The volume of the right file, '%filename%', has disappeared.	TextDiffWindow		Том правого файлу «%filename%» зник.
+A graphical file comparison utility.	Application		Утиліта для графічного порівняння файлів.
+Help	Application		Допомога
+Only a few notes on the non-obvious…	Application		Лише кілька зауважень щодо неочевидного…
+The file '%s' does not exist!\n	Application		Файл '%s' не існує!\n
+The file '%s' isn't a text file!\n	Application		Файл '%s' не є текстовим файлом!\n
+Yellow indicates changed lines.\nRed indicates removed lines.\nGreen indicates added lines.\n\nDouble-click to open the left/right file with its preferred application.\nHold CTRL while double-clicking to show the left/right file's location.\n\nYou can drag'n'drop files directly on the left/right side of the window.	Application		Жовтий колір позначає змінені рядки.\nЧервоний колір позначає видалені рядки.\nЗелений колір позначає додані рядки.\n\nДвічі клацніть, щоб відкрити лівий/правий файл у потрібній програмі.\nУтримуйте CTRL під час подвійного клацання, щоб показати розташування лівого/правого файлу.\n\nВи можете перетягувати файли безпосередньо в ліву/праву частину вікна.
+Browse…	OpenFilesDialog	Button label	Переглянути…
+Cancel	OpenFilesDialog	Button label	Відміна
+Diff	OpenFilesDialog	Button label	Різниця
+Left file:	OpenFilesDialog		Лівий файл:
+PonpokoDiff: Select files	OpenFilesDialog		PonpokoDiff: Лівий файл
+Right file:	OpenFilesDialog		Правий файл:
+Select left file	OpenFilesDialog		Вибрати лівий файл
+Select right file	OpenFilesDialog		Вибрати правий файл
+PonpokoDiff	System name		PonpokoDiff
